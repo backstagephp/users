@@ -8,12 +8,12 @@ return [
     'eloquent' => [
         'users' => [
             'model' => \App\Models\User::class,
+            'observer' => \Backstage\UserManagement\Observers\UserObserver::class
         ],
 
         'user_logins' => [
             'model' => UserLogin::class,
             'table' => 'user_logins',
-            'primary_key' => 'id',
         ],
     ],
 

@@ -99,6 +99,10 @@ class UserManagementServiceProvider extends PackageServiceProvider
         Event::listen(Login::class, UserLogin::class);
         Event::listen(Logout::class, UserLogout::class);
         Event::listen(WebTrafficDetected::class, RecordUserMovements::class);
+
+        config('backstage.user-management.users.model', \App\Models\User::class)::observe(
+            config('backstage.user-management.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
+        );
     }
 
     protected function getAssetPackageName(): ?string

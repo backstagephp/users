@@ -4,6 +4,7 @@ namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
 use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
+use Filament\Facades\Filament;
 use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
@@ -18,11 +19,11 @@ class ViewUser extends ViewRecord
     {
         return [
             Actions\Action::make('send_verify_user_email')
-                ->visible(fn ($record) => $record->isVerified() === false)
+                ->visible(fn($record) => $record->isVerified() === false)
                 ->label(__('Send Verification Email'))
                 ->action(function ($record) {
                     $notification = new VerifyEmail;
-                    $notification->url = filament()->getVerifyEmailUrl($record);
+                    $notification->url = Filament::getVerifyEmailUrl($record);
                     $record->notify($notification);
                 }),
 
