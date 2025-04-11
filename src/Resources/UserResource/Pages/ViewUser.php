@@ -2,10 +2,9 @@
 
 namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
+use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
-use Backstage\UserManagement\Resources\UserResource;
-use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 
 class ViewUser extends ViewRecord
 {

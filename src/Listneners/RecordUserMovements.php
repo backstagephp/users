@@ -10,7 +10,7 @@ class RecordUserMovements
     {
         $request = $event->request;
 
-        $user = $request->user(); 
+        $user = $request->user();
 
         $user?->traffic()->create([
             'method' => $request->method(),

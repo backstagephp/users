@@ -2,8 +2,8 @@
 
 namespace Backstage\UserManagement\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class UserLogin extends Model
 {
@@ -13,7 +13,7 @@ class UserLogin extends Model
     {
         return config('backstage.user-management.eloquent.user_logins.table', 'user_logins');
     }
-    
+
     protected $fillable = [
         'user_id',
         'type',

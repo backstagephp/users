@@ -10,13 +10,13 @@ namespace Backstage\UserManagement\Concerns\Conditionals;
  */
 trait UserIsVerified
 {
-   public function isVerified(): bool
-   {
-      return $this->email_verified_at !== null;
-   }
+    public function isVerified(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
 
-   public function isNotVerified(): bool
-   {
-      return !$this->isVerified();
-   }
+    public function isNotVerified(): bool
+    {
+        return ! $this->isVerified();
+    }
 }

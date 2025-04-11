@@ -2,18 +2,16 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Backstage\UserManagement\Resources\UserResource\Pages;
 use Backstage\UserManagement\Widgets\StatsOverviewWidget;
+use Filament\Facades\Filament;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -41,8 +39,8 @@ class UserResource extends Resource
                     ->revealable(Filament::arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                     ->live(debounce: 500),
             ]);
     }
@@ -100,6 +98,6 @@ class UserResource extends Resource
 
     public static function getWidgets(): array
     {
-    return [StatsOverviewWidget::class];
+        return [StatsOverviewWidget::class];
     }
 }

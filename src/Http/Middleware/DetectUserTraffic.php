@@ -2,10 +2,10 @@
 
 namespace Backstage\UserManagement\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
 use Backstage\UserManagement\Events\WebTrafficDetected;
+use Closure;
 use Filament\Facades\Filament;
+use Illuminate\Http\Request;
 
 class DetectUserTraffic
 {

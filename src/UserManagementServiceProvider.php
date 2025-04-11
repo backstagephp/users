@@ -2,28 +2,26 @@
 
 namespace Backstage\UserManagement;
 
-use Illuminate\Routing\Router;
-use Filament\Support\Assets\Js;
-use Filament\Support\Assets\Css;
-use Illuminate\Auth\Events\Login;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Backstage\UserManagement\Listneners\RecordUserMovements;
+use Backstage\UserManagement\Listneners\UserLogin;
+use Backstage\UserManagement\Listneners\UserLogout;
+use Backstage\UserManagement\Testing\TestsUserManagement;
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Facades\FilamentIcon;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Spatie\LaravelPackageTools\Package;
-use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Assets\AlpineComponent;
 use Livewire\Features\SupportTesting\Testable;
-use Backstage\UserManagement\Listneners\UserLogin;
-use Backstage\UserManagement\Listneners\UserLogout;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\UserManagement\Events\WebTrafficDetected;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Listneners\RecordUserMovements;
-use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
@@ -96,9 +94,6 @@ class UserManagementServiceProvider extends PackageServiceProvider
 
         // Testing
         Testable::mixin(new TestsUserManagement);
-
-
-
 
         // User management
         Event::listen(Login::class, UserLogin::class);

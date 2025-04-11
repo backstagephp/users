@@ -2,6 +2,7 @@
 
 namespace Backstage\UserManagement\Tests;
 
+use Backstage\UserManagement\UserManagementServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
@@ -16,7 +17,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use Backstage\UserManagement\UserManagementServiceProvider;
 
 class TestCase extends Orchestra
 {
