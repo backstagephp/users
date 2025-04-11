@@ -2,8 +2,10 @@
 
 namespace Backstage\UserManagement;
 
-use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Filament\Contracts\Plugin;
+use Backstage\UserManagement\Resources;
+use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
 
 class UserManagementPlugin implements Plugin
 {
@@ -14,7 +16,12 @@ class UserManagementPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
+        $panel->resources([
+            Resources\UserResource::class,
+        ])
+            ->middleware([
+                DetectUserTraffic::class
+            ]);
     }
 
     public function boot(Panel $panel): void

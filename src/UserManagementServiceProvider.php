@@ -2,19 +2,28 @@
 
 namespace Backstage\UserManagement;
 
-use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
+use Illuminate\Routing\Router;
 use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Assets\Css;
+use Illuminate\Auth\Events\Login;
+use Filament\Support\Assets\Asset;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
-use Livewire\Features\SupportTesting\Testable;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\AlpineComponent;
+use Livewire\Features\SupportTesting\Testable;
+use Backstage\UserManagement\Listneners\UserLogin;
+use Backstage\UserManagement\Listneners\UserLogout;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Backstage\UserManagement\Testing\TestsUserManagement;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Listneners\RecordUserMovements;
+use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
@@ -39,10 +48,10 @@ class UserManagementServiceProvider extends PackageServiceProvider
                     ->askToStarRepoOnGitHub('backstage/user-management');
             });
 
-        $configFileName = $package->shortName();
+        $configFileName = 'backstage/' . $package->shortName();
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile();
+            $package->hasConfigFile($configFileName);
         }
 
         if (file_exists($package->basePath('/../database/migrations'))) {
@@ -87,6 +96,14 @@ class UserManagementServiceProvider extends PackageServiceProvider
 
         // Testing
         Testable::mixin(new TestsUserManagement);
+
+
+
+
+        // User management
+        Event::listen(Login::class, UserLogin::class);
+        Event::listen(Logout::class, UserLogout::class);
+        Event::listen(WebTrafficDetected::class, RecordUserMovements::class);
     }
 
     protected function getAssetPackageName(): ?string
@@ -101,8 +118,8 @@ class UserManagementServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('user-management', __DIR__ . '/../resources/dist/components/user-management.js'),
-            Css::make('user-management-styles', __DIR__ . '/../resources/dist/user-management.css'),
-            Js::make('user-management-scripts', __DIR__ . '/../resources/dist/user-management.js'),
+            // Css::make('user-management-styles', __DIR__ . '/../resources/dist/user-management.css'),
+            // Js::make('user-management-scripts', __DIR__ . '/../resources/dist/user-management.js'),
         ];
     }
 
@@ -146,7 +163,8 @@ class UserManagementServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_user-management_table',
+            'create_user_logins_table',
+            'create_user_traffic_table',
         ];
     }
 }

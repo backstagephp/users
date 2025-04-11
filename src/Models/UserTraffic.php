@@ -1,0 +1,31 @@
+<?php
+
+namespace Backstage\UserManagement\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class UserTraffic extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'method',
+        'path',
+        'full_url',
+        'ip',
+        'user_agent',
+        'referer',
+        'route_name',
+        'route_action',
+        'route_parameters',
+    ];
+
+    protected $casts = [
+        'route_parameters' => 'array',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(config('backstage.user-management.eloquent.users.model', \App\Models\User::class), 'user_id');
+    }
+}

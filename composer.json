@@ -41,7 +41,10 @@
         "psr-4": {
             "Backstage\\UserManagement\\": "src/",
             "Backstage\\UserManagement\\Database\\Factories\\": "database/factories/"
-        }
+        },
+        "files": [
+            "helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
