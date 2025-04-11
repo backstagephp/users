@@ -2,15 +2,16 @@
 
 namespace Backstage\UserManagement\Events;
 
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class WebTrafficDetected
 //  implements ShouldBroadcast // (if needed for real-time)
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public Request $request;
 

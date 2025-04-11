@@ -20,5 +20,5 @@ return [
     'record' => [
         'user_logins' => true,
         'user_traffic' => true,
-    ]
+    ],
 ];

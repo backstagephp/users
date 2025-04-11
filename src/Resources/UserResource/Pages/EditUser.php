@@ -2,9 +2,9 @@
 
 namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
+use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Backstage\UserManagement\Resources\UserResource;
 
 class EditUser extends EditRecord
 {

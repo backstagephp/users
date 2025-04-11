@@ -4,7 +4,6 @@ namespace Backstage\UserManagement\Widgets;
 
 use Backstage\UserManagement\Models\UserTraffic;
 use Backstage\UserManagement\Resources\UserResource;
-use Backstage\UserManagement\Resources\UserResource\Pages\ViewUser;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as WidgetsStatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

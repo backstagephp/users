@@ -2,10 +2,9 @@
 
 namespace Backstage\UserManagement;
 
-use Filament\Panel;
-use Filament\Contracts\Plugin;
-use Backstage\UserManagement\Resources;
 use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
 
 class UserManagementPlugin implements Plugin
 {
@@ -20,8 +19,10 @@ class UserManagementPlugin implements Plugin
             Resources\UserResource::class,
         ])
             ->middleware([
-                DetectUserTraffic::class
+                DetectUserTraffic::class,
             ]);
+
+        $panel->emailVerification();
     }
 
     public function boot(Panel $panel): void

@@ -2,7 +2,6 @@
 
 namespace Backstage\UserManagement\Listneners;
 
-use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 
 class UserLogout

@@ -2,18 +2,16 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Backstage\UserManagement\Resources\UserResource\Pages;
 use Backstage\UserManagement\Widgets\StatsOverviewWidget;
+use Filament\Facades\Filament;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -22,27 +20,30 @@ class UserResource extends Resource
         return config('backstage.user-management.eloquent.users.model', \App\Models\User::class);
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('Email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+
                 Forms\Components\TextInput::make('password')
                     ->password()
+                    ->label(__('Password'))
                     ->revealable(Filament::arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                     ->live(debounce: 500),
             ]);
     }
@@ -53,15 +54,15 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -100,6 +101,6 @@ class UserResource extends Resource
 
     public static function getWidgets(): array
     {
-    return [StatsOverviewWidget::class];
+        return [StatsOverviewWidget::class];
     }
 }
