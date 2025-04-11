@@ -19,7 +19,7 @@ class ViewUser extends ViewRecord
     {
         return [
             Actions\Action::make('send_verify_user_email')
-                ->visible(fn($record) => $record->isVerified() === false)
+                ->visible(fn ($record) => $record->isVerified() === false)
                 ->label(__('Send Verification Email'))
                 ->action(function ($record) {
                     $notification = new VerifyEmail;

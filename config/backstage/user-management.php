@@ -8,7 +8,7 @@ return [
     'eloquent' => [
         'users' => [
             'model' => \App\Models\User::class,
-            'observer' => \Backstage\UserManagement\Observers\UserObserver::class
+            'observer' => \Backstage\UserManagement\Observers\UserObserver::class,
         ],
 
         'user_logins' => [
