@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Backstage\UserManagement;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class UserManagementPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'user-management';
     }
 
     public function register(Panel $panel): void
