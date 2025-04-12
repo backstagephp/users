@@ -21,7 +21,6 @@ class EditUser extends EditRecord
         ];
     }
 
-
     public function getFormFields()
     {
         return $this->resolveFormFields();
