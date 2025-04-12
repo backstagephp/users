@@ -9,13 +9,18 @@ use Vormkracht10\Fields\Concerns\HasFields;
 
 trait HasBackstageManagement
 {
+    use CanResetPassword;
     use Concerns\Conditionals\HasConditionals;
     use Concerns\Relations\HasRelations;
+
+    // Scopes
     use Concerns\Scopes\HasScopes;
 
     // Illuminate contracts:
     use Notifiable;
     use CanResetPassword;
 
+
+    // Backstage contracts:
     use HasFields;
 }

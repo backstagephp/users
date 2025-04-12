@@ -24,7 +24,7 @@ class ViewUser extends ViewRecord
         return [
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn($record) => $record->isVerified() === false)
+                    ->visible(fn ($record) => $record->isVerified() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -43,6 +43,7 @@ class ViewUser extends ViewRecord
                         $user = $this->record;
                         /**
                          * Broker
+                         *
                          * @var \Illuminate\Auth\Passwords\PasswordBroker $broker
                          */
                         $broker = app('auth.password.broker');
@@ -58,7 +59,6 @@ class ViewUser extends ViewRecord
                 ->label(__('Security Actions'))
                 ->icon(false)
                 ->dropdownPlacement('bottom'),
-
 
             Actions\EditAction::make(),
         ];
