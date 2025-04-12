@@ -2,14 +2,10 @@
 
 namespace Backstage\UserManagement\Imports;
 
-use Filament\Actions\Exports\Exporter;
-use Filament\Actions\Exports\ExportColumn;
-use Filament\Actions\Exports\Models\Export;
+use App\Models\User;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
-use App\Models\User;
-
 
 class UserImporter extends Importer
 {
@@ -56,7 +52,7 @@ class UserImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new User();
+        return new User;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

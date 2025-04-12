@@ -2,8 +2,8 @@
 
 namespace Backstage\UserManagement\Exports;
 
-use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\ExportColumn;
+use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
 class UserExporter extends Exporter

@@ -43,7 +43,7 @@ class ViewUser extends ViewRecord
                          * @var \Illuminate\Auth\Passwords\PasswordBroker $broker
                          */
                         $broker = app('auth.password.broker');
-                        
+
                         $token = $broker->createToken($user);
                         $notification = new ResetPassword($token);
                         $notification->url = Filament::getResetPasswordUrl($token, $user);

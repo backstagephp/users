@@ -2,20 +2,18 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Filament\Tables\Actions\ExportAction;
-use Filament\Tables\Actions\ImportAction;
-use Illuminate\Validation\Rules\Password;
 use Backstage\UserManagement\Exports\UserExporter;
 use Backstage\UserManagement\Imports\UserImporter;
 use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 use Backstage\UserManagement\Resources\UserResource\Pages;
+use Filament\Facades\Filament;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
