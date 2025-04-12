@@ -2,18 +2,21 @@
 
 namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
-use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
 use Filament\Facades\Filament;
-use Filament\Notifications\Auth\ResetPassword;
-use Filament\Notifications\Auth\VerifyEmail;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Blade;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
+use Filament\Notifications\Auth\VerifyEmail;
+use Filament\Notifications\Auth\ResetPassword;
+use Backstage\UserManagement\Resources\UserResource;
+use Vormkracht10\Fields\Concerns\CanMapDynamicFields;
 
 class ViewUser extends ViewRecord
 {
+    use CanMapDynamicFields;
+
     protected static string $resource = UserResource::class;
 
     protected function getHeaderActions(): array
@@ -87,5 +90,10 @@ class ViewUser extends ViewRecord
         }
 
         return new HtmlString(Blade::render($string->toString()));
+    }
+
+    public function getFormFields()
+    {
+        return $this->resolveFormFields();
     }
 }

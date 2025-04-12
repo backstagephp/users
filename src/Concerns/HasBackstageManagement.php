@@ -5,6 +5,7 @@ namespace Backstage\UserManagement\Concerns;
 use Backstage\UserManagement\Concerns;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
+use Vormkracht10\Fields\Concerns\HasFields;
 
 trait HasBackstageManagement
 {
@@ -15,4 +16,6 @@ trait HasBackstageManagement
     // Illuminate contracts:
     use Notifiable;
     use CanResetPassword;
+
+    use HasFields;
 }

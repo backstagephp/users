@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Vormkracht10\Fields\Filament\RelationManagers\FieldsRelationManager;
 
 class UserResource extends Resource
 {
@@ -27,27 +28,33 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__('Name'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label(__('Email'))
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
+            ->schema(function ($livewire) {
+                $livewire = $livewire;
 
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->label(__('Password'))
-                    ->revealable(Filament::arePasswordsRevealable())
-                    ->rule(Password::default())
-                    ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
-                    ->live(debounce: 500),
-            ]);
+                $formFields = $livewire->getFormFields();
+
+                return array_merge([
+                    Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                        ->label(__('Email'))
+                        ->email()
+                        ->required()
+                        ->maxLength(255),
+
+                    Forms\Components\TextInput::make('password')
+                        ->password()
+                        ->label(__('Password'))
+                        ->revealable(Filament::arePasswordsRevealable())
+                        ->rule(Password::default())
+                        ->autocomplete('new-password')
+                        ->dehydrated(fn($state): bool => filled($state))
+                        ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                        ->live(debounce: 500),
+                ], $formFields);
+            });
     }
 
     public static function table(Table $table): Table
@@ -95,7 +102,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FieldsRelationManager::class
         ];
     }
 
