@@ -8,11 +8,11 @@ use Illuminate\Notifications\Notifiable;
 
 trait HasBackstageManagement
 {
+    use CanResetPassword;
     use Concerns\Conditionals\HasConditionals;
     use Concerns\Relations\HasRelations;
-    use Concerns\Scopes\HasScopes;
 
+    use Concerns\Scopes\HasScopes;
     // Illuminate contracts:
     use Notifiable;
-    use CanResetPassword;
 }

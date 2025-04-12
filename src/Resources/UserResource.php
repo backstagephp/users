@@ -4,8 +4,8 @@ namespace Backstage\UserManagement\Resources;
 
 use Backstage\UserManagement\Exports\UserExporter;
 use Backstage\UserManagement\Imports\UserImporter;
-use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 use Backstage\UserManagement\Resources\UserResource\Pages;
+use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -44,8 +44,8 @@ class UserResource extends Resource
                     ->revealable(Filament::arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                     ->live(debounce: 500),
             ]);
     }
@@ -112,7 +112,7 @@ class UserResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            StatsOverviewWidget::class
+            StatsOverviewWidget::class,
         ];
     }
 }
