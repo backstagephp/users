@@ -23,6 +23,10 @@ class UserManagementPlugin implements Plugin
             ]);
 
         $panel->emailVerification();
+
+        $panel->passwordReset();
+
+        $panel->authPasswordBroker('users');
     }
 
     public function boot(Panel $panel): void

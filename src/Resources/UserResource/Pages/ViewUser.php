@@ -5,6 +5,7 @@ namespace Backstage\UserManagement\Resources\UserResource\Pages;
 use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
 use Filament\Facades\Filament;
+use Filament\Notifications\Auth\ResetPassword;
 use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
@@ -18,14 +19,43 @@ class ViewUser extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('send_verify_user_email')
-                ->visible(fn($record) => $record->isVerified() === false)
-                ->label(__('Send Verification Email'))
-                ->action(function ($record) {
-                    $notification = new VerifyEmail;
-                    $notification->url = Filament::getVerifyEmailUrl($record);
-                    $record->notify($notification);
-                }),
+            Actions\ActionGroup::make([
+                Actions\Action::make('send_verify_user_email')
+                    ->visible(fn($record) => $record->isVerified() === false)
+                    ->label(__('Send Verification Email'))
+                    ->action(function ($record) {
+                        $notification = new VerifyEmail;
+                        $notification->url = Filament::getVerifyEmailUrl($record);
+                        $record->notify($notification);
+                    })
+                    ->requiresConfirmation(),
+
+                Actions\Action::make('send_password_reset_email')
+                    ->label(__('Send Password Reset Email'))
+                    ->action(function ($record) {
+                        /**
+                         * @var \Backstage\UserManagement\Concerns\HasBackstageManagement $user
+                         * @var \Illuminate\Contracts\Auth\Authenticatable $user
+                         */
+                        $user = $this->record;
+                        /**
+                         * Broker
+                         * @var \Illuminate\Auth\Passwords\PasswordBroker $broker
+                         */
+                        $broker = app('auth.password.broker');
+                        
+                        $token = $broker->createToken($user);
+                        $notification = new ResetPassword($token);
+                        $notification->url = Filament::getResetPasswordUrl($token, $user);
+                        $user->notify($notification);
+                    })
+                    ->requiresConfirmation(),
+            ])
+                ->button()
+                ->label(__('Security Actions'))
+                ->icon(false)
+                ->dropdownPlacement('bottom'),
+
 
             Actions\EditAction::make(),
         ];
