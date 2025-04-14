@@ -4,11 +4,11 @@ namespace Backstage\UserManagement\Concerns;
 
 use Backstage\UserManagement\Concerns;
 use Illuminate\Auth\MustVerifyEmail;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Vormkracht10\Fields\Concerns\HasFields;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Vormkracht10\Fields\Concerns\HasFields;
 
 trait HasBackstageManagement
 {
@@ -17,16 +17,16 @@ trait HasBackstageManagement
     use Concerns\Relations\HasRelations;
     use Concerns\Scopes\HasScopes;
 
-    // Illuminate contracts:
-    use Notifiable;
-    use MustVerifyEmail;
-
+    // Sanctum
+    use HasApiTokens;
     // Backstage contracts:
     use HasFields;
 
     // Spatie roles
     use HasRoles;
 
-    // Sanctum
-    use HasApiTokens;
+    use MustVerifyEmail;
+
+    // Illuminate contracts:
+    use Notifiable;
 }

@@ -2,11 +2,10 @@
 
 namespace Backstage\UserManagement\Notifications;
 
-use Illuminate\Bus\Queueable;
 use Filament\Facades\Filament;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class WelcomeEmail extends Notification
 {

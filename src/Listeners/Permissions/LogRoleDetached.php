@@ -2,8 +2,8 @@
 
 namespace Backstage\UserManagement\Listeners\Permissions;
 
-use Spatie\Permission\Events\RoleDetached;
 use Backstage\UserManagement\Models\PermissionEventLog;
+use Spatie\Permission\Events\RoleDetached;
 
 class LogRoleDetached
 {

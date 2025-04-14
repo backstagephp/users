@@ -2,9 +2,6 @@
 
 namespace Backstage\UserManagement\Observers;
 
-use Filament\Facades\Filament;
-use Filament\Notifications\Auth\VerifyEmail;
-
 class UserObserver
 {
     /**

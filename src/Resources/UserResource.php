@@ -2,19 +2,19 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+use Backstage\Fields\Filament\RelationManagers\FieldsRelationManager;
 use Backstage\UserManagement\Exports\UserExporter;
 use Backstage\UserManagement\Imports\UserImporter;
-use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 use Backstage\UserManagement\Resources\UserResource\Pages;
-use Backstage\Fields\Filament\RelationManagers\FieldsRelationManager;
+use Backstage\UserManagement\Widgets\StatsOverviewWidget;
+use Filament\Facades\Filament;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -28,7 +28,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(function ($livewire) use ($form) {
+            ->schema(function ($livewire) {
                 $livewire = $livewire;
 
                 $formFields = $livewire->getFormFields();
@@ -50,8 +50,8 @@ class UserResource extends Resource
                         ->revealable(Filament::arePasswordsRevealable())
                         ->rule(Password::default())
                         ->autocomplete('new-password')
-                        ->dehydrated(fn($state): bool => filled($state))
-                        ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                        ->dehydrated(fn ($state): bool => filled($state))
+                        ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                         ->live(debounce: 500),
                 ], $formFields);
             });
@@ -109,7 +109,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FieldsRelationManager::class
+            FieldsRelationManager::class,
         ];
     }
 

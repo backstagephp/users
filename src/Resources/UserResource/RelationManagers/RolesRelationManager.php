@@ -3,13 +3,11 @@
 namespace Backstage\UserManagement\Resources\UserResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
 
 class RolesRelationManager extends RelationManager
 {
@@ -50,7 +48,7 @@ class RolesRelationManager extends RelationManager
                     ->recordTitleAttribute('name')
                     ->after(function ($record) {
                         $this->ownerRecord->assignRole($record);
-                    })
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -58,7 +56,7 @@ class RolesRelationManager extends RelationManager
                 Tables\Actions\DetachAction::make()
                     ->after(function ($record) {
                         $this->ownerRecord->removeRole($record);
-                    })
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

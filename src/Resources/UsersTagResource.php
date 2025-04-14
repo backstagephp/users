@@ -2,16 +2,13 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
 use Backstage\UserManagement\Models\UsersTag;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Backstage\UserManagement\Resources\UsersTagResource\Pages;
-use App\Filament\Admin\Resources\UsersTagResource\RelationManagers;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 
 class UsersTagResource extends Resource
 {

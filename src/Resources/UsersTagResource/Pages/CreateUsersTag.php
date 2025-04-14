@@ -2,9 +2,8 @@
 
 namespace Backstage\UserManagement\Resources\UsersTagResource\Pages;
 
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
 use Backstage\UserManagement\Resources\UsersTagResource;
+use Filament\Resources\Pages\CreateRecord;
 
 class CreateUsersTag extends CreateRecord
 {

@@ -8,7 +8,10 @@ use Illuminate\Queue\SerializesModels;
 
 class UserCreated
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable;
+    use Queueable;
+    use SerializesModels;
+
     /**
      * The user instance.
      *

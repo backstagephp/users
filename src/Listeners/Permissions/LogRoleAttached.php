@@ -2,8 +2,8 @@
 
 namespace Backstage\UserManagement\Listeners\Permissions;
 
-use Spatie\Permission\Events\RoleAttached;
 use Backstage\UserManagement\Models\PermissionEventLog;
+use Spatie\Permission\Events\RoleAttached;
 
 class LogRoleAttached
 {
@@ -17,7 +17,7 @@ class LogRoleAttached
                 'target_type' => config('permission.models.role'),
                 'target_id' => $role,
                 'meta' => [
-                    'slug' => config('permission.models.role')::find($role)['name']
+                    'slug' => config('permission.models.role')::find($role)['name'],
                 ],
             ]);
         }

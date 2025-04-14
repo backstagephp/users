@@ -2,9 +2,9 @@
 
 namespace Backstage\UserManagement\Resources\UsersTagResource\Pages;
 
+use Backstage\UserManagement\Resources\UsersTagResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Backstage\UserManagement\Resources\UsersTagResource;
 
 class EditUsersTag extends EditRecord
 {

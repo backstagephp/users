@@ -2,33 +2,31 @@
 
 namespace Backstage\UserManagement;
 
-use Filament\Support\Assets\Js;
-use Filament\Support\Assets\Css;
-use Illuminate\Auth\Events\Login;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Events\UserCreated;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
+use Backstage\UserManagement\Listeners\RecordUserMovements;
+use Backstage\UserManagement\Listeners\SendWelcomeMail;
+use Backstage\UserManagement\Listeners\UserLogin;
+use Backstage\UserManagement\Listeners\UserLogout;
+use Backstage\UserManagement\Testing\TestsUserManagement;
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Facades\FilamentIcon;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Spatie\LaravelPackageTools\Package;
-use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Assets\AlpineComponent;
 use Livewire\Features\SupportTesting\Testable;
-use Spatie\Permission\Events as PermissionEvents;
-use Backstage\UserManagement\Listeners\UserLogin;
-use Backstage\UserManagement\Listeners\UserLogout;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\UserManagement\Events\WebTrafficDetected;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Events\UserCreated;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
-use Backstage\UserManagement\Listeners\RecordUserMovements;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
-use Backstage\UserManagement\Listeners\SendVerificationMail;
-use Backstage\UserManagement\Listeners\SendWelcomeMail;
-use Illuminate\Auth\Events\PasswordReset;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\Permission\Events as PermissionEvents;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
@@ -125,7 +123,6 @@ class UserManagementServiceProvider extends PackageServiceProvider
 
         Event::listen(UserCreated::class, SendWelcomeMail::class);
 
-
         config(
             'backstage.user-management.users.model',
             '\App\Models\User'
@@ -175,7 +172,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
     protected function getRoutes(): array
     {
         return [
-            'web'
+            'web',
         ];
     }
 
@@ -198,7 +195,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             'create_permission_event_logs_table',
             'create_users_tags_pivot_table',
             'create_users_tags_table',
-            'user_password_nullable'
+            'user_password_nullable',
         ];
     }
 }
