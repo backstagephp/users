@@ -2,6 +2,7 @@
 
 namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
+use Backstage\UserManagement\Resources\UserResource;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Actions\ActionGroup;
@@ -9,11 +10,10 @@ use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Auth\ResetPassword;
+use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Notifications\Auth\VerifyEmail;
-use Filament\Notifications\Auth\ResetPassword;
-use Backstage\UserManagement\Resources\UserResource;
 use Vormkracht10\Fields\Concerns\CanMapDynamicFields;
 use Backstage\UserManagement\Notifications\LoginWithMagicLinkMail;
 

@@ -43,6 +43,16 @@ class UserResource extends Resource
                         ->email()
                         ->required()
                         ->maxLength(255),
+
+                    Forms\Components\TextInput::make('password')
+                        ->password()
+                        ->label(__('Password'))
+                        ->revealable(Filament::arePasswordsRevealable())
+                        ->rule(Password::default())
+                        ->autocomplete('new-password')
+                        ->dehydrated(fn($state): bool => filled($state))
+                        ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                        ->live(debounce: 500),
                 ], $formFields);
             });
     }
@@ -99,8 +109,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            UserResource\RelationManagers\RolesRelationManager::class,
-            UserResource\RelationManagers\TagsRelationManager::class,
+            FieldsRelationManager::class
         ];
     }
 

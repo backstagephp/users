@@ -12,15 +12,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 trait HasBackstageManagement
 {
+    use CanResetPassword;
     use Concerns\Conditionals\HasConditionals;
     use Concerns\Relations\HasRelations;
-
-    // Scopes
     use Concerns\Scopes\HasScopes;
 
     // Illuminate contracts:
     use Notifiable;
-    use CanResetPassword;
     use MustVerifyEmail;
 
     // Backstage contracts:
