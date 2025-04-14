@@ -2,19 +2,19 @@
 
 namespace Backstage\UserManagement\Resources;
 
-use Backstage\UserManagement\Exports\UserExporter;
-use Backstage\UserManagement\Imports\UserImporter;
-use Backstage\UserManagement\Resources\UserResource\Pages;
-use Backstage\UserManagement\Widgets\StatsOverviewWidget;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Vormkracht10\Fields\Filament\RelationManagers\FieldsRelationManager;
+use Backstage\UserManagement\Exports\UserExporter;
+use Backstage\UserManagement\Imports\UserImporter;
+use Backstage\UserManagement\Widgets\StatsOverviewWidget;
+use Backstage\UserManagement\Resources\UserResource\Pages;
+use Backstage\Fields\Filament\RelationManagers\FieldsRelationManager;
 
 class UserResource extends Resource
 {
@@ -28,7 +28,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(function ($livewire) {
+            ->schema(function ($livewire) use ($form) {
                 $livewire = $livewire;
 
                 $formFields = $livewire->getFormFields();
@@ -43,16 +43,6 @@ class UserResource extends Resource
                         ->email()
                         ->required()
                         ->maxLength(255),
-
-                    Forms\Components\TextInput::make('password')
-                        ->password()
-                        ->label(__('Password'))
-                        ->revealable(Filament::arePasswordsRevealable())
-                        ->rule(Password::default())
-                        ->autocomplete('new-password')
-                        ->dehydrated(fn($state): bool => filled($state))
-                        ->dehydrateStateUsing(fn($state): string => Hash::make($state))
-                        ->live(debounce: 500),
                 ], $formFields);
             });
     }
@@ -75,6 +65,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('tags')
+                    ->badge()
+                    ->getStateUsing(function ($record) {
+                        return $record->usersTags->pluck('name')->toArray();
+                    }),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -90,6 +86,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -102,7 +99,8 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FieldsRelationManager::class
+            UserResource\RelationManagers\RolesRelationManager::class,
+            UserResource\RelationManagers\TagsRelationManager::class,
         ];
     }
 

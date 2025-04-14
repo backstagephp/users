@@ -2,9 +2,11 @@
 
 namespace Backstage\UserManagement;
 
-use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
-use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Filament\Contracts\Plugin;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
+use Backstage\UserManagement\Http\Middleware\RedirectUnverifiedUsers;
 
 class UserManagementPlugin implements Plugin
 {
@@ -17,12 +19,24 @@ class UserManagementPlugin implements Plugin
     {
         $panel->resources([
             Resources\UserResource::class,
-        ])
-            ->middleware([
-                DetectUserTraffic::class,
-            ]);
+            Resources\UsersTagResource::class
+        ]);
+
+        $panel->middleware([
+            DetectUserTraffic::class,
+
+            RedirectUnverifiedUsers::class
+        ]);
 
         $panel->emailVerification();
+
+        $panel->requiresEmailVerification();
+
+        $panel->emailVerificationRoutePrefix('email-verification');
+        $panel->emailVerificationPromptRouteSlug('prompt');
+        $panel->emailVerificationRouteSlug('verify');
+
+        $panel->authGuard('web');
 
         $panel->passwordReset();
 

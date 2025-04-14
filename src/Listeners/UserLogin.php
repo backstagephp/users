@@ -1,12 +1,12 @@
 <?php
 
-namespace Backstage\UserManagement\Listneners;
+namespace Backstage\UserManagement\Listeners;
 
-use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\Login;
 
-class UserLogout
+class UserLogin
 {
-    public function handle(Logout $event)
+    public function handle(Login $event)
     {
         /**
          * @var \Backstage\UserManagement\Concerns\HasBackstageManagement $user
@@ -17,7 +17,7 @@ class UserLogout
 
         $user->logins()->create([
             'user_id' => $user->id,
-            'type' => 'logout',
+            'type' => 'login',
             'url' => request()->url(),
             'referrer' => request()->server('HTTP_REFERER'),
             'inputs' => count($inputs) ? json_encode($inputs) : null,

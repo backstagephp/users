@@ -2,26 +2,33 @@
 
 namespace Backstage\UserManagement;
 
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Events\WebTrafficDetected;
-use Backstage\UserManagement\Listneners\RecordUserMovements;
-use Backstage\UserManagement\Listneners\UserLogin;
-use Backstage\UserManagement\Listneners\UserLogout;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Assets\Css;
 use Illuminate\Auth\Events\Login;
+use Filament\Support\Assets\Asset;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Livewire\Features\SupportTesting\Testable;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\AlpineComponent;
+use Livewire\Features\SupportTesting\Testable;
+use Spatie\Permission\Events as PermissionEvents;
+use Backstage\UserManagement\Listeners\UserLogin;
+use Backstage\UserManagement\Listeners\UserLogout;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\UserManagement\Testing\TestsUserManagement;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Events\UserCreated;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
+use Backstage\UserManagement\Listeners\RecordUserMovements;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
+use Backstage\UserManagement\Listeners\SendVerificationMail;
+use Backstage\UserManagement\Listeners\SendWelcomeMail;
+use Illuminate\Auth\Events\PasswordReset;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
@@ -40,10 +47,19 @@ class UserManagementServiceProvider extends PackageServiceProvider
             ->hasCommands($this->getCommands())
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
+                    ->setName(static::$name . ':install')
+                    ->setDescription('Install the User Management package')
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('backstage/user-management');
+
+                // Execute install:api command
+                $command->endWith(function () use ($command) {
+                    $command->call('install:api', [
+                        '--force' => true,
+                    ]);
+                });
             });
 
         $configFileName = 'backstage/' . $package->shortName();
@@ -100,7 +116,20 @@ class UserManagementServiceProvider extends PackageServiceProvider
         Event::listen(Logout::class, UserLogout::class);
         Event::listen(WebTrafficDetected::class, RecordUserMovements::class);
 
-        config('backstage.user-management.users.model', \App\Models\User::class)::observe(
+        if (config('permission.events_enabled')) {
+            Event::listen(PermissionEvents\RoleDetached::class, LogRoleDetached::class);
+            Event::listen(PermissionEvents\RoleAttached::class, LogRoleAttached::class);
+            Event::listen(PermissionEvents\PermissionAttached::class);
+            Event::listen(PermissionEvents\PermissionDetached::class);
+        }
+
+        Event::listen(UserCreated::class, SendWelcomeMail::class);
+
+
+        config(
+            'backstage.user-management.users.model',
+            '\App\Models\User'
+        )::observe(
             config('backstage.user-management.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
         );
     }
@@ -145,7 +174,9 @@ class UserManagementServiceProvider extends PackageServiceProvider
      */
     protected function getRoutes(): array
     {
-        return [];
+        return [
+            'web'
+        ];
     }
 
     /**
@@ -164,6 +195,10 @@ class UserManagementServiceProvider extends PackageServiceProvider
         return [
             'create_user_logins_table',
             'create_user_traffic_table',
+            'create_permission_event_logs_table',
+            'create_users_tags_pivot_table',
+            'create_users_tags_table',
+            'user_password_nullable'
         ];
     }
 }

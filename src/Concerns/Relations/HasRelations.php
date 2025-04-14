@@ -6,4 +6,5 @@ trait HasRelations
 {
     use HasLoginsRelation;
     use HasTraffic;
+    use HasTags;
 }

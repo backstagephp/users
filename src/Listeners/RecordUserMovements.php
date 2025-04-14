@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Listneners;
+namespace Backstage\UserManagement\Listeners;
 
 use Backstage\UserManagement\Events\WebTrafficDetected;
 

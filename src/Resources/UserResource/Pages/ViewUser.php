@@ -4,14 +4,18 @@ namespace Backstage\UserManagement\Resources\UserResource\Pages;
 
 use Filament\Actions;
 use Filament\Facades\Filament;
+use Filament\Actions\ActionGroup;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Notifications\Auth\ResetPassword;
 use Backstage\UserManagement\Resources\UserResource;
 use Vormkracht10\Fields\Concerns\CanMapDynamicFields;
+use Backstage\UserManagement\Notifications\LoginWithMagicLinkMail;
 
 class ViewUser extends ViewRecord
 {
@@ -24,7 +28,7 @@ class ViewUser extends ViewRecord
         return [
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn ($record) => $record->isVerified() === false)
+                    ->visible(fn($record) => $record->isVerified() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -59,7 +63,6 @@ class ViewUser extends ViewRecord
                 ->label(__('Security Actions'))
                 ->icon(false)
                 ->dropdownPlacement('bottom'),
-
             Actions\EditAction::make(),
         ];
     }

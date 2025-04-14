@@ -15,9 +15,7 @@ class UserObserver
      */
     public function created($user)
     {
-        $notification = new VerifyEmail;
-        $notification->url = Filament::getVerifyEmailUrl($user);
-        $user->notify($notification);
+        event(new \Backstage\UserManagement\Events\UserCreated($user));
     }
 
     /**

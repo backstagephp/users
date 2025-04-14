@@ -7,6 +7,7 @@ use Backstage\UserManagement\Resources\UserResource;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as WidgetsStatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use RoundingMode;
 
 class StatsOverviewWidget extends WidgetsStatsOverviewWidget
 {
@@ -22,11 +23,11 @@ class StatsOverviewWidget extends WidgetsStatsOverviewWidget
 
             Stat::make(
                 __('Daily user traffic'),
-                UserTraffic::query()
+                round(UserTraffic::query()
                     ->selectRaw('DATE(created_at) as day, COUNT(*) as count')
                     ->groupBy('day')
                     ->get()
-                    ->avg('count'),
+                    ->avg('count'), 0, RoundingMode::HalfAwayFromZero),
             ),
 
             Stat::make(__('Verified Users'), UserResource::getEloquentQuery()->where('email_verified_at', '!=', null)->count())
