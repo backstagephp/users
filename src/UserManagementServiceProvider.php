@@ -2,33 +2,32 @@
 
 namespace Backstage\UserManagement;
 
-use Filament\Support\Assets\Js;
-use Filament\Support\Assets\Css;
-use Illuminate\Auth\Events\Login;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Events\UserCreated;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
+use Backstage\UserManagement\Listeners\RecordUserMovements;
+use Backstage\UserManagement\Listeners\SendInvitationMail;
+use Backstage\UserManagement\Listeners\UserLogin;
+use Backstage\UserManagement\Listeners\UserLogout;
+use Backstage\UserManagement\Models\User;
+use Backstage\UserManagement\Testing\TestsUserManagement;
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Facades\FilamentIcon;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Spatie\LaravelPackageTools\Package;
-use Backstage\UserManagement\Models\User;
-use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Assets\AlpineComponent;
 use Livewire\Features\SupportTesting\Testable;
-use Backstage\UserManagement\Events\UserCreated;
-use Backstage\UserManagement\Listeners\UserLogin;
-use Spatie\Permission\Events as PermissionEvents;
-use Backstage\UserManagement\Listeners\UserLogout;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\UserManagement\Events\WebTrafficDetected;
-use Backstage\UserManagement\Listeners\SendWelcomeMail;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Backstage\UserManagement\Listeners\SendInvitationMail;
-use Backstage\UserManagement\Listeners\RecordUserMovements;
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\Permission\Events as PermissionEvents;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
@@ -70,16 +69,15 @@ class UserManagementServiceProvider extends PackageServiceProvider
                     ]);
 
                     $command->call('vendor:publish', [
-                        '--tag' => 'filament-actions-migrations'
+                        '--tag' => 'filament-actions-migrations',
                     ]);
 
                     $command->call('migrate');
                 });
             });
 
-        if (file_exists($package->basePath("/../config/backstage/users.php"))) {
+        if (file_exists($package->basePath('/../config/backstage/users.php'))) {
             $package->hasConfigFile('backstage/users');
-
 
             if (file_exists($package->basePath('/../database/migrations'))) {
                 $package->hasMigrations($this->getMigrations());
@@ -94,7 +92,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             }
         }
     }
-    
+
     public function packageRegistered(): void {}
 
     public function packageBooted(): void
@@ -212,7 +210,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             'create_users_tags_pivot_table',
             'create_users_tags_table',
             'user_password_nullable',
-            'add_sub_navigation_preference_to_users_table'
+            'add_sub_navigation_preference_to_users_table',
         ];
     }
 }

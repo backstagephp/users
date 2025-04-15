@@ -26,14 +26,14 @@ class StatsOverviewWidget extends WidgetsStatsOverviewWidget
                     ->selectRaw('DATE(created_at) as day, COUNT(*) as count')
                     ->groupBy('day')
                     ->get()
-                    ->avg('count'), 0,2),
+                    ->avg('count'), 0, 2),
             ),
 
             Stat::make(__('Verified Users'), UserResource::getEloquentQuery()->where('email_verified_at', '!=', null)->count())
                 ->color(Color::Green)
                 ->icon('heroicon-o-check-circle'),
 
-                Stat::make(__('Pending Users'), UserResource::getEloquentQuery()->where('email_verified_at', null)->count())
+            Stat::make(__('Pending Users'), UserResource::getEloquentQuery()->where('email_verified_at', null)->count()),
         ];
     }
 }

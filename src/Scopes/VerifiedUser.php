@@ -2,7 +2,6 @@
 
 namespace Backstage\UserManagement\Scopes;
 
-use Backstage\UserManagement\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
