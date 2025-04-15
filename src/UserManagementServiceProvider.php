@@ -140,7 +140,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
         Event::listen(UserCreated::class, SendInvitationMail::class);
 
         config(
-            'backstage.user-management.users.model',
+            'backstage.users.eloquent.users.model',
             User::class
         )::observe(
             config('backstage.users.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
