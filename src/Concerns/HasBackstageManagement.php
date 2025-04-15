@@ -21,7 +21,6 @@ trait HasBackstageManagement
 
     // Spatie roles
     use HasRoles;
-
     use MustVerifyEmail;
 
     // Illuminate contracts:
