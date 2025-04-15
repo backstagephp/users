@@ -5,30 +5,32 @@ namespace Backstage\UserManagement\Models;
 use Backstage\UserManagement\Concerns;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as BaseUser;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\Contracts\HasApiTokens as ContractsHasApiTokens;
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements CanResetPassword, ContractsHasApiTokens, FilamentUser, MustVerifyEmail
+class User extends BaseUser implements CanResetPassword, HasApiTokensContract, FilamentUser, MustVerifyEmail
 {
-    use CanResetPassword;
+    use CanResetPasswordTrait;
     use Concerns\Conditionals\HasConditionals;
     use Concerns\Relations\HasRelations;
     use Concerns\Scopes\HasScopes;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
-    use MustVerifyEmail;
+    use MustVerifyEmailTrait;
     use Notifiable;
 
     public function getTable()
     {
-        return config('backstage.user-management.eloquent.users.table', 'users');
+        return config('backstage.user.eloquent.users.table', 'users');
     }
 
     /**

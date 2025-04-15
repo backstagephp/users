@@ -2,7 +2,7 @@
 
 namespace Backstage\UserManagement\Imports;
 
-use App\Models\User;
+use Backstage\UserManagement\Models\User;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
@@ -11,7 +11,7 @@ class UserImporter extends Importer
 {
     public static function getModel(): string
     {
-        return config('backstage.user-management.eloquent.users.model', \App\Models\User::class);
+        return config('backstage.user.eloquent.users.model', User::class);
     }
 
     public static function getColumns(): array

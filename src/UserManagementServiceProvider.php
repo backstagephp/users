@@ -11,6 +11,7 @@ use Backstage\UserManagement\Listeners\RecordUserMovements;
 use Backstage\UserManagement\Listeners\SendWelcomeMail;
 use Backstage\UserManagement\Listeners\UserLogin;
 use Backstage\UserManagement\Listeners\UserLogout;
+use Backstage\UserManagement\Models\User;
 use Backstage\UserManagement\Testing\TestsUserManagement;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -30,9 +31,9 @@ use Spatie\Permission\Events as PermissionEvents;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'user-management';
+    public static string $name = 'backstage/user';
 
-    public static string $viewNamespace = 'user-management';
+    public static string $viewNamespace = 'backstage/user';
 
     public function configurePackage(Package $package): void
     {
@@ -60,8 +61,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
                 });
             });
 
-        $configFileName = 'backstage/' . $package->shortName();
-
+        $configFileName =  $package->shortName();
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
             $package->hasConfigFile($configFileName);
         }
@@ -125,9 +125,9 @@ class UserManagementServiceProvider extends PackageServiceProvider
 
         config(
             'backstage.user-management.users.model',
-            '\App\Models\User'
+            User::class
         )::observe(
-            config('backstage.user-management.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
+            config('backstage.user.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
         );
     }
 

@@ -11,7 +11,7 @@ class UserLogin extends Model
 
     public function getTable()
     {
-        return config('backstage.user-management.eloquent.user_logins.table', 'user_logins');
+        return config('backstage.user.eloquent.user_logins.table', 'user_logins');
     }
 
     protected $fillable = [
@@ -32,6 +32,6 @@ class UserLogin extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('backstage.user-management.eloquent.users.model', \App\Models\User::class), 'user_id');
+        return $this->belongsTo(config('backstage.user.eloquent.users.model', User::class), 'user_id');
     }
 }

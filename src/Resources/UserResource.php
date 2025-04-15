@@ -4,6 +4,7 @@ namespace Backstage\UserManagement\Resources;
 
 use Backstage\UserManagement\Exports\UserExporter;
 use Backstage\UserManagement\Imports\UserImporter;
+use Backstage\UserManagement\Models\User;
 use Backstage\UserManagement\Resources\UserResource\Pages;
 use Backstage\UserManagement\Widgets\StatsOverviewWidget;
 use Filament\Facades\Filament;
@@ -19,7 +20,7 @@ class UserResource extends Resource
 {
     public static function getModel(): string
     {
-        return config('backstage.user-management.eloquent.users.model', \App\Models\User::class);
+        return config('backstage.user.eloquent.users.model', User::class);
     }
 
     protected static ?string $navigationIcon = 'heroicon-o-user';

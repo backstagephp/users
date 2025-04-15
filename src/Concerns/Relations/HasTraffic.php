@@ -11,6 +11,6 @@ trait HasTraffic
      */
     public function traffic()
     {
-        return $this->hasMany(config('backstage.user-management.eloquent.user_traffic.model', \Backstage\UserManagement\Models\UserTraffic::class), 'user_id');
+        return $this->hasMany(config('backstage.user.eloquent.user_traffic.model', \Backstage\UserManagement\Models\UserTraffic::class), 'user_id');
     }
 }
