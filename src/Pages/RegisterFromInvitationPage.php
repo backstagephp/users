@@ -51,7 +51,7 @@ class RegisterFromInvitationPage extends Page implements HasForms
     {
         $userId = decrypt($userId);
 
-        $this->user = app($this->getUserModel())::findOrFail($userId);
+        $this->user = app($this->getUserModel())::withoutGlobalScopes()->findOrFail($userId);
 
         $this->data = [
             'name' => $this->user->name,
