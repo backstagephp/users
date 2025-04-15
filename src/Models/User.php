@@ -17,24 +17,14 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword, ContractsHasApiTokens, FilamentUser, MustVerifyEmail
 {
-    use CanResetPassword;
     use Concerns\Conditionals\HasConditionals;
-
     use Concerns\Relations\HasRelations;
     use Concerns\Scopes\HasScopes;
-    // Sanctum
+    use CanResetPassword;
     use HasApiTokens;
-    use HasBackstageManagement;
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
-
-    // Spatie roles
     use HasRoles;
-
     use MustVerifyEmail;
-    use Notifiable;
-
-    // Illuminate contracts:
     use Notifiable;
 
     /**
