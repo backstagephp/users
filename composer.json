@@ -1,15 +1,16 @@
 {
-    "name": "backstage/user-management",
+    "name": "backstage/users",
     "description": "This is the official Backstage User management package",
     "keywords": [
         "Backstage",
+        "Vormkracht10",
         "laravel",
-        "user-management"
+        "users"
     ],
-    "homepage": "https://github.com/backstage/user-management",
+    "homepage": "https://github.com/backstage/users",
     "support": {
-        "issues": "https://github.com/backstage/user-management/issues",
-        "source": "https://github.com/backstage/user-management"
+        "issues": "https://github.com/backstage/users/issues",
+        "source": "https://github.com/backstage/users"
     },
     "license": "MIT",
     "authors": [
@@ -21,7 +22,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "backstage/fields": "*",
         "filament/filament": "^3.0",
         "laravel/sanctum": ">=3.3.3",
         "spatie/laravel-package-tools": "^1.15.0",
@@ -98,11 +98,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": {
-        "backstage/fields": {
-            "type": "vcs",
-            "url": "git@github.com:backstagephp/fields.git"
-        }
-    }
+    "prefer-stable": true
 }

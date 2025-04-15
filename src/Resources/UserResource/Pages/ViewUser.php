@@ -11,12 +11,9 @@ use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
-use Vormkracht10\Fields\Concerns\CanMapDynamicFields;
 
 class ViewUser extends ViewRecord
 {
-    use CanMapDynamicFields;
-
     protected static string $resource = UserResource::class;
 
     protected function getHeaderActions(): array
@@ -89,10 +86,5 @@ class ViewUser extends ViewRecord
         }
 
         return new HtmlString(Blade::render($string->toString()));
-    }
-
-    public function getFormFields()
-    {
-        return $this->resolveFormFields();
     }
 }

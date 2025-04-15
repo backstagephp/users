@@ -8,7 +8,6 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Vormkracht10\Fields\Concerns\HasFields;
 
 trait HasBackstageManagement
 {
@@ -19,8 +18,6 @@ trait HasBackstageManagement
 
     // Sanctum
     use HasApiTokens;
-    // Backstage contracts:
-    use HasFields;
 
     // Spatie roles
     use HasRoles;
