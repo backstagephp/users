@@ -3,7 +3,6 @@
 namespace Backstage\UserManagement\Models;
 
 use Backstage\UserManagement\Concerns;
-use Backstage\UserManagement\Concerns\HasBackstageManagement;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -17,10 +16,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword, ContractsHasApiTokens, FilamentUser, MustVerifyEmail
 {
+    use CanResetPassword;
     use Concerns\Conditionals\HasConditionals;
     use Concerns\Relations\HasRelations;
     use Concerns\Scopes\HasScopes;
-    use CanResetPassword;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
