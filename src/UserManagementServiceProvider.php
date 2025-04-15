@@ -61,7 +61,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
                 });
             });
 
-        $configFileName =  $package->shortName();
+        $configFileName = $package->shortName();
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
             $package->hasConfigFile($configFileName);
         }
