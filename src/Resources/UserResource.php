@@ -44,8 +44,8 @@ class UserResource extends Resource
                     ->revealable(Filament::arePasswordsRevealable())
                     ->rule(Password::default())
                     ->autocomplete('new-password')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                     ->live(debounce: 500),
             ]);
     }
