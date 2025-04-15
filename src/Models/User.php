@@ -18,7 +18,7 @@ use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends BaseUser implements CanResetPassword, HasApiTokensContract, FilamentUser, MustVerifyEmail
+class User extends BaseUser implements CanResetPassword, FilamentUser, HasApiTokensContract, MustVerifyEmail
 {
     use CanResetPasswordTrait;
     use Concerns\Conditionals\HasConditionals;

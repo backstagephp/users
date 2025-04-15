@@ -79,21 +79,22 @@ class UserManagementServiceProvider extends PackageServiceProvider
 
         if (file_exists($package->basePath("/../config/backstage/users.php"))) {
             $package->hasConfigFile('backstage/users');
-        }
 
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
-        }
 
-        if (file_exists($package->basePath('/../resources/lang'))) {
-            $package->hasTranslations();
-        }
+            if (file_exists($package->basePath('/../database/migrations'))) {
+                $package->hasMigrations($this->getMigrations());
+            }
 
-        if (file_exists($package->basePath('/../resources/views'))) {
-            $package->hasViews(static::$viewNamespace);
+            if (file_exists($package->basePath('/../resources/lang'))) {
+                $package->hasTranslations();
+            }
+
+            if (file_exists($package->basePath('/../resources/views'))) {
+                $package->hasViews(static::$viewNamespace);
+            }
         }
     }
-
+    
     public function packageRegistered(): void {}
 
     public function packageBooted(): void
