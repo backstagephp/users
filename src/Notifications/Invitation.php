@@ -2,12 +2,14 @@
 
 namespace Backstage\UserManagement\Notifications;
 
+use Backstage\UserManagement\Models\User;
+use Backstage\UserManagement\Pages\RegisterFromInvitationPage;
 use Filament\Facades\Filament;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class WelcomeEmail extends Notification
+class Invitation extends Notification
 {
     use Queueable;
 
@@ -29,23 +31,20 @@ class WelcomeEmail extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(User $notifiable): MailMessage
     {
         /**
          * Broker
          *
          * @var \Illuminate\Auth\Passwords\PasswordBroker $broker
          */
-        $broker = app('auth.password.broker');
-
-        $token = $broker->createToken($notifiable);
-        $passwordResetUrl = Filament::getResetPasswordUrl($token, $notifiable);
+        $registerUrl = RegisterFromInvitationPage::getUrl(['userId' => encrypt($notifiable->id)], true, 'register', null);
 
         return (new MailMessage)
             ->subject(__('Welcome to Our Platform'))
             ->greeting(__('Hello :name!', ['name' => $notifiable->name]))
             ->line(__('We are excited to have you on board.'))
-            ->action(__('Please configure youre password'), $passwordResetUrl)
+            ->action(__('Please configure you\'re account'), $registerUrl)
             ->line(__('If you did not sign up, please ignore this email.'));
     }
 

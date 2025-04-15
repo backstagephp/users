@@ -2,28 +2,38 @@
 
 namespace Backstage\UserManagement\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Hash;
+use Backstage\UserManagement\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rules\Password;
+use Backstage\UserManagement\Scopes\VerifiedUser;
 use Backstage\UserManagement\Exports\UserExporter;
 use Backstage\UserManagement\Imports\UserImporter;
-use Backstage\UserManagement\Models\User;
-use Backstage\UserManagement\Resources\UserResource\Pages;
 use Backstage\UserManagement\Widgets\StatsOverviewWidget;
-use Filament\Facades\Filament;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+use Backstage\UserManagement\Resources\UserResource\Pages;
 
 class UserResource extends Resource
 {
     public static function getModel(): string
     {
-        return config('backstage.user.eloquent.users.model', User::class);
+        return config('backstage.users.eloquent.users.model', User::class);
     }
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return static::getModel()::query()
+            ->withoutGlobalScopes([
+                VerifiedUser::class,
+            ]);
+    }
 
     public static function form(Form $form): Form
     {
@@ -38,16 +48,6 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->label(__('Password'))
-                    ->revealable(Filament::arePasswordsRevealable())
-                    ->rule(Password::default())
-                    ->autocomplete('new-password')
-                    ->dehydrated(fn ($state): bool => filled($state))
-                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
-                    ->live(debounce: 500),
             ]);
     }
 

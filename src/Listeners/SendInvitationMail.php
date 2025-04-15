@@ -3,10 +3,10 @@
 namespace Backstage\UserManagement\Listeners;
 
 use Backstage\UserManagement\Events\UserCreated;
-use Backstage\UserManagement\Notifications\WelcomeEmail;
+use Backstage\UserManagement\Notifications\Invitation;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendWelcomeMail
+class SendInvitationMail
 //  implements ShouldQueue
 {
     /**
@@ -16,6 +16,6 @@ class SendWelcomeMail
      */
     public function handle(UserCreated $event)
     {
-        $event->user->notify(new WelcomeEmail);
+        $event->user->notify(new Invitation);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Backstage\UserManagement\Tests;
 
+use Backstage\UserManagement\RegisterUserPanelProvider;
 use Backstage\UserManagement\UserManagementServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -45,6 +46,7 @@ class TestCase extends Orchestra
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             UserManagementServiceProvider::class,
+            RegisterUserPanelProvider::class
         ];
     }
 

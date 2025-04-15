@@ -3,7 +3,9 @@
 namespace Backstage\UserManagement\Models;
 
 use Backstage\UserManagement\Concerns;
+use Backstage\UserManagement\Scopes\VerifiedUser;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Panel;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
@@ -30,7 +32,7 @@ class User extends BaseUser implements CanResetPassword, HasApiTokensContract, F
 
     public function getTable()
     {
-        return config('backstage.user.eloquent.users.table', 'users');
+        return config('backstage.users.eloquent.users.table', 'users');
     }
 
     /**
@@ -42,6 +44,7 @@ class User extends BaseUser implements CanResetPassword, HasApiTokensContract, F
         'name',
         'email',
         'password',
+        'sub_navigation_preference',
     ];
 
     /**
@@ -64,11 +67,19 @@ class User extends BaseUser implements CanResetPassword, HasApiTokensContract, F
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'sub_navigation_preference' => 'string',
         ];
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(VerifiedUser::class);
     }
 }

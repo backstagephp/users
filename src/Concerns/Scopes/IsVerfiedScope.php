@@ -2,7 +2,8 @@
 
 namespace Backstage\UserManagement\Concerns\Scopes;
 
-use Filament\Forms\Components\Builder;
+use Illuminate\Database\Eloquent\Builder;
+
 
 trait IsVerfiedScope
 {
@@ -14,7 +15,8 @@ trait IsVerfiedScope
      */
     public function scopeVerified(Builder $query)
     {
-        return $query->where('is_verified', true);
+        return $query->where('email_verified_at', '!=', null)
+            ->where('password', '!=', null);
     }
 
     /**
@@ -25,6 +27,7 @@ trait IsVerfiedScope
      */
     public function scopeUnverified(Builder $query)
     {
-        return $query->where('is_verified', false);
+        return  $query->where('email_verified_at', null)
+            ->orWhere('password', null);
     }
 }

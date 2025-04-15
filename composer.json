@@ -90,7 +90,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Backstage\\UserManagement\\UserManagementServiceProvider"
+                "Backstage\\UserManagement\\UserManagementServiceProvider",
+                "Backstage\\UserManagement\\RegisterUserPanelProvider"
             ],
             "aliases": {
                 "UserManagement": "Backstage\\UserManagement\\Facades\\UserManagement"

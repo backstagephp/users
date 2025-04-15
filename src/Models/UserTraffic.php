@@ -26,6 +26,6 @@ class UserTraffic extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('backstage.user.eloquent.users.model', User::class), 'user_id');
+        return $this->belongsTo(config('backstage.users.eloquent.users.model', User::class), 'user_id');
     }
 }

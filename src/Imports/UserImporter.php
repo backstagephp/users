@@ -11,7 +11,7 @@ class UserImporter extends Importer
 {
     public static function getModel(): string
     {
-        return config('backstage.user.eloquent.users.model', User::class);
+        return config('backstage.users.eloquent.users.model', User::class);
     }
 
     public static function getColumns(): array

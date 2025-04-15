@@ -2,38 +2,39 @@
 
 namespace Backstage\UserManagement;
 
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Events\UserCreated;
-use Backstage\UserManagement\Events\WebTrafficDetected;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
-use Backstage\UserManagement\Listeners\RecordUserMovements;
-use Backstage\UserManagement\Listeners\SendWelcomeMail;
-use Backstage\UserManagement\Listeners\UserLogin;
-use Backstage\UserManagement\Listeners\UserLogout;
-use Backstage\UserManagement\Models\User;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Assets\Css;
 use Illuminate\Auth\Events\Login;
+use Filament\Support\Assets\Asset;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Livewire\Features\SupportTesting\Testable;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Backstage\UserManagement\Models\User;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\AlpineComponent;
+use Livewire\Features\SupportTesting\Testable;
+use Backstage\UserManagement\Events\UserCreated;
+use Backstage\UserManagement\Listeners\UserLogin;
 use Spatie\Permission\Events as PermissionEvents;
+use Backstage\UserManagement\Listeners\UserLogout;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Backstage\UserManagement\Events\WebTrafficDetected;
+use Backstage\UserManagement\Listeners\SendWelcomeMail;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\UserManagement\Testing\TestsUserManagement;
+use Backstage\UserManagement\Listeners\SendInvitationMail;
+use Backstage\UserManagement\Listeners\RecordUserMovements;
+use Backstage\UserManagement\Commands\UserManagementCommand;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
+use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
 
 class UserManagementServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'backstage/user';
+    public static string $name = 'backstage:users';
 
-    public static string $viewNamespace = 'backstage/user';
+    public static string $viewNamespace = 'backstage/users';
 
     public function configurePackage(Package $package): void
     {
@@ -46,6 +47,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             ->hasCommands($this->getCommands())
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
+                    ->setDescription('Install the User Management package')
                     ->setName(static::$name . ':install')
                     ->setDescription('Install the User Management package')
                     ->publishConfigFile()
@@ -58,12 +60,25 @@ class UserManagementServiceProvider extends PackageServiceProvider
                     $command->call('install:api', [
                         '--force' => true,
                     ]);
+
+                    $command->call('vendor:publish', [
+                        '--tag' => 'permission-migrations',
+                    ]);
+
+                    $command->call('vendor:publish', [
+                        '--tag' => 'permission-config',
+                    ]);
+
+                    $command->call('vendor:publish', [
+                        '--tag' => 'filament-actions-migrations'
+                    ]);
+
+                    $command->call('migrate');
                 });
             });
 
-        $configFileName =  $package->shortName();
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile($configFileName);
+        if (file_exists($package->basePath("/../config/backstage/users.php"))) {
+            $package->hasConfigFile('backstage/users');
         }
 
         if (file_exists($package->basePath('/../database/migrations'))) {
@@ -121,13 +136,13 @@ class UserManagementServiceProvider extends PackageServiceProvider
             Event::listen(PermissionEvents\PermissionDetached::class);
         }
 
-        Event::listen(UserCreated::class, SendWelcomeMail::class);
+        Event::listen(UserCreated::class, SendInvitationMail::class);
 
         config(
             'backstage.user-management.users.model',
             User::class
         )::observe(
-            config('backstage.user.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
+            config('backstage.users.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
         );
     }
 
@@ -196,6 +211,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             'create_users_tags_pivot_table',
             'create_users_tags_table',
             'user_password_nullable',
+            'add_sub_navigation_preference_to_users_table'
         ];
     }
 }

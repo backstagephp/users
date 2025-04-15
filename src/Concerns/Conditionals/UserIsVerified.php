@@ -12,7 +12,8 @@ trait UserIsVerified
 {
     public function isVerified(): bool
     {
-        return $this->email_verified_at !== null;
+        return $this->email_verified_at !== null
+            && $this->password !== null;
     }
 
     public function isNotVerified(): bool
