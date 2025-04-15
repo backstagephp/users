@@ -2,17 +2,18 @@
 
 // config for Backstage/UserManagement
 
-use Backstage\UserManagement\Models\UserLogin;
+use Backstage\UserManagement\Models;
 
 return [
     'eloquent' => [
         'users' => [
-            'model' => \App\Models\User::class,
+            'model' => Models\User::class,
+            'table' => 'users',
             'observer' => \Backstage\UserManagement\Observers\UserObserver::class,
         ],
 
         'user_logins' => [
-            'model' => UserLogin::class,
+            'model' => Models\UserLogin::class,
             'table' => 'user_logins',
         ],
     ],

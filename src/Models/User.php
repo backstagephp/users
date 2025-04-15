@@ -27,6 +27,11 @@ class User extends Authenticatable implements CanResetPassword, ContractsHasApiT
     use MustVerifyEmail;
     use Notifiable;
 
+    public function getTable()
+    {
+        return config('backstage.user-management.eloquent.users.table', 'users');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
