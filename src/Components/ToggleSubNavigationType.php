@@ -22,7 +22,7 @@ class ToggleSubNavigationType extends Component implements HasActions, HasForms
     {
         $this->current = $this->getCurrentSubNavigationType();
 
-        return view('backstage.users::components.toggle-sub-navigation-type');
+        return view('backstage/users::components.toggle-sub-navigation-type');
     }
 
     public function getCurrentSubNavigationType()
@@ -32,6 +32,18 @@ class ToggleSubNavigationType extends Component implements HasActions, HasForms
 
     public function toggleSubNavigationType()
     {
-        dd();
+        if ($this->current === 'top') {
+            $this->current = 'end';
+        } elseif ($this->current === 'end') {
+            $this->current = 'top';
+        }
+
+        $user = Filament::auth()->user();
+
+        $user->sub_navigation_preference = $this->current;
+
+        $user->save();
+
+        $this->redirect(request()->headers->get('referer'));
     }
 }

@@ -17,9 +17,4 @@ trait HasSubNavigationPreference
 
         return '';
     }
-
-    public function isSubNavigationPreference($type)
-    {
-        return $this->getSubNavigationPreference() === $type;
-    }
 }

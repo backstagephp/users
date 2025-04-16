@@ -2,6 +2,7 @@
 
 namespace Backstage\Users;
 
+use Livewire\Livewire;
 use Filament\Support\Assets\Js;
 use Backstage\Users\Models\User;
 use Filament\Support\Assets\Css;
@@ -11,6 +12,7 @@ use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
 use Backstage\Users\Events\UserCreated;
+use Backstage\Users\Testing\TestsUsers;
 use Spatie\LaravelPackageTools\Package;
 use Backstage\Users\Listeners\UserLogin;
 use Backstage\Users\Listeners\UserLogout;
@@ -20,20 +22,22 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Assets\AlpineComponent;
 use Backstage\Users\Events\WebTrafficDetected;
 use Livewire\Features\SupportTesting\Testable;
-use Backstage\Users\Testing\TestsUsers;
 use Backstage\Users\Listeners\SendInvitationMail;
 use Spatie\Permission\Events as PermissionEvents;
 use Backstage\Users\Listeners\RecordUserMovements;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Backstage\Users\Components\ToggleSubNavigationType;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Backstage\Users\Listeners\Permissions\LogRoleAttached;
 use Backstage\Users\Listeners\Permissions\LogRoleDetached;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Resource;
 
 class UsersServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'backstage:users';
 
-    public static string $viewNamespace = 'backstage.users';
+    public static string $viewNamespace = 'backstage/users';
 
     public function configurePackage(Package $package): void
     {
@@ -143,6 +147,9 @@ class UsersServiceProvider extends PackageServiceProvider
         )::observe(
             config('backstage.users.eloquent.users.observer', \Backstage\Users\Observers\UserObserver::class)
         );
+
+
+        Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);
     }
 
     protected function getAssetPackageName(): ?string

@@ -39,12 +39,7 @@ class User extends BaseUser implements CanResetPassword, FilamentUser, HasApiTok
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'sub_navigation_preference',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -66,7 +61,6 @@ class User extends BaseUser implements CanResetPassword, FilamentUser, HasApiTok
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'sub_navigation_preference' => 'string',
         ];
     }
 

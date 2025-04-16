@@ -78,7 +78,7 @@ class UsersPlugin implements Plugin
     protected function initSubNavigationToggle(Panel $panel)
     {
         $panel->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, function () {
-            return Livewire::mount(ToggleSubNavigationType::class);
+            return Livewire::mount(ToggleSubNavigationType::class, []);
         });
     }
 }
