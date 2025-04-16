@@ -3,6 +3,7 @@
 // config for Backstage/Users
 
 use Backstage\Users\Models;
+use Backstage\Users\Pages\ManageApiTokens;
 use Backstage\Users\Resources\UserResource;
 use Backstage\Users\Resources\UsersTagResource;
 
@@ -10,6 +11,10 @@ return [
     'resources' => [
         'users' => UserResource::class,
         'users-tags' => UsersTagResource::class,
+    ],
+
+    'pages' => [
+        'manage-api-tokens' => ManageApiTokens::class,
     ],
 
     'eloquent' => [
@@ -30,5 +35,6 @@ return [
         'user_traffic' => true,
         'user_must_verify' => true,
         'can_toggle_sub_navigation' => true,
+        'manage-api-tokens' => false,
     ],
 ];

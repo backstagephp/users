@@ -6,6 +6,8 @@ use Backstage\Users\Components\ToggleSubNavigationType;
 use Backstage\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Filament\Contracts\Plugin;
+use Filament\Facades\Filament;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Livewire\Livewire;
@@ -54,6 +56,18 @@ class UsersPlugin implements Plugin
         $panel->passwordReset();
 
         $panel->authPasswordBroker('users');
+
+        $panel->pages([
+            config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class),
+        ]);
+
+        $panel->userMenuItems([
+            MenuItem::make('api_tokens')
+                ->label(__('API Tokens'))
+                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->icon('heroicon-o-document-text')
+                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+        ]);
     }
 
     public function boot(Panel $panel): void
