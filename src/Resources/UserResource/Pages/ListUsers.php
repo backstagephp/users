@@ -32,12 +32,12 @@ class ListUsers extends ListRecords
             Tab::make(__('Users'))
                 ->badge(static::getResource()::getEloquentQuery()->verified()->count())
                 ->badgeColor(Color::Green)
-                ->modifyQueryUsing(fn($query) => $query->verified()),
+                ->modifyQueryUsing(fn ($query) => $query->verified()),
 
             Tab::make(__('Pending'))
                 ->badge(static::getResource()::getEloquentQuery()->unverified()->count())
                 ->badgeColor(Color::Red)
-                ->modifyQueryUsing(fn($query) => $query->unverified()),
+                ->modifyQueryUsing(fn ($query) => $query->unverified()),
         ];
     }
 }

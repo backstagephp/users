@@ -3,32 +3,27 @@
 namespace Backstage\UserManagement\Pages;
 
 use Backstage\UserManagement\Models\User;
-use Filament\Pages\Page;
 use Filament\Actions\Action;
-use Filament\Facades\Filament;
-use Filament\Pages\Auth\Register;
 use Filament\Events\Auth\Registered;
-use Illuminate\Support\Facades\Hash;
-use Filament\Actions\Concerns\HasForm;
-use Filament\Forms\Contracts\HasForms;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Panel\Concerns\HasDatabaseTransactions;
-use Filament\Pages\Concerns\InteractsWithFormActions;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Pages\Auth\Register;
 use Filament\Pages\Concerns\CanUseDatabaseTransactions;
-use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Illuminate\Http\RedirectResponse;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterFromInvitationPage extends Page implements HasForms
 {
-    use InteractsWithForms;
-    use InteractsWithFormActions;
     use CanUseDatabaseTransactions;
+    use InteractsWithFormActions;
+    use InteractsWithForms;
 
     protected static ?string $slug = '/{userId}';
 
@@ -39,10 +34,10 @@ class RegisterFromInvitationPage extends Page implements HasForms
     public $userModel = null;
 
     public User $user;
-    
+
     public array $data = [];
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string | Htmlable
     {
         return __('filament-panels::pages/auth/register.title');
     }
@@ -69,8 +64,7 @@ class RegisterFromInvitationPage extends Page implements HasForms
     public function getForms(): array
     {
         return [
-            'registerForm' =>
-            $this->makeForm()
+            'registerForm' => $this->makeForm()
                 ->model($this->getUserModel())
                 ->schema([
                     $this->getNameFormComponent(),
@@ -111,7 +105,7 @@ class RegisterFromInvitationPage extends Page implements HasForms
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
             ->rule(Password::default())
-            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
             ->same('passwordConfirmation')
             ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute'));
     }
@@ -155,13 +149,10 @@ class RegisterFromInvitationPage extends Page implements HasForms
             ->submit('register');
     }
 
-
     protected function hasFullWidthFormActions(): bool
     {
         return true;
     }
-
-
 
     // Register
     public function register()
@@ -192,7 +183,6 @@ class RegisterFromInvitationPage extends Page implements HasForms
 
         return $this->redirect($defaultPanel->getUrl());
     }
-
 
     protected function handleRegistration(array $data): Model
     {

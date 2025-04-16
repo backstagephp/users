@@ -46,7 +46,7 @@ class TestCase extends Orchestra
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             UserManagementServiceProvider::class,
-            RegisterUserPanelProvider::class
+            RegisterUserPanelProvider::class,
         ];
     }
 

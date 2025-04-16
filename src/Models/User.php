@@ -5,7 +5,6 @@ namespace Backstage\UserManagement\Models;
 use Backstage\UserManagement\Concerns;
 use Backstage\UserManagement\Scopes\VerifiedUser;
 use Filament\Models\Contracts\FilamentUser;
-use Filament\Pages\SubNavigationPosition;
 use Filament\Panel;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;

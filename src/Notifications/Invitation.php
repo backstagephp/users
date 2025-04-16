@@ -4,7 +4,6 @@ namespace Backstage\UserManagement\Notifications;
 
 use Backstage\UserManagement\Models\User;
 use Backstage\UserManagement\Pages\RegisterFromInvitationPage;
-use Filament\Facades\Filament;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
