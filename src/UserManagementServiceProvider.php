@@ -34,7 +34,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'backstage:users';
 
-    public static string $viewNamespace = 'backstage/users';
+    public static string $viewNamespace = 'backstage.users';
 
     public function configurePackage(Package $package): void
     {

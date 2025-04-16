@@ -2,10 +2,17 @@
 
 namespace Backstage\UserManagement;
 
-use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
-use Backstage\UserManagement\Http\Middleware\RedirectUnverifiedUsers;
-use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Livewire\Livewire;
+use Filament\Contracts\Plugin;
+use Filament\Navigation\MenuItem;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
+use Filament\Actions\Modal\Actions\Action;
+use Filament\Support\Facades\FilamentView;
+use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
+use Backstage\UserManagement\Components\ToggleSubNavigationType;
+use Backstage\UserManagement\Http\Middleware\RedirectUnverifiedUsers;
 
 class UserManagementPlugin implements Plugin
 {
@@ -17,23 +24,36 @@ class UserManagementPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->resources([
-            Resources\UserResource::class,
-            Resources\UsersTagResource::class,
+            config('backstage.users.resources.users', Resources\UserResource::class),
+
+            config('backstage.users.resources.users-tags', Resources\UsersTagResource::class),
         ]);
 
-        $panel->middleware([
-            DetectUserTraffic::class,
 
-            RedirectUnverifiedUsers::class,
-        ]);
+        $middleware = [];
 
-        $panel->emailVerification();
+        if (config('backstage.users.record.user_must_verify', false)) {
+            $panel->emailVerification();
 
-        $panel->requiresEmailVerification();
+            $panel->requiresEmailVerification();
 
-        $panel->emailVerificationRoutePrefix('email-verification');
-        $panel->emailVerificationPromptRouteSlug('prompt');
-        $panel->emailVerificationRouteSlug('verify');
+            $panel->emailVerificationRoutePrefix('email-verification');
+            $panel->emailVerificationPromptRouteSlug('prompt');
+            $panel->emailVerificationRouteSlug('verify');
+
+            $middleware[] = RedirectUnverifiedUsers::class;
+        }
+
+        if (config('backstage.users.record.user_traffic', true)) {
+            $middleware[] = DetectUserTraffic::class;
+        }
+
+        if (config('backstage.users.record.can_toggle_sub_navigation', true)) {
+            $this->initSubNavigationToggle($panel);
+        }
+
+
+        $panel->middleware($middleware);
 
         $panel->authGuard('web');
 
@@ -58,5 +78,12 @@ class UserManagementPlugin implements Plugin
         $plugin = filament(app(static::class)->getId());
 
         return $plugin;
+    }
+
+    protected function initSubNavigationToggle(Panel $panel)
+    {
+        $panel->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, function () {
+            return Livewire::mount(ToggleSubNavigationType::class);
+        });
     }
 }
