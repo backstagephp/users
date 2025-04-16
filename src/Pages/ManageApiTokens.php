@@ -2,11 +2,10 @@
 
 namespace Backstage\Users\Pages;
 
-use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\Page;
 
 class ManageApiTokens extends Page
-{    
+{
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'backstage/users::pages.manage-api-tokens';
