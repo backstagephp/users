@@ -2,35 +2,33 @@
 
 namespace Backstage\Users;
 
-use Livewire\Livewire;
-use Filament\Support\Assets\Js;
-use Backstage\Users\Models\User;;
+use Backstage\Users\Commands\UsersCommand;
+use Backstage\Users\Components\ToggleSubNavigationType;
+use Backstage\Users\Events\UserCreated;
+use Backstage\Users\Events\WebTrafficDetected;
+use Backstage\Users\Listeners\Permissions\LogRoleAttached;
+use Backstage\Users\Listeners\Permissions\LogRoleDetached;
+use Backstage\Users\Listeners\RecordUserMovements;
+use Backstage\Users\Listeners\SendInvitationMail;
+use Backstage\Users\Listeners\UserLogin;
+use Backstage\Users\Listeners\UserLogout;
+use Backstage\Users\Models\User;
+use Backstage\Users\Testing\TestsUsers;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Backstage\Users\Events\UserCreated;
-use Backstage\Users\Testing\TestsUsers;
-use Spatie\LaravelPackageTools\Package;
-use Backstage\Users\Listeners\UserLogin;
-use Backstage\Users\Listeners\UserLogout;
-use Backstage\Users\Commands\UsersCommand;
-use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentAsset;
-use Backstage\Users\Events\WebTrafficDetected;
 use Livewire\Features\SupportTesting\Testable;
-use Backstage\Users\Listeners\SendInvitationMail;
-use Spatie\Permission\Events as PermissionEvents;
-use Backstage\Users\Listeners\RecordUserMovements;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\Users\Components\ToggleSubNavigationType;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Backstage\Users\Listeners\Permissions\LogRoleAttached;
-use Backstage\Users\Listeners\Permissions\LogRoleDetached;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Resource;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\Permission\Events as PermissionEvents;
 
 class UsersServiceProvider extends PackageServiceProvider
 {
@@ -146,7 +144,6 @@ class UsersServiceProvider extends PackageServiceProvider
         )::observe(
             config('backstage.users.eloquent.users.observer', \Backstage\Users\Observers\UserObserver::class)
         );
-
 
         Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);
     }
