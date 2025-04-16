@@ -2,14 +2,13 @@
 
 namespace Backstage\Users;
 
-use Filament\Panel;
-use Livewire\Livewire;
-use Filament\Contracts\Plugin;
-use Filament\View\PanelsRenderHook;
-use Backstage\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Users\Components\ToggleSubNavigationType;
+use Backstage\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
-use Backstage\Users\Resources;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
+use Filament\View\PanelsRenderHook;
+use Livewire\Livewire;
 
 class UsersPlugin implements Plugin
 {
