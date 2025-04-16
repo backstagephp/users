@@ -9,7 +9,7 @@ use Backstage\UserManagement\Resources\UsersTagResource;
 return [
     'resources' => [
         'users' => UserResource::class,
-        'users-tags' => UsersTagResource::class
+        'users-tags' => UsersTagResource::class,
     ],
 
     'eloquent' => [

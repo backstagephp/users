@@ -8,10 +8,10 @@ trait HasSubNavigationPreference
 {
     public function getSubNavigationPreference()
     {
-        return match($this->sub_navigation_preference) {
+        return match ($this->sub_navigation_preference) {
             'top' => SubNavigationPosition::Top,
             'start' => SubNavigationPosition::Start,
-            'end' =>    SubNavigationPosition::End,
+            'end' => SubNavigationPosition::End,
             default => null,
         };
 
