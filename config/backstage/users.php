@@ -1,10 +1,10 @@
 <?php
 
-// config for Backstage/UserManagement
+// config for Backstage/Users
 
-use Backstage\UserManagement\Models;
-use Backstage\UserManagement\Resources\UserResource;
-use Backstage\UserManagement\Resources\UsersTagResource;
+use Backstage\Users\Models;
+use Backstage\Users\Resources\UserResource;
+use Backstage\Users\Resources\UsersTagResource;
 
 return [
     'resources' => [
@@ -16,7 +16,7 @@ return [
         'users' => [
             'model' => Models\User::class,
             'table' => 'users',
-            'observer' => \Backstage\UserManagement\Observers\UserObserver::class,
+            'observer' => \Backstage\Users\Observers\UserObserver::class,
         ],
 
         'user_logins' => [

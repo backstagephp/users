@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\UserManagement\Widgets;
+namespace Backstage\Users\Widgets;
 
-use Backstage\UserManagement\Models\UserTraffic;
-use Backstage\UserManagement\Resources\UserResource;
+use Backstage\Users\Models\UserTraffic;
+use Backstage\Users\Resources\UserResource;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as WidgetsStatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

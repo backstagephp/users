@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Concerns\Conditionals;
+namespace Backstage\Users\Concerns\Conditionals;
 
 trait HasConditionals
 {

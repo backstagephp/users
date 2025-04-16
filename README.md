@@ -46,8 +46,8 @@ return [
 ## Usage
 
 ```php
-$userManagement = new Backstage\UserManagement();
-echo $userManagement->echoPhrase('Hello, Backstage!');
+$users = new Backstage\Users\Users();
+echo $users->echoPhrase('Hello, Backstage!');
 ```
 
 ## Testing

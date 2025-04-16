@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Components;
+namespace Backstage\Users\Components;
 
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement;
+namespace Backstage\Users;
 
 use Filament\Panel;
 use Livewire\Livewire;
@@ -10,15 +10,16 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use Filament\Actions\Modal\Actions\Action;
 use Filament\Support\Facades\FilamentView;
-use Backstage\UserManagement\Http\Middleware\DetectUserTraffic;
-use Backstage\UserManagement\Components\ToggleSubNavigationType;
-use Backstage\UserManagement\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Users\Http\Middleware\DetectUserTraffic;
+use Backstage\Users\Components\ToggleSubNavigationType;
+use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Users\Resources;
 
-class UserManagementPlugin implements Plugin
+class UsersPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'user-management';
+        return 'users';
     }
 
     public function register(Panel $panel): void

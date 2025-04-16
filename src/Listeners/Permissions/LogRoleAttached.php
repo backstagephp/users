@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement\Listeners\Permissions;
+namespace Backstage\Users\Listeners\Permissions;
 
-use Backstage\UserManagement\Models\PermissionEventLog;
+use Backstage\Users\Models\PermissionEventLog;
 use Spatie\Permission\Events\RoleAttached;
 
 class LogRoleAttached

@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement\Pages;
+namespace Backstage\Users\Pages;
 
-use Backstage\UserManagement\Models\User;
+use Backstage\Users\Models\User;
 use Filament\Actions\Action;
 use Filament\Events\Auth\Registered;
 use Filament\Facades\Filament;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Concerns\Scopes;
+namespace Backstage\Users\Concerns\Scopes;
 
 trait HasScopes
 {

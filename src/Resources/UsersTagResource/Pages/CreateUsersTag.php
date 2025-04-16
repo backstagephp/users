@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement\Resources\UsersTagResource\Pages;
+namespace Backstage\Users\Resources\UsersTagResource\Pages;
 
-use Backstage\UserManagement\Resources\UsersTagResource;
+use Backstage\Users\Resources\UsersTagResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUsersTag extends CreateRecord

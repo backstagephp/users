@@ -1,13 +1,13 @@
 <?php
 
-namespace Backstage\UserManagement\Testing;
+namespace Backstage\Users\Testing;
 
 use Livewire\Features\SupportTesting\Testable;
 
 /**
  * @mixin Testable
  */
-class TestsUserManagement
+class TestsUsers
 {
     //
 }

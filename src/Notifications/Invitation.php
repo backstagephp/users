@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\UserManagement\Notifications;
+namespace Backstage\Users\Notifications;
 
-use Backstage\UserManagement\Models\User;
-use Backstage\UserManagement\Pages\RegisterFromInvitationPage;
+use Backstage\Users\Models\User;
+use Backstage\Users\Pages\RegisterFromInvitationPage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

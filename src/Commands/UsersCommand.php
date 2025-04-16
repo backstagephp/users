@@ -1,10 +1,10 @@
 <?php
 
-namespace Backstage\UserManagement\Commands;
+namespace Backstage\Users\Commands;
 
 use Illuminate\Console\Command;
 
-class UserManagementCommand extends Command
+class UsersCommand extends Command
 {
     public $signature = 'user-management';
 

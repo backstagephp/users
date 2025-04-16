@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement;
+namespace Backstage\Users;
 
-use Backstage\UserManagement\Pages\RegisterFromInvitationPage;
+use Backstage\Users\Pages\RegisterFromInvitationPage;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;

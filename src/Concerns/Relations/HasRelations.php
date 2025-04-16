@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Concerns\Relations;
+namespace Backstage\Users\Concerns\Relations;
 
 trait HasRelations
 {

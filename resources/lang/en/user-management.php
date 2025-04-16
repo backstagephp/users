@@ -1,6 +1,6 @@
 <?php
 
-// translations for Backstage/UserManagement
+// translations for Backstage/Users
 return [
     //
 ];

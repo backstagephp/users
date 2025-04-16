@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Events;
+namespace Backstage\Users\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;

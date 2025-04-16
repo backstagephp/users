@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\UserManagement\Tests;
+namespace Backstage\Users\Tests;
 
-use Backstage\UserManagement\RegisterUserPanelProvider;
-use Backstage\UserManagement\UserManagementServiceProvider;
+use Backstage\Users\RegisterUserPanelProvider;
+use Backstage\Users\UsersServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
@@ -26,7 +26,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Backstage\\UserManagement\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Backstage\\Users\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
@@ -45,7 +45,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            UserManagementServiceProvider::class,
+            UsersServiceProvider::class,
             RegisterUserPanelProvider::class,
         ];
     }

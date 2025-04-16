@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Http\Middleware;
+namespace Backstage\Users\Http\Middleware;
 
 use Closure;
 use Filament\Facades\Filament;

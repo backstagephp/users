@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Models;
+namespace Backstage\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

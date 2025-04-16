@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\UserManagement\Concerns\Relations;
+namespace Backstage\Users\Concerns\Relations;
 
 trait HasLoginsRelation
 {
@@ -11,6 +11,6 @@ trait HasLoginsRelation
      */
     public function logins()
     {
-        return $this->hasMany(config('backstage.users.eloquent.user_logins.model', \Backstage\UserManagement\Models\UserLogin::class), 'user_id');
+        return $this->hasMany(config('backstage.users.eloquent.user_logins.model', \Backstage\Users\Models\UserLogin::class), 'user_id');
     }
 }

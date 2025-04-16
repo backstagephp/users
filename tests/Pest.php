@@ -1,5 +1,5 @@
 <?php
 
-use Backstage\UserManagement\Tests\TestCase;
+use Backstage\Users\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

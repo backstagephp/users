@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement\Resources\UserResource\Pages;
+namespace Backstage\Users\Resources\UserResource\Pages;
 
-use Backstage\UserManagement\Resources\UserResource;
+use Backstage\Users\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

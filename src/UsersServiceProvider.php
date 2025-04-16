@@ -1,35 +1,35 @@
 <?php
 
-namespace Backstage\UserManagement;
+namespace Backstage\Users;
 
-use Backstage\UserManagement\Commands\UserManagementCommand;
-use Backstage\UserManagement\Events\UserCreated;
-use Backstage\UserManagement\Events\WebTrafficDetected;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleAttached;
-use Backstage\UserManagement\Listeners\Permissions\LogRoleDetached;
-use Backstage\UserManagement\Listeners\RecordUserMovements;
-use Backstage\UserManagement\Listeners\SendInvitationMail;
-use Backstage\UserManagement\Listeners\UserLogin;
-use Backstage\UserManagement\Listeners\UserLogout;
-use Backstage\UserManagement\Models\User;
-use Backstage\UserManagement\Testing\TestsUserManagement;
-use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
+use Backstage\Users\Models\User;
+use Filament\Support\Assets\Css;
 use Illuminate\Auth\Events\Login;
+use Filament\Support\Assets\Asset;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Event;
-use Livewire\Features\SupportTesting\Testable;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\Users\Events\UserCreated;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Backstage\Users\Listeners\UserLogin;
+use Backstage\Users\Listeners\UserLogout;
+use Backstage\Users\Commands\UsersCommand;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\AlpineComponent;
+use Backstage\Users\Events\WebTrafficDetected;
+use Livewire\Features\SupportTesting\Testable;
+use Backstage\Users\Testing\TestsUsers;
+use Backstage\Users\Listeners\SendInvitationMail;
 use Spatie\Permission\Events as PermissionEvents;
+use Backstage\Users\Listeners\RecordUserMovements;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\Users\Listeners\Permissions\LogRoleAttached;
+use Backstage\Users\Listeners\Permissions\LogRoleDetached;
 
-class UserManagementServiceProvider extends PackageServiceProvider
+class UsersServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'backstage:users';
 
@@ -121,7 +121,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
         }
 
         // Testing
-        Testable::mixin(new TestsUserManagement);
+        Testable::mixin(new TestsUsers);
 
         // User management
         Event::listen(Login::class, UserLogin::class);
@@ -141,7 +141,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
             'backstage.users.eloquent.users.model',
             User::class
         )::observe(
-            config('backstage.users.eloquent.users.observer', \Backstage\UserManagement\Observers\UserObserver::class)
+            config('backstage.users.eloquent.users.observer', \Backstage\Users\Observers\UserObserver::class)
         );
     }
 
@@ -168,7 +168,7 @@ class UserManagementServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            UserManagementCommand::class,
+            UsersCommand::class,
         ];
     }
 

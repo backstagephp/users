@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\UserManagement\Http\Middleware;
+namespace Backstage\Users\Http\Middleware;
 
-use Backstage\UserManagement\Events\WebTrafficDetected;
+use Backstage\Users\Events\WebTrafficDetected;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
