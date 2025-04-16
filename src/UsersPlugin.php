@@ -5,11 +5,7 @@ namespace Backstage\Users;
 use Filament\Panel;
 use Livewire\Livewire;
 use Filament\Contracts\Plugin;
-use Filament\Navigation\MenuItem;
 use Filament\View\PanelsRenderHook;
-use Illuminate\Support\Facades\Blade;
-use Filament\Actions\Modal\Actions\Action;
-use Filament\Support\Facades\FilamentView;
 use Backstage\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Users\Components\ToggleSubNavigationType;
 use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
@@ -29,7 +25,6 @@ class UsersPlugin implements Plugin
 
             config('backstage.users.resources.users-tags', Resources\UsersTagResource::class),
         ]);
-
 
         $middleware = [];
 
@@ -52,7 +47,6 @@ class UsersPlugin implements Plugin
         if (config('backstage.users.record.can_toggle_sub_navigation', true)) {
             $this->initSubNavigationToggle($panel);
         }
-
 
         $panel->middleware($middleware);
 
