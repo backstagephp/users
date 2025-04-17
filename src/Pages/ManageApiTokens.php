@@ -8,10 +8,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -21,9 +19,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ManageApiTokens extends Page implements HasTable
 {
-    use InteractsWithTable;
-    use InteractsWithForms;
     use InteractsWithFormActions;
+    use InteractsWithForms;
+    use InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -41,7 +39,7 @@ class ManageApiTokens extends Page implements HasTable
         return config('backstage.users.record.manage-api-tokens', false);
     }
 
-    protected function getTableQuery(): Builder|Relation|null
+    protected function getTableQuery(): Builder | Relation | null
     {
         return Filament::auth()->user()->tokens()->getQuery();
     }
@@ -49,7 +47,7 @@ class ManageApiTokens extends Page implements HasTable
     public function getFormActions(): array
     {
         return [
-            $this->getSubmitFormActions()
+            $this->getSubmitFormActions(),
         ];
     }
 
@@ -75,7 +73,6 @@ class ManageApiTokens extends Page implements HasTable
             ])
             ->statePath('data');
     }
-
 
     public function create()
     {
