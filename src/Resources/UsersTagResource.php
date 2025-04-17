@@ -20,7 +20,7 @@ class UsersTagResource extends Resource
     {
         return UserResource::getNavigationLabel();
     }
-    
+
     public static function getNavigationGroup(): ?string
     {
         return UserResource::getNavigationGroup();
