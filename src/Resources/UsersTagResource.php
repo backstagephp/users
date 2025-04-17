@@ -20,7 +20,7 @@ class UsersTagResource extends Resource
     {
         return  config('backstage.users.resources.users', UserResource::class)::getNavigationLabel();
     }
-    
+
     public static function getNavigationGroup(): ?string
     {
         return  config('backstage.users.resources.users', UserResource::class)::getNavigationGroup();
