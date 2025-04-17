@@ -18,14 +18,13 @@ class UsersTagResource extends Resource
 
     public static function getNavigationParentItem(): ?string
     {
-        return  config('backstage.users.resources.users', UserResource::class)::getNavigationLabel();
+        return config('backstage.users.resources.users', UserResource::class)::getNavigationLabel();
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return  config('backstage.users.resources.users', UserResource::class)::getNavigationGroup();
+        return config('backstage.users.resources.users', UserResource::class)::getNavigationGroup();
     }
-
 
     public static function form(Form $form): Form
     {
