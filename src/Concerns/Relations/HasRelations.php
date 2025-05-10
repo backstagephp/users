@@ -7,4 +7,5 @@ trait HasRelations
     use HasLoginsRelation;
     use HasTags;
     use HasTraffic;
+    use HasNotificationPreferences;
 }
