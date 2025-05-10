@@ -2,9 +2,9 @@
 
 namespace Backstage\Users\Models;
 
+use Backstage\Users\Enums\NotificationType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Backstage\Users\Enums\NotificationType;
 
 class UserNotificationPreference extends Model
 {

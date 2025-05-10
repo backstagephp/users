@@ -214,7 +214,7 @@ class UsersServiceProvider extends PackageServiceProvider
             'create_users_tags_table',
             'user_password_nullable',
             'add_sub_navigation_preference_to_users_table',
-            'create_user_notification_preferences_table'
+            'create_user_notification_preferences_table',
         ];
     }
 }
