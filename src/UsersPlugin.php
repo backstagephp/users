@@ -5,14 +5,23 @@ namespace Backstage\Users;
 use Backstage\Users\Components\ToggleSubNavigationType;
 use Backstage\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Users\Pages\Auth\Profile;
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\MenuItem;
 use Filament\Panel;
+use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
 use Livewire\Livewire;
 
 class UsersPlugin implements Plugin
 {
+    use EvaluatesClosures;
+
+    public bool | Closure $profile = true;
+
+    public bool | Closure $isSimple = true;
+
     public function getId(): string
     {
         return 'users';
@@ -63,10 +72,14 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             MenuItem::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
+
+        if ($this->isProfileEnabled()) {
+            $panel->profile(page: Profile::class, isSimple: $this->isSimpleProfile());
+        }
     }
 
     public function boot(Panel $panel): void
@@ -92,5 +105,24 @@ class UsersPlugin implements Plugin
         $panel->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, function () {
             return Livewire::mount(ToggleSubNavigationType::class, []);
         });
+    }
+
+    public function profile(bool | Closure $uses = true, bool | Closure $isSimple = true): self
+    {
+        $this->profile = $uses;
+
+        $this->isSimple = $isSimple;
+
+        return $this;
+    }
+
+    public function isProfileEnabled(): bool
+    {
+        return $this->evaluate($this->profile);
+    }
+
+    public function isSimpleProfile(): bool
+    {
+        return $this->evaluate($this->isSimple);
     }
 }
