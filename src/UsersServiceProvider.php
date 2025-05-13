@@ -181,7 +181,7 @@ class UsersServiceProvider extends PackageServiceProvider
         $files = File::allFiles($migrationPath);
 
         $migrations = collect($files)
-            ->map(fn(SplFileInfo $splFile) => str($splFile->getBasename())->before('.')->toString())
+            ->map(fn (SplFileInfo $splFile) => str($splFile->getBasename())->before('.')->toString())
             ->toArray();
 
         return [
