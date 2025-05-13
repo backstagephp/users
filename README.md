@@ -14,47 +14,10 @@ This is where your description should go. Limit it to a paragraph or two. Consid
 You can install the package via composer:
 
 ```bash
-composer require backstage/user-management
+composer require backstage/users && php artisan backstage:users:install
 ```
 
-You can publish and run the migrations with:
 
-```bash
-php artisan vendor:publish --tag="user-management-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="user-management-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="user-management-views"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-## Usage
-
-```php
-$users = new Backstage\Filament\Users\Users();
-echo $users->echoPhrase('Hello, Backstage!');
-```
-
-## Testing
-
-```bash
-composer test
-```
 
 ## Changelog
 
