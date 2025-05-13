@@ -6,8 +6,8 @@ use Backstage\Filament\Users\Exports\UserExporter;
 use Backstage\Filament\Users\Imports\UserImporter;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Resources\UserResource\Pages;
-use Backstage\Filament\Users\Scopes\VerifiedUser;
 use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
+use Backstage\Laravel\Users\Eloquent\Scopes\VerifiedUser;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,7 +19,7 @@ class UserResource extends Resource
 {
     public static function getModel(): string
     {
-        return config('backstage.users.eloquent.users.model', User::class);
+        return User::class;
     }
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
@@ -65,12 +65,6 @@ class UserResource extends Resource
 
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('tags')
-                    ->badge()
-                    ->getStateUsing(function ($record) {
-                        return $record->usersTags->pluck('name')->toArray();
-                    }),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -78,11 +78,16 @@ class ManageApiTokens extends Page implements HasTable
     {
         $state = $this->form->getState();
 
-        $token = Filament::auth()->user()->createToken($state['name']);
+        /**
+         * @var \Backstage\Filament\Users\Models\User $user
+         */
+        $user = Filament::auth()->user();
+
+        $token = $user->createToken($state['name']);
 
         Notification::make()
             ->title(__('Token created'))
-            ->body(__('Please save this token:: :token', ['token' => $token->plainTextToken]))
+            ->body(__('Please save this token: :token', ['token' => $token->plainTextToken]))
             ->success()
             ->persistent()
             ->send();

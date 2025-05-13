@@ -9,6 +9,11 @@ trait HasSubNavigationPosition
 {
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        return Filament::auth()->user()->getSubNavigationPreference();
+        /**
+         * @var \Backstage\Laravel\Users\Eloquent\Models\User $user
+         */
+        $user = Filament::auth()->user();
+
+        return $user->getSubNavigationPreference();
     }
 }

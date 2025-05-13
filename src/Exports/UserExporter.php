@@ -2,7 +2,7 @@
 
 namespace Backstage\Filament\Users\Exports;
 
-use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Resources\UserResource;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
@@ -11,7 +11,7 @@ class UserExporter extends Exporter
 {
     public static function getModel(): string
     {
-        return config('backstage.users.eloquent.users.model', User::class);
+        return UserResource::getModel();
     }
 
     public static function getColumns(): array

@@ -7,7 +7,4 @@ use Livewire\Features\SupportTesting\Testable;
 /**
  * @mixin Testable
  */
-class TestsUsers
-{
-    //
-}
+class TestsUsers {}

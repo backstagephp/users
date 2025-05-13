@@ -2,8 +2,8 @@
 
 namespace Backstage\Filament\Users\Widgets;
 
-use Backstage\Filament\Users\Models\UserTraffic;
 use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Laravel\Users\Eloquent\Models\UserTraffic;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as WidgetsStatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

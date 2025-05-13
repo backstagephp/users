@@ -3,8 +3,8 @@
 namespace Backstage\Filament\Users;
 
 use Backstage\Filament\Users\Components\ToggleSubNavigationType;
-use Backstage\Filament\Users\Http\Middleware\DetectUserTraffic;
 use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\MenuItem;
 use Filament\Panel;
@@ -22,25 +22,21 @@ class UsersPlugin implements Plugin
     {
         $panel->resources([
             config('backstage.users.resources.users', Resources\UserResource::class),
-
-            config('backstage.users.resources.users-tags', Resources\UsersTagResource::class),
         ]);
 
         $middleware = [];
 
-        if (config('backstage.users.record.user_must_verify', false)) {
-            $panel->emailVerification();
+        $panel->emailVerification();
 
-            $panel->requiresEmailVerification();
+        $panel->requiresEmailVerification();
 
-            $panel->emailVerificationRoutePrefix('email-verification');
-            $panel->emailVerificationPromptRouteSlug('prompt');
-            $panel->emailVerificationRouteSlug('verify');
+        $panel->emailVerificationRoutePrefix('email-verification');
+        $panel->emailVerificationPromptRouteSlug('prompt');
+        $panel->emailVerificationRouteSlug('verify');
 
-            $middleware[] = RedirectUnverifiedUsers::class;
-        }
+        $middleware[] = RedirectUnverifiedUsers::class;
 
-        if (config('backstage.users.record.user_traffic', true)) {
+        if (config('users.events.requests.web_traffic.enabled', true)) {
             $middleware[] = DetectUserTraffic::class;
         }
 

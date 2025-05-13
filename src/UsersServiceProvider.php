@@ -2,16 +2,7 @@
 
 namespace Backstage\Filament\Users;
 
-use Backstage\Filament\Users\Commands\UsersCommand;
 use Backstage\Filament\Users\Components\ToggleSubNavigationType;
-use Backstage\Filament\Users\Events\UserCreated;
-use Backstage\Filament\Users\Events\WebTrafficDetected;
-use Backstage\Filament\Users\Listeners\Permissions\LogRoleAttached;
-use Backstage\Filament\Users\Listeners\Permissions\LogRoleDetached;
-use Backstage\Filament\Users\Listeners\RecordUserMovements;
-use Backstage\Filament\Users\Listeners\SendInvitationMail;
-use Backstage\Filament\Users\Listeners\UserLogin;
-use Backstage\Filament\Users\Listeners\UserLogout;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Testing\TestsUsers;
 use Filament\Support\Assets\Asset;
@@ -19,16 +10,14 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\Permission\Events as PermissionEvents;
+use SplFileInfo;
 
 class UsersServiceProvider extends PackageServiceProvider
 {
@@ -53,7 +42,7 @@ class UsersServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('backstage/user-management');
+                    ->askToStarRepoOnGitHub('backstage/users');
 
                 // Execute install:api command
                 $command->endWith(function () use ($command) {
@@ -62,11 +51,15 @@ class UsersServiceProvider extends PackageServiceProvider
                     ]);
 
                     $command->call('vendor:publish', [
-                        '--tag' => 'permission-migrations',
+                        '--provider' => 'Backstage\Laravel\Users\LaravelUsersServiceProvider',
                     ]);
 
                     $command->call('vendor:publish', [
-                        '--tag' => 'permission-config',
+                        '--provider' => 'Backstage\Filament\Users\UsersServiceProvider',
+                    ]);
+
+                    $command->call('vendor:publish', [
+                        '--provider' => 'Spatie\Permission\PermissionServiceProvider',
                     ]);
 
                     $command->call('vendor:publish', [
@@ -124,27 +117,6 @@ class UsersServiceProvider extends PackageServiceProvider
         // Testing
         Testable::mixin(new TestsUsers);
 
-        // User management
-        Event::listen(Login::class, UserLogin::class);
-        Event::listen(Logout::class, UserLogout::class);
-        Event::listen(WebTrafficDetected::class, RecordUserMovements::class);
-
-        if (config('permission.events_enabled')) {
-            Event::listen(PermissionEvents\RoleDetached::class, LogRoleDetached::class);
-            Event::listen(PermissionEvents\RoleAttached::class, LogRoleAttached::class);
-            Event::listen(PermissionEvents\PermissionAttached::class);
-            Event::listen(PermissionEvents\PermissionDetached::class);
-        }
-
-        Event::listen(UserCreated::class, SendInvitationMail::class);
-
-        config(
-            'backstage.users.eloquent.users.model',
-            User::class
-        )::observe(
-            config('backstage.users.eloquent.users.observer', \Backstage\Filament\Users\Observers\UserObserver::class)
-        );
-
         Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);
     }
 
@@ -170,9 +142,7 @@ class UsersServiceProvider extends PackageServiceProvider
      */
     protected function getCommands(): array
     {
-        return [
-            UsersCommand::class,
-        ];
+        return [];
     }
 
     /**
@@ -206,14 +176,16 @@ class UsersServiceProvider extends PackageServiceProvider
      */
     protected function getMigrations(): array
     {
+        $migrationPath = __DIR__ . '/../database/migrations/';
+
+        $files = File::allFiles($migrationPath);
+
+        $migrations = collect($files)
+            ->map(fn(SplFileInfo $splFile) => str($splFile->getBasename())->before('.')->toString())
+            ->toArray();
+
         return [
-            'create_user_logins_table',
-            'create_user_traffic_table',
-            'create_permission_event_logs_table',
-            'create_users_tags_pivot_table',
-            'create_users_tags_table',
-            'user_password_nullable',
-            'add_sub_navigation_preference_to_users_table',
+            ...$migrations,
         ];
     }
 }

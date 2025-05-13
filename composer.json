@@ -22,6 +22,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "backstage/laravel-users": "^0.0.19",
         "filament/filament": "^3.0",
         "laravel/sanctum": ">=3.3.3",
         "spatie/laravel-package-tools": "^1.15.0",

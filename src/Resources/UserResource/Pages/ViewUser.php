@@ -2,6 +2,7 @@
 
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
+use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Resources\UserResource;
 use Filament\Actions;
 use Filament\Facades\Filament;
@@ -34,7 +35,7 @@ class ViewUser extends ViewRecord
                     ->label(__('Send Password Reset Email'))
                     ->action(function ($record) {
                         /**
-                         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
+                         * @var User $user
                          * @var \Illuminate\Contracts\Auth\Authenticatable $user
                          */
                         $user = $this->record;
