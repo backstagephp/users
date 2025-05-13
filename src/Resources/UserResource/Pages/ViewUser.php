@@ -22,7 +22,7 @@ class ViewUser extends ViewRecord
         return [
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn ($record) => $record->isVerified() === false)
+                    ->visible(fn($record) => $record->isVerified() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -64,11 +64,11 @@ class ViewUser extends ViewRecord
     public function getSubheading(): string | Htmlable | null
     {
         /**
-         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
+         * @var User $user
          */
         $user = $this->record;
 
-        $verified = $user->isVerified();
+        $verified = $user->hasVerifiedEmail();
 
         $string = str(
             '<div class="text-sm text-gray-500 dark:text-gray-400">
