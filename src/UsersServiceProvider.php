@@ -1,19 +1,19 @@
 <?php
 
-namespace Backstage\Users;
+namespace Backstage\Filament\Users;
 
-use Backstage\Users\Commands\UsersCommand;
-use Backstage\Users\Components\ToggleSubNavigationType;
-use Backstage\Users\Events\UserCreated;
-use Backstage\Users\Events\WebTrafficDetected;
-use Backstage\Users\Listeners\Permissions\LogRoleAttached;
-use Backstage\Users\Listeners\Permissions\LogRoleDetached;
-use Backstage\Users\Listeners\RecordUserMovements;
-use Backstage\Users\Listeners\SendInvitationMail;
-use Backstage\Users\Listeners\UserLogin;
-use Backstage\Users\Listeners\UserLogout;
-use Backstage\Users\Models\User;
-use Backstage\Users\Testing\TestsUsers;
+use Backstage\Filament\Users\Commands\UsersCommand;
+use Backstage\Filament\Users\Components\ToggleSubNavigationType;
+use Backstage\Filament\Users\Events\UserCreated;
+use Backstage\Filament\Users\Events\WebTrafficDetected;
+use Backstage\Filament\Users\Listeners\Permissions\LogRoleAttached;
+use Backstage\Filament\Users\Listeners\Permissions\LogRoleDetached;
+use Backstage\Filament\Users\Listeners\RecordUserMovements;
+use Backstage\Filament\Users\Listeners\SendInvitationMail;
+use Backstage\Filament\Users\Listeners\UserLogin;
+use Backstage\Filament\Users\Listeners\UserLogout;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Testing\TestsUsers;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
@@ -142,7 +142,7 @@ class UsersServiceProvider extends PackageServiceProvider
             'backstage.users.eloquent.users.model',
             User::class
         )::observe(
-            config('backstage.users.eloquent.users.observer', \Backstage\Users\Observers\UserObserver::class)
+            config('backstage.users.eloquent.users.observer', \Backstage\Filament\Users\Observers\UserObserver::class)
         );
 
         Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);

@@ -1,13 +1,13 @@
 <?php
 
-namespace Backstage\Users\Resources;
+namespace Backstage\Filament\Users\Resources;
 
-use Backstage\Users\Exports\UserExporter;
-use Backstage\Users\Imports\UserImporter;
-use Backstage\Users\Models\User;
-use Backstage\Users\Resources\UserResource\Pages;
-use Backstage\Users\Scopes\VerifiedUser;
-use Backstage\Users\Widgets\StatsOverviewWidget;
+use Backstage\Filament\Users\Exports\UserExporter;
+use Backstage\Filament\Users\Imports\UserImporter;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Resources\UserResource\Pages;
+use Backstage\Filament\Users\Scopes\VerifiedUser;
+use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

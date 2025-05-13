@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Resources\UserResource\Pages;
+namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
-use Backstage\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Notifications\Auth\ResetPassword;
@@ -34,7 +34,7 @@ class ViewUser extends ViewRecord
                     ->label(__('Send Password Reset Email'))
                     ->action(function ($record) {
                         /**
-                         * @var \Backstage\Users\Concerns\HasBackstageManagement $user
+                         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
                          * @var \Illuminate\Contracts\Auth\Authenticatable $user
                          */
                         $user = $this->record;
@@ -63,7 +63,7 @@ class ViewUser extends ViewRecord
     public function getSubheading(): string | Htmlable | null
     {
         /**
-         * @var \Backstage\Users\Concerns\HasBackstageManagement $user
+         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
          */
         $user = $this->record;
 

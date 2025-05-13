@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Concerns\Conditionals;
+namespace Backstage\Filament\Users\Concerns\Conditionals;
 
 use Filament\Pages\SubNavigationPosition;
 

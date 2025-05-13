@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\Users\Listeners;
+namespace Backstage\Filament\Users\Listeners;
 
-use Backstage\Users\Events\UserCreated;
-use Backstage\Users\Notifications\Invitation;
+use Backstage\Filament\Users\Events\UserCreated;
+use Backstage\Filament\Users\Notifications\Invitation;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendInvitationMail

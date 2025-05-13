@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Imports;
+namespace Backstage\Filament\Users\Imports;
 
-use Backstage\Users\Models\User;
+use Backstage\Filament\Users\Models\User;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;

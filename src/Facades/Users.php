@@ -1,16 +1,16 @@
 <?php
 
-namespace Backstage\Users\Facades;
+namespace Backstage\Filament\Users\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Backstage\Users\Users
+ * @see \Backstage\Filament\Users\Users
  */
 class Users extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Backstage\Users\Users::class;
+        return \Backstage\Filament\Users\Users::class;
     }
 }

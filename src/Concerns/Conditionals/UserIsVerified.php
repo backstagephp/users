@@ -1,12 +1,12 @@
 <?php
 
-namespace Backstage\Users\Concerns\Conditionals;
+namespace Backstage\Filament\Users\Concerns\Conditionals;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Backstage\Users\Models\UserLogin[] $logins
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Backstage\Filament\Users\Models\UserLogin[] $logins
  * @property-read int|null $logins_count
  *
- * @mixin \Backstage\Users\Models\User
+ * @mixin \Backstage\Filament\Users\Models\User
  */
 trait UserIsVerified
 {

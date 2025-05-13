@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Models;
+namespace Backstage\Filament\Users\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

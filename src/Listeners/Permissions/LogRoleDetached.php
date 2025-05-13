@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Listeners\Permissions;
+namespace Backstage\Filament\Users\Listeners\Permissions;
 
-use Backstage\Users\Models\PermissionEventLog;
+use Backstage\Filament\Users\Models\PermissionEventLog;
 use Spatie\Permission\Events\RoleDetached;
 
 class LogRoleDetached

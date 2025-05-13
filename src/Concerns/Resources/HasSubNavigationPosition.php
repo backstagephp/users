@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Concerns\Resources;
+namespace Backstage\Filament\Users\Concerns\Resources;
 
 use Filament\Facades\Filament;
 use Filament\Pages\SubNavigationPosition;

@@ -1,5 +1,5 @@
 <?php
 
-namespace Backstage\Users;
+namespace Backstage\Filament\Users;
 
 class Users {}

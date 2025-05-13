@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\Users\Resources;
+namespace Backstage\Filament\Users\Resources;
 
-use Backstage\Users\Models\UsersTag;
-use Backstage\Users\Resources\UsersTagResource\Pages;
+use Backstage\Filament\Users\Models\UsersTag;
+use Backstage\Filament\Users\Resources\UsersTagResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

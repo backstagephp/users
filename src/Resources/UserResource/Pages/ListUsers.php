@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Resources\UserResource\Pages;
+namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
-use Backstage\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
@@ -22,7 +22,7 @@ class ListUsers extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            \Backstage\Users\Widgets\StatsOverviewWidget::class,
+            \Backstage\Filament\Users\Widgets\StatsOverviewWidget::class,
         ];
     }
 

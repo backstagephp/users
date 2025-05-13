@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Events;
+namespace Backstage\Filament\Users\Events;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -15,7 +15,7 @@ class UserCreated
     /**
      * The user instance.
      *
-     * @var \Backstage\Users\
+     * @var \Backstage\Filament\Users\
      */
     public function __construct(public $user) {}
 }

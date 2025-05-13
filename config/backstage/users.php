@@ -2,10 +2,10 @@
 
 // config for Backstage/Users
 
-use Backstage\Users\Models;
-use Backstage\Users\Pages\ManageApiTokens;
-use Backstage\Users\Resources\UserResource;
-use Backstage\Users\Resources\UsersTagResource;
+use Backstage\Filament\Users\Models;
+use Backstage\Filament\Users\Pages\ManageApiTokens;
+use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UsersTagResource;
 
 return [
     'resources' => [
@@ -21,7 +21,7 @@ return [
         'users' => [
             'model' => Models\User::class,
             'table' => 'users',
-            'observer' => \Backstage\Users\Observers\UserObserver::class,
+            'observer' => \Backstage\Filament\Users\Observers\UserObserver::class,
         ],
 
         'user_logins' => [

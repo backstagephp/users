@@ -42,16 +42,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Backstage\\Users\\": "src/",
-            "Backstage\\Users\\Database\\Factories\\": "database/factories/"
-        },
-        "files": [
-            "helpers.php"
-        ]
+            "Backstage\\Filament\\Users\\": "src/",
+            "Backstage\\Filament\\Users\\Database\\Factories\\": "database/factories/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Backstage\\Users\\Tests\\": "tests/",
+            "Backstage\\Filament\\Users\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
             "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -90,11 +87,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Backstage\\Users\\UsersServiceProvider",
-                "Backstage\\Users\\RegisterUserPanelProvider"
+                "Backstage\\Filament\\Users\\UsersServiceProvider",
+                "Backstage\\Filament\\Users\\RegisterUserPanelProvider"
             ],
             "aliases": {
-                "Users": "Backstage\\Users\\Facades\\Users"
+                "Users": "Backstage\\Filament\\Users\\Facades\\Users"
             }
         }
     },

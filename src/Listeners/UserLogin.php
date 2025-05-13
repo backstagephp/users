@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Listeners;
+namespace Backstage\Filament\Users\Listeners;
 
 use Illuminate\Auth\Events\Login;
 
@@ -9,7 +9,7 @@ class UserLogin
     public function handle(Login $event)
     {
         /**
-         * @var \Backstage\Users\Concerns\HasBackstageManagement $user
+         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
          */
         $user = $event->user;
 

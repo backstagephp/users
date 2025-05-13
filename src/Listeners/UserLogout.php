@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Listeners;
+namespace Backstage\Filament\Users\Listeners;
 
 use Illuminate\Auth\Events\Logout;
 
@@ -9,7 +9,7 @@ class UserLogout
     public function handle(Logout $event)
     {
         /**
-         * @var \Backstage\Users\Concerns\HasBackstageManagement $user
+         * @var \Backstage\Filament\Users\Concerns\HasBackstageManagement $user
          */
         $user = $event->user;
 

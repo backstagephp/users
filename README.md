@@ -46,7 +46,7 @@ return [
 ## Usage
 
 ```php
-$users = new Backstage\Users\Users();
+$users = new Backstage\Filament\Users\Users();
 echo $users->echoPhrase('Hello, Backstage!');
 ```
 

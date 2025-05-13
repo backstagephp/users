@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Resources\UserResource\RelationManagers;
+namespace Backstage\Filament\Users\Resources\UserResource\RelationManagers;
 
-use Backstage\Users\Resources\UsersTagResource;
+use Backstage\Filament\Users\Resources\UsersTagResource;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Backstage\Users\Models;
+namespace Backstage\Filament\Users\Models;
 
-use Backstage\Users\Concerns;
-use Backstage\Users\Scopes\VerifiedUser;
+use Backstage\Filament\Users\Concerns;
+use Backstage\Filament\Users\Scopes\VerifiedUser;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;

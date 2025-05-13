@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Concerns\Relations;
+namespace Backstage\Filament\Users\Concerns\Relations;
 
 trait HasTraffic
 {
@@ -11,6 +11,6 @@ trait HasTraffic
      */
     public function traffic()
     {
-        return $this->hasMany(config('backstage.users.eloquent.user_traffic.model', \Backstage\Users\Models\UserTraffic::class), 'user_id');
+        return $this->hasMany(config('backstage.users.eloquent.user_traffic.model', \Backstage\Filament\Users\Models\UserTraffic::class), 'user_id');
     }
 }

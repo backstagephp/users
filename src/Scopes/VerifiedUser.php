@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Scopes;
+namespace Backstage\Filament\Users\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

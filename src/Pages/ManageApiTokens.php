@@ -1,6 +1,6 @@
 <?php
 
-namespace Backstage\Users\Pages;
+namespace Backstage\Filament\Users\Pages;
 
 use Filament\Actions\Action;
 use Filament\Facades\Filament;

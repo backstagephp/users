@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Listeners;
+namespace Backstage\Filament\Users\Listeners;
 
-use Backstage\Users\Events\WebTrafficDetected;
+use Backstage\Filament\Users\Events\WebTrafficDetected;
 
 class RecordUserMovements
 {

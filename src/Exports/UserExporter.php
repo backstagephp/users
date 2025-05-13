@@ -1,8 +1,8 @@
 <?php
 
-namespace Backstage\Users\Exports;
+namespace Backstage\Filament\Users\Exports;
 
-use Backstage\Users\Models\User;
+use Backstage\Filament\Users\Models\User;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;

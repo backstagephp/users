@@ -1,10 +1,10 @@
 <?php
 
-namespace Backstage\Users;
+namespace Backstage\Filament\Users;
 
-use Backstage\Users\Components\ToggleSubNavigationType;
-use Backstage\Users\Http\Middleware\DetectUserTraffic;
-use Backstage\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Filament\Users\Components\ToggleSubNavigationType;
+use Backstage\Filament\Users\Http\Middleware\DetectUserTraffic;
+use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\MenuItem;
 use Filament\Panel;
