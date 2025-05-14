@@ -1,13 +1,13 @@
 <?php
 
-namespace Backstage\Users\Pages\Auth;
+namespace Backstage\Filament\Users\Pages\Auth;
 
+use Filament\Pages\Auth\EditProfile as BaseEditProfile;
+use Filament\Forms\Components\Select;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Laravel\Users\Enums\NotificationType;
-use Filament\Forms\Components\Select;
-use Filament\Pages\Auth\EditProfile;
 
-class Profile extends EditProfile
+class EditProfile extends BaseEditProfile
 {
     protected function getForms(): array
     {
@@ -36,21 +36,21 @@ class Profile extends EditProfile
         $options = [];
 
         foreach ($types as $type) {
-            $options[$type->value] = $type->label();
+            $options[$type->value] =  $type->label();
         }
 
         return Select::make('notification_preferences')
             ->label(__('Notification preferences'))
-            ->options(fn () => $options)
+            ->options(fn() => $options)
             ->live()
-            ->placeholder(fn () => ('Select notification preferences'))
+            ->placeholder(fn() => ('Select notification preferences'))
             ->searchingMessage(__('Searching notification types...'))
             ->searchPrompt(__('Search notification types...'))
             ->saveRelationshipsUsing(function (User $record, array $state) {
-                $state = collect($state)->map(fn ($value) => NotificationType::from($value));
+                $state  = collect($state)->map(fn($value) => NotificationType::from($value));
 
                 $state->each(function (NotificationType $type) use ($record) {
-                    if (! $record->notificationPreferences->contains('navigation_type', $type->value)) {
+                    if (!$record->notificationPreferences->contains('navigation_type', $type->value)) {
 
                         $record->notificationPreferences()->create([
                             'navigation_type' => $type->value,
@@ -70,7 +70,7 @@ class Profile extends EditProfile
         $user = $this->getUser();
 
         if ($user->notificationPreferences->isNotEmpty()) {
-            $data['notification_preferences'] = $user->notificationPreferences->pluck('navigation_type')->map(fn (NotificationType $record) => $record->value)->toArray();
+            $data['notification_preferences'] = $user->notificationPreferences->pluck('navigation_type')->map(fn(NotificationType $record) => $record->value)->toArray();
         }
 
         return $data;
