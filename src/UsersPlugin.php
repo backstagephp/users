@@ -5,14 +5,20 @@ namespace Backstage\Filament\Users;
 use Backstage\Filament\Users\Components\ToggleSubNavigationType;
 use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\MenuItem;
 use Filament\Panel;
+use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
 use Livewire\Livewire;
 
 class UsersPlugin implements Plugin
 {
+    use EvaluatesClosures;
+
+    public Closure|bool $canManageUsers = true;
+
     public function getId(): string
     {
         return 'users';
@@ -59,9 +65,9 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             MenuItem::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
     }
 
@@ -88,5 +94,17 @@ class UsersPlugin implements Plugin
         $panel->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, function () {
             return Livewire::mount(ToggleSubNavigationType::class, []);
         });
+    }
+
+    public function canManageUsers(bool|Closure $condition = true): static
+    {
+        $this->canManageUsers = $condition;
+
+        return $this;
+    }
+
+    public function canManageUsersCondition(): bool
+    {
+        return $this->evaluate($this->canManageUsers);
     }
 }

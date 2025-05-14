@@ -6,6 +6,7 @@ use Backstage\Filament\Users\Exports\UserExporter;
 use Backstage\Filament\Users\Imports\UserImporter;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Resources\UserResource\Pages;
+use Backstage\Filament\Users\UsersPlugin;
 use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
 use Backstage\Laravel\Users\Eloquent\Scopes\VerifiedUser;
 use Filament\Forms;
@@ -17,12 +18,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    public static function canAccess(): bool
+    {
+        return UsersPlugin::get()->canManageUsersCondition();
+    }
+
     public static function getModel(): string
     {
         return User::class;
     }
-
-    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function getEloquentQuery(): Builder
     {
