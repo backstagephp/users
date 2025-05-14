@@ -2,10 +2,11 @@
 
 namespace Backstage\Filament\Users\Pages\Auth;
 
-use Backstage\Filament\Users\Models\User;
-use Backstage\Laravel\Users\Enums\NotificationType;
-use Filament\Forms\Components\Select;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
+use Filament\Forms\Components\Select;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Laravel\Users\Eloquent\Models\UserNotificationPreference;
+use Backstage\Laravel\Users\Enums\NotificationType;
 
 class EditProfile extends BaseEditProfile
 {
@@ -36,31 +37,38 @@ class EditProfile extends BaseEditProfile
         $options = [];
 
         foreach ($types as $type) {
-            $options[$type->value] = $type->label();
+            $options[$type->value] =  $type->label();
         }
 
         return Select::make('notification_preferences')
             ->label(__('Notification preferences'))
-            ->options(fn () => $options)
+            ->options(fn() => $options)
             ->live()
-            ->placeholder(fn () => ('Select notification preferences'))
+            ->placeholder(fn() => ('Select notification preferences'))
             ->searchingMessage(__('Searching notification types...'))
             ->searchPrompt(__('Search notification types...'))
-            ->saveRelationshipsUsing(function (User $record, array $state) {
-                $state = collect($state)->map(fn ($value) => NotificationType::from($value));
-
-                $state->each(function (NotificationType $type) use ($record) {
-                    if (! $record->notificationPreferences->contains('navigation_type', $type->value)) {
-
-                        $record->notificationPreferences()->create([
-                            'navigation_type' => $type->value,
-                        ]);
-                    }
-                });
-
-                $record->notificationPreferences()->whereNotIn('navigation_type', $state)->delete();
-            })
+            ->preload()
             ->multiple();
+    }
+
+    public function saveNotificationPreferences()
+    {
+        $formState = $this->form->getState();
+
+        $state = $formState['notification_preferences'];
+
+        $state  = collect($state)->map(fn($value) => NotificationType::from($value));
+
+        $record = $this->getUser();
+
+        $state->each(function (NotificationType $type) use ($record) {
+            if (!$record->notificationPreferences->contains('navigation_type', $type->value)) {
+
+                $record->notificationPreferences()->create([
+                    'navigation_type' => $type->value,
+                ]);
+            }
+        });
     }
 
     protected function mutateFormDataBeforeFill(array $data): array
@@ -70,7 +78,7 @@ class EditProfile extends BaseEditProfile
         $user = $this->getUser();
 
         if ($user->notificationPreferences->isNotEmpty()) {
-            $data['notification_preferences'] = $user->notificationPreferences->pluck('navigation_type')->map(fn (NotificationType $record) => $record->value)->toArray();
+            $data['notification_preferences'] = $user->notificationPreferences->pluck('navigation_type')->map(fn(NotificationType $record) => $record->value)->toArray();
         }
 
         return $data;
