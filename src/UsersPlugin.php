@@ -17,7 +17,7 @@ class UsersPlugin implements Plugin
 {
     use EvaluatesClosures;
 
-    public Closure|bool $canManageUsers = true;
+    public Closure | bool $canManageUsers = true;
 
     public function getId(): string
     {
@@ -65,9 +65,9 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             MenuItem::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
     }
 
@@ -96,7 +96,7 @@ class UsersPlugin implements Plugin
         });
     }
 
-    public function canManageUsers(bool|Closure $condition = true): static
+    public function canManageUsers(bool | Closure $condition = true): static
     {
         $this->canManageUsers = $condition;
 
