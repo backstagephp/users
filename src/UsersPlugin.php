@@ -26,9 +26,11 @@ class UsersPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->resources([
-            config('backstage.users.resources.users', Resources\UserResource::class),
-        ]);
+        if (config('backstage.users.resources.users') !== null) {
+            $panel->resources([
+                config('backstage.users.resources.users', Resources\UserResource::class),
+            ]);
+        }
 
         $middleware = [];
 
@@ -65,9 +67,9 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             MenuItem::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
     }
 
