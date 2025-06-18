@@ -2,7 +2,7 @@
 
 namespace Backstage\Filament\Users\Concerns\Conditionals;
 
-use Filament\Pages\SubNavigationPosition;
+use Filament\Pages\Enums\SubNavigationPosition;
 
 trait HasSubNavigationPreference
 {

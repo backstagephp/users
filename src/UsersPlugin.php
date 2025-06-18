@@ -12,6 +12,7 @@ use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
 use Livewire\Livewire;
+use Backstage\Filament\Users\Resources;
 
 class UsersPlugin implements Plugin
 {
@@ -28,7 +29,8 @@ class UsersPlugin implements Plugin
     {
         if (config('backstage.users.resources.users') !== null) {
             $panel->resources([
-                config('backstage.users.resources.users', Resources\UserResource::class),
+                config('backstage.users.resources.users', Resources\UserResource\UserResource::class),
+                config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class),
             ]);
         }
 
@@ -67,9 +69,9 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             MenuItem::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
     }
 

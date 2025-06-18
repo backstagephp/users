@@ -132,7 +132,7 @@ class UsersServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('user-management', __DIR__ . '/../resources/dist/components/user-management.js'),
-            Css::make('user-management-styles', __DIR__ . '/../resources/dist/user-management.css'),
+            // Css::make('user-management-styles', __DIR__ . '/../resources/dist/user-management.css'),
             // Js::make('user-management-scripts', __DIR__ . '/../resources/dist/user-management.js'),
         ];
     }

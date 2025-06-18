@@ -3,7 +3,7 @@
 namespace Backstage\Filament\Users\Concerns\Resources;
 
 use Filament\Facades\Filament;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Pages\Enums\SubNavigationPosition;
 
 trait HasSubNavigationPosition
 {

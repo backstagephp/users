@@ -2,10 +2,10 @@
 
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
-use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Colors\Color;
 
 class ListUsers extends ListRecords
@@ -29,12 +29,12 @@ class ListUsers extends ListRecords
     public function getTabs(): array
     {
         return [
-            Tab::make(__('Users'))
+            'users' => Tab::make(__('Users'))
                 ->badge(static::getResource()::getEloquentQuery()->verified()->count())
                 ->badgeColor(Color::Green)
                 ->modifyQueryUsing(fn ($query) => $query->verified()),
 
-            Tab::make(__('Pending'))
+            'pending' => Tab::make(__('Pending'))
                 ->badge(static::getResource()::getEloquentQuery()->unverified()->count())
                 ->badgeColor(Color::Red)
                 ->modifyQueryUsing(fn ($query) => $query->unverified()),

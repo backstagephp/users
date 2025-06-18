@@ -6,28 +6,31 @@ use Backstage\Filament\Users\Models\User;
 use Filament\Actions\Action;
 use Filament\Events\Auth\Registered;
 use Filament\Facades\Filament;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Auth\Register;
 use Filament\Pages\Concerns\CanUseDatabaseTransactions;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class RegisterFromInvitationPage extends Page implements HasForms
+class RegisterFromInvitationPage extends Page implements HasSchemas
 {
     use CanUseDatabaseTransactions;
     use InteractsWithFormActions;
-    use InteractsWithForms;
+    use InteractsWithSchemas;
 
     protected static ?string $slug = '/{userId}';
 
-    protected static string $view = 'backstage/users::pages.register';
+    public function getView(): string
+    {
+        return 'backstage/users::pages.register';
+    }
 
     protected static string $layout = 'filament-panels::components.layout.simple';
 

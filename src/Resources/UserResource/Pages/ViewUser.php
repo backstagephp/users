@@ -3,11 +3,11 @@
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
 use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Filament\Actions;
+use Filament\Auth\Notifications\ResetPassword;
+use Filament\Auth\Notifications\VerifyEmail;
 use Filament\Facades\Filament;
-use Filament\Notifications\Auth\ResetPassword;
-use Filament\Notifications\Auth\VerifyEmail;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Blade;
@@ -22,7 +22,7 @@ class ViewUser extends ViewRecord
         return [
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn (User $record) => $record->hasVerifiedEmail() === false)
+                    ->visible(fn (User $record): bool => $record->hasVerifiedEmail() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -33,7 +33,7 @@ class ViewUser extends ViewRecord
 
                 Actions\Action::make('send_password_reset_email')
                     ->label(__('Send Password Reset Email'))
-                    ->action(function ($record) {
+                    ->action(function (): void {
                         /**
                          * @var User $user
                          * @var \Illuminate\Contracts\Auth\Authenticatable $user
@@ -42,7 +42,7 @@ class ViewUser extends ViewRecord
                         /**
                          * Broker
                          *
-                         * @var \Illuminate\Auth\Passwords\PasswordBroker $broker
+                         * @var \Illuminate\Contracts\Auth\PasswordBroker $broker
                          */
                         $broker = app('auth.password.broker');
 

@@ -3,7 +3,7 @@
 namespace Backstage\Filament\Users\Imports;
 
 use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;

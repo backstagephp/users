@@ -2,7 +2,7 @@
 
 namespace Backstage\Filament\Users\Exports;
 
-use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;

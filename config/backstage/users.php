@@ -3,7 +3,7 @@
 // config for Backstage/Users
 
 use Backstage\Filament\Users\Pages\ManageApiTokens;
-use Backstage\Filament\Users\Resources\UserResource;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
 
 return [
     'resources' => [
