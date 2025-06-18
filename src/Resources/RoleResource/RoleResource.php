@@ -2,6 +2,7 @@
 
 namespace Backstage\Filament\Users\Resources\RoleResource;
 
+use BackedEnum;
 use Backstage\Filament\Users\Resources\RoleResource\Pages\CreateRole;
 use Backstage\Filament\Users\Resources\RoleResource\Pages\EditRole;
 use Backstage\Filament\Users\Resources\RoleResource\Pages\ListRoles;
@@ -9,7 +10,6 @@ use Backstage\Filament\Users\Resources\RoleResource\Pages\ViewRole;
 use Backstage\Filament\Users\Resources\RoleResource\Schemas\RoleForm;
 use Backstage\Filament\Users\Resources\RoleResource\Schemas\RoleInfolist;
 use Backstage\Filament\Users\Resources\RoleResource\Tables\RolesTable;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -28,12 +28,12 @@ class RoleResource extends Resource
         return __('User management');
     }
 
-    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return Heroicon::OutlinedShieldCheck;
     }
 
-    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    public static function getActiveNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return Heroicon::ShieldCheck;
     }

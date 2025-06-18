@@ -19,20 +19,19 @@ class ManageRoles extends ManageRelatedRecords
 
     protected static string $relationship = 'roles';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $relatedResource = RoleResource::class;
 
-    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
+    public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return RoleResource::getNavigationIcon();
     }
 
-    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    public static function getActiveNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return RoleResource::getActiveNavigationIcon();
     }
-
 
     public function table(Table $table): Table
     {
@@ -46,7 +45,7 @@ class ManageRoles extends ManageRelatedRecords
                 CreateAction::make(),
             ])
             ->pushActions([
-                DetachAction::make()
+                DetachAction::make(),
             ]);
     }
 }

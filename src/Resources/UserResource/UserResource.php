@@ -7,7 +7,6 @@ use Backstage\Filament\Users\Concerns\Resources\HasSubNavigationPosition;
 use Backstage\Filament\Users\Exports\UserExporter;
 use Backstage\Filament\Users\Imports\UserImporter;
 use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\Resources\UserResource\RelationManagers\RolesRelationManager;
 use Backstage\Filament\Users\Resources\UserResource\Schemas\UserForm;
 use Backstage\Filament\Users\Resources\UserResource\Schemas\UserInfolist;
 use Backstage\Filament\Users\UsersPlugin;
@@ -55,7 +54,7 @@ class UserResource extends Resource
         return Heroicon::OutlinedUsers;
     }
 
-    public static function getActiveNavigationIcon(): string|BackedEnum|Htmlable|null
+    public static function getActiveNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return Heroicon::Users;
     }
@@ -94,7 +93,7 @@ class UserResource extends Resource
                     ->label(__('Avatar'))
                     ->circular()
                     ->alignCenter()
-                    ->getStateUsing(fn(User $record): ?string => Filament::getUserAvatarUrl($record)),
+                    ->getStateUsing(fn (User $record): ?string => Filament::getUserAvatarUrl($record)),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
@@ -130,12 +129,12 @@ class UserResource extends Resource
             ]),
 
             NavigationGroup::make(__('Relations'))
-                ->icon(fn(): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
+                ->icon(fn (): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
                 ->items([
                     ...$page->generateNavigationItems([
                         Pages\ManageRoles::class,
                     ]),
-                ])
+                ]),
         ];
     }
 

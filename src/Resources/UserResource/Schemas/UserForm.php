@@ -3,7 +3,6 @@
 namespace Backstage\Filament\Users\Resources\UserResource\Schemas;
 
 use BackedEnum;
-use Dom\Text;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\CreateRecord;
@@ -34,14 +33,14 @@ class UserForm
 
                                         TextInput::make('email')
                                             ->label(__('Email'))
-                                            ->prefixIcon(fn(): BackedEnum => Heroicon::Envelope, true)
+                                            ->prefixIcon(fn (): BackedEnum => Heroicon::Envelope, true)
                                             ->email()
                                             ->required(),
 
                                         TextInput::make('password')
                                             ->password()
-                                            ->hidden(fn(TextInput $component): bool => $component->getLivewire() instanceof CreateRecord)
-                                            ->prefixIcon(fn(): BackedEnum => Heroicon::LockClosed, true)
+                                            ->hidden(fn (TextInput $component): bool => $component->getLivewire() instanceof CreateRecord)
+                                            ->prefixIcon(fn (): BackedEnum => Heroicon::LockClosed, true)
                                             ->revealable(),
                                     ])
                                     ->columns(2)
@@ -50,7 +49,7 @@ class UserForm
                             ->columnSpan(6),
 
                         Fieldset::make()
-                            ->hidden(fn(Fieldset $component): bool => $component->getLivewire() instanceof CreateRecord)
+                            ->hidden(fn (Fieldset $component): bool => $component->getLivewire() instanceof CreateRecord)
                             ->schema([
                                 Section::make(__('Email verification'))
                                     ->description(__('Email verification is required for users.'))
@@ -59,8 +58,8 @@ class UserForm
                                         DateTimePicker::make('email_verified_at')
                                             ->label(__('Email Verified'))
                                             ->live()
-                                            ->prefixIcon(fn(DateTimePicker $component): BackedEnum => ! $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
-                                            ->prefixIconColor(fn(DateTimePicker $component): string => ! $component->getState() ? 'danger' : 'success'),
+                                            ->prefixIcon(fn (DateTimePicker $component): BackedEnum => ! $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
+                                            ->prefixIconColor(fn (DateTimePicker $component): string => ! $component->getState() ? 'danger' : 'success'),
                                     ])
                                     ->columns(1)
                                     ->columnSpanFull(),
