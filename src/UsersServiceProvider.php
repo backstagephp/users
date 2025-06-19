@@ -2,22 +2,33 @@
 
 namespace Backstage\Filament\Users;
 
-use Backstage\Filament\Users\Components\ToggleSubNavigationType;
-use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\Testing\TestsUsers;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\File;
-use Livewire\Features\SupportTesting\Testable;
-use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use SplFileInfo;
+use Livewire\Livewire;
+use Filament\Support\Assets\Js;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Asset;
+use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Event;
+use Spatie\LaravelPackageTools\Package;
+use Backstage\Filament\Users\Models\User;
+use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentAsset;
+use Livewire\Features\SupportTesting\Testable;
+use Backstage\Filament\Users\Testing\TestsUsers;
+use Backstage\Laravel\Users\Events\Auth\UserCreated;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\Filament\Users\Events\FilamentUserCreated;
+use Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
+use Backstage\Laravel\Users\Listeners\Auth\SendInvitationMail;
+use Backstage\Filament\Users\Components\ToggleSubNavigationType;
+use Backstage\Filament\Users\Listeners\SendFilamentInvitationMail;
+use Backstage\Laravel\Users\Invitation\InvitationNotificationAction;
+use Backstage\Filament\Users\Pages\RegisterFromInvitationPage\RedirectUrlAfterRegistration;
+use Filament\Facades\Filament;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Model;
 
 class UsersServiceProvider extends PackageServiceProvider
 {
@@ -87,7 +98,29 @@ class UsersServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageRegistered(): void {}
+    public function packageRegistered(): void
+    {
+        RedirectUrlAfterRegistration::set(function (Model $user): ?string {
+            /** @var Panel[] $panels */
+            $panels = Filament::getPanels();
+
+            $user->loadMissing(['roles', 'permissions']);
+
+            $filteredPanels = collect($panels)->reject(function (Panel $panel) {
+                return $panel->getId() === 'register';
+            });
+
+            $accessiblePanels = $filteredPanels->filter(function (Panel $panel) use ($user) {
+                return $user->canAccessPanel($panel);
+            });
+
+            if ($accessiblePanels->isEmpty()) {
+                return  url('/');
+            }
+
+            return $accessiblePanels->first()->getLoginUrl();
+        });
+    }
 
     public function packageBooted(): void
     {
@@ -118,6 +151,8 @@ class UsersServiceProvider extends PackageServiceProvider
         Testable::mixin(new TestsUsers);
 
         Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);
+
+        Event::listen(FilamentUserCreated::class, SendFilamentInvitationMail::class);
     }
 
     protected function getAssetPackageName(): ?string
@@ -181,7 +216,7 @@ class UsersServiceProvider extends PackageServiceProvider
         $files = File::allFiles($migrationPath);
 
         $migrations = collect($files)
-            ->map(fn (SplFileInfo $splFile) => str($splFile->getBasename())->before('.')->toString())
+            ->map(fn(SplFileInfo $splFile) => str($splFile->getBasename())->before('.')->toString())
             ->toArray();
 
         return [

@@ -3,6 +3,7 @@
 namespace Backstage\Filament\Users\Resources\UserResource\Schemas;
 
 use BackedEnum;
+use Backstage\Filament\Users\Models\User;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
@@ -26,11 +27,11 @@ class UserInfolist
                                     ->schema([
                                         TextEntry::make('name')
                                             ->label(__('Name'))
-                                            ->icon($schema->getLivewire()::getResource()::getActiveNavigationIcon(), true),
+                                            ->icon(fn(): BackedEnum => $schema->getLivewire()::getResource()::getActiveNavigationIcon(), true),
 
                                         TextEntry::make('email')
                                             ->label(__('Email'))
-                                            ->icon(Heroicon::Envelope, true),
+                                            ->icon(fn(): BackedEnum => Heroicon::Envelope, true),
                                     ])
                                     ->columns(2)
                                     ->columnSpanFull(),
@@ -38,6 +39,7 @@ class UserInfolist
                             ->columnSpan(6),
 
                         Fieldset::make()
+                            ->visible(fn(User $record): bool => $record->hasVerifiedEmail())
                             ->schema([
                                 Section::make(__('Email verification'))
                                     ->description(__('Email verification is required for users.'))
@@ -45,8 +47,9 @@ class UserInfolist
                                     ->schema([
                                         TextEntry::make('email_verified_at')
                                             ->label(__('Email Verified At'))
-                                            ->icon(fn (TextEntry $component): BackedEnum => $component->getDefaultState() === $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
-                                            ->iconColor(fn (TextEntry $component): string => $component->getDefaultState() === $component->getState() ? 'danger' : 'success')
+                                            ->sinceTooltip()
+                                            ->icon(fn(TextEntry $component): BackedEnum => $component->getDefaultState() === $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
+                                            ->iconColor(fn(TextEntry $component): string => $component->getDefaultState() === $component->getState() ? 'danger' : 'success')
                                             ->default(__('Not Verified')),
                                     ])
                                     ->columns(1)

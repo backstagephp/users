@@ -2,16 +2,20 @@
 
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
-use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Filament\Actions;
-use Filament\Auth\Notifications\ResetPassword;
-use Filament\Auth\Notifications\VerifyEmail;
 use Filament\Facades\Filament;
-use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\HtmlString;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Resources\Pages\ViewRecord;
+use Backstage\Filament\Users\Models\User;
+use Illuminate\Contracts\Support\Htmlable;
+use Filament\Auth\Notifications\VerifyEmail;
+use Filament\Auth\Notifications\ResetPassword;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
+use Backstage\Filament\Users\Actions\GenerateSignedRegistrationUri;
 
 class ViewUser extends ViewRecord
 {
@@ -20,9 +24,21 @@ class ViewUser extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('open_register_link')
+                ->label(__('Open Registration Link'))
+                ->icon('heroicon-o-link')
+                ->action(function (Model $record) {
+                    $url = GenerateSignedRegistrationUri::run(user: $record);
+
+                    return redirect()->away($url);
+                })
+                ->visible(fn(User $record): bool => $record->userIsRegistered() === false)
+                ->requiresConfirmation()
+                ->modalDescription(__('This action will open the registration link for this user. By confirming, you will be redirected to the registration page and logged out of your current session.')),
+
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn (User $record): bool => $record->hasVerifiedEmail() === false)
+                    ->visible(fn(User $record): bool => $record->hasVerifiedEmail() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -57,6 +73,7 @@ class ViewUser extends ViewRecord
                 ->label(__('Security Actions'))
                 ->icon(false)
                 ->dropdownPlacement('bottom'),
+
             Actions\EditAction::make(),
         ];
     }

@@ -2,22 +2,36 @@
 
 namespace Backstage\Filament\Users\Pages;
 
-use Backstage\Filament\Users\Models\User;
-use Filament\Actions\Action;
-use Filament\Events\Auth\Registered;
-use Filament\Facades\Filament;
-use Filament\Forms\Components\TextInput;
-use Filament\Pages\Auth\Register;
-use Filament\Pages\Concerns\CanUseDatabaseTransactions;
-use Filament\Pages\Concerns\InteractsWithFormActions;
+use BackedEnum;
 use Filament\Pages\Page;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Filament\Facades\Filament;
+use Filament\Pages\Auth\Register;
+use Filament\Support\Enums\Width;
+use Filament\Support\Colors\Color;
+use Illuminate\Support\HtmlString;
+use Filament\Auth\Events\Registered;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Hash;
+use Filament\Schemas\Components\Form;
+use Filament\Schemas\Components\Grid;
+use Filament\Support\Enums\Alignment;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Pages\Concerns\HasMaxWidth;
+use Backstage\Filament\Users\Models\User;
+use Illuminate\Validation\Rules\Password;
 use Filament\Schemas\Components\Component;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+use Filament\Pages\Concerns\CanUseDatabaseTransactions;
+use Backstage\Filament\Users\Pages\RegisterFromInvitationPage\RedirectUrlAfterRegistration;
+use Filament\Panel;
 
 class RegisterFromInvitationPage extends Page implements HasSchemas
 {
@@ -38,12 +52,12 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
 
     public User $user;
 
-    public array $data = [];
-
-    public function getTitle(): string | Htmlable
-    {
-        return __('filament-panels::pages/auth/register.title');
-    }
+    public array $data = [
+        'name' => '',
+        'email' => '',
+        'password' => '',
+        'passwordConfirmation' => '',
+    ];
 
     public function mount($userId = null): void
     {
@@ -51,12 +65,20 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
 
         $this->user = app($this->getUserModel())::withoutGlobalScopes()->findOrFail($userId);
 
-        $this->data = [
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-            'password' => '',
-            'passwordConfirmation' => '',
-        ];
+        $this->checkUserVerification();
+
+        $this->form->fill($this->user->toArray());
+    }
+
+    protected function checkUserVerification(): void
+    {
+        if ($this->user->email_verified_at) {
+            abort(403, __('You have already registered.'));
+        }
+
+        if (Filament::auth()->check()) {
+            Filament::auth()->logout();
+        }
     }
 
     public static function hasLogo()
@@ -64,63 +86,108 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         return true;
     }
 
-    public function getForms(): array
+    public function getTitle(): string | Htmlable
+    {
+        return __('Welcome :userName', ['userName' => $this->user->name]);
+    }
+
+    protected function getLayoutData(): array
     {
         return [
-            'registerForm' => $this->makeForm()
-                ->model($this->getUserModel())
-                ->schema([
-                    $this->getNameFormComponent(),
-                    $this->getEmailFormComponent(),
-                    $this->getPasswordFormComponent(),
-                    $this->getPasswordConfirmationFormComponent(),
-                ])
-                ->statePath('data'),
-
+            'hasTopbar' => false,
         ];
+    }
+
+    public function getMaxContentWidth(): Width|string|null
+    {
+        return Width::TwoExtraLarge;
+    }
+
+    public static function getRouteMiddleware(Panel $panel): string|array
+    {
+        return ['signed'];
+    }
+
+    public function form(Schema $form)
+    {
+        return $form
+            ->statePath('data')
+            ->schema([
+                $this->getNameFormComponent(),
+
+                $this->getEmailFormComponent(),
+
+                $this->getPasswordFormComponent(),
+
+                $this->getPasswordConfirmationFormComponent(),
+
+                $this->getRegisterActionFormComponent(),
+            ])
+            ->columns(1);
     }
 
     protected function getNameFormComponent(): Component
     {
         return TextInput::make('name')
-            ->label(__('filament-panels::pages/auth/register.form.name.label'))
-            ->required()
             ->disabled()
-            ->maxLength(255)
-            ->autofocus();
+            ->hintAction($this->getExplanationAction())
+            ->prefixIcon(fn(): BackedEnum => Heroicon::OutlinedUserCircle, fn(): bool => true)
+            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->label(__('filament-panels::auth/pages/register.form.name.label'));
     }
 
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
-            ->label(__('filament-panels::pages/auth/register.form.email.label'))
-            ->email()
             ->disabled()
-            ->required()
-            ->maxLength(255);
+            ->hintAction($this->getExplanationAction())
+            ->prefixIcon(fn(): BackedEnum => Heroicon::OutlinedEnvelope, fn(): bool => true)
+            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->label(__('filament-panels::auth/pages/register.form.email.label'));
     }
 
     protected function getPasswordFormComponent(): Component
     {
         return TextInput::make('password')
-            ->label(__('filament-panels::pages/auth/register.form.password.label'))
+            ->label(__('filament-panels::auth/pages/register.form.password.label'))
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
             ->rule(Password::default())
-            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn($state) => Hash::make($state))
             ->same('passwordConfirmation')
-            ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute'));
+            ->live()
+            ->prefixIcon(fn(TextInput $component): BackedEnum => Heroicon::LockClosed, fn(): bool => true)
+            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->validationAttribute(__('filament-panels::auth/pages/register.form.password.validation_attribute'));
     }
 
     protected function getPasswordConfirmationFormComponent(): Component
     {
         return TextInput::make('passwordConfirmation')
-            ->label(__('filament-panels::pages/auth/register.form.password_confirmation.label'))
+            ->label(__('filament-panels::auth/pages/register.form.password_confirmation.label'))
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
+            ->rule(Password::default())
+            ->same('password')
+            ->live()
+            ->prefixIcon(fn(TextInput $component): BackedEnum => Heroicon::LockClosed, fn(): bool => true)
+            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
             ->dehydrated(false);
+    }
+
+    protected function getRegisterActionFormComponent(): Action
+    {
+        return Action::make('hi')
+            ->label(__('Register'))
+            ->color(fn(): ?array => static::getDefaultPanelColor())
+            ->action(fn() => $this->register());
+    }
+
+    protected static function getDefaultPanelColor(): array
+    {
+        return Filament::getDefaultPanel()->getColors()['primary'] ?? Color::Blue;
     }
 
     protected function getUserModel(): string
@@ -138,20 +205,6 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         return $this->userModel = $provider->getModel();
     }
 
-    protected function getFormActions(): array
-    {
-        return [
-            $this->getRegisterFormAction(),
-        ];
-    }
-
-    public function getRegisterFormAction(): Action
-    {
-        return Action::make('register')
-            ->label(__('filament-panels::pages/auth/register.form.actions.register.label'))
-            ->submit('register');
-    }
-
     protected function hasFullWidthFormActions(): bool
     {
         return true;
@@ -163,7 +216,7 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         $user = $this->wrapInDatabaseTransaction(function () {
             $this->callHook('beforeValidate');
 
-            $data = $this->registerForm->getState();
+            $data = $this->form->getState();
 
             $this->callHook('afterValidate');
 
@@ -173,7 +226,7 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
 
             $user = $this->handleRegistration($data);
 
-            $this->registerForm->model($user)->saveRelationships();
+            $this->form->model($user)->saveRelationships();
 
             $this->callHook('afterRegister');
 
@@ -182,9 +235,11 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
 
         event(new Registered($user));
 
-        $defaultPanel = Filament::getDefaultPanel();
+        $redirectUrl = RedirectUrlAfterRegistration::get($user);
 
-        return $this->redirect($defaultPanel->getUrl());
+        return $this->redirect($redirectUrl ?: url('/'), [
+            'success' => __('You have successfully registered.'),
+        ]);
     }
 
     protected function handleRegistration(array $data): Model
@@ -204,5 +259,32 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
     protected function mutateFormDataBeforeRegister(array $data): array
     {
         return $data;
+    }
+
+    protected function getExplanationAction(): Action
+    {
+        return Action::make('explanation')
+            ->label(__('Explanation'))
+            ->icon(fn(): BackedEnum => Heroicon::OutlinedInformationCircle)
+            ->color('secondary')
+            ->size('sm')
+            ->modal()
+            ->modalWidth(fn(): Width => Width::TwoExtraLarge)
+            ->modalIcon(fn(): BackedEnum => Heroicon::InformationCircle)
+            ->modalHeading(__('Explanation'))
+            ->modalDescription(fn(): ?Htmlable => new HtmlString(__('Information about the registration process.')))
+            ->modalContent(fn(): ?Htmlable => new HtmlString(__(
+                'You are registering as :userName with the email :email. This is because you were invited to join our platform. Your account will be created with the following details: <br>' .
+                    '<strong>Name:</strong> :userName <br>' .
+                    '<strong>Email:</strong> :email <br><br>',
+                [
+                    'userName' => $this->user->name,
+                    'email' => $this->user->email,
+                ]
+            )))
+            ->modalContentFooter(fn(): ?Htmlable => new HtmlString(__('This can later be changed in your profile settings.')))
+            ->modalFooterActionsAlignment(Alignment::Center)
+            ->modalCancelAction(fn(Action $action): Action => $action->label(__('Close')))
+            ->modalSubmitAction(fn(Action $action): Action => $action->hidden());
     }
 }

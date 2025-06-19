@@ -41,7 +41,7 @@ class UserResource extends Resource
 
     public static function getModel(): string
     {
-        return User::class;
+        return \App\Models\User::class;
     }
 
     public static function getNavigationGroup(): ?string
