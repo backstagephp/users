@@ -48,13 +48,13 @@ class ViewUser extends ViewRecord implements HasTable
 
                     return redirect()->away($url);
                 })
-                ->visible(fn(User $record): bool => $record->userIsRegistered() === false)
+                ->visible(fn (User $record): bool => $record->userIsRegistered() === false)
                 ->requiresConfirmation()
                 ->modalDescription(__('This action will open the registration link for this user. By confirming, you will be redirected to the registration page and logged out of your current session.')),
 
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn(User $record): bool => $record->hasVerifiedEmail() === false)
+                    ->visible(fn (User $record): bool => $record->hasVerifiedEmail() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -125,8 +125,8 @@ class ViewUser extends ViewRecord implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn(): Builder => $this->record->traffic()->whereNot('path', 'livewire/update')->orderByDesc('created_at')->getQuery())
-            ->heading(fn($table): Htmlable => new HtmlString(Blade::render('<filament::icon icon="heroicon-m-user"/>' . __('User Traffic (:count)', [
+            ->query(fn (): Builder => $this->record->traffic()->whereNot('path', 'livewire/update')->orderByDesc('created_at')->getQuery())
+            ->heading(fn ($table): Htmlable => new HtmlString(Blade::render('<filament::icon icon="heroicon-m-user"/>' . __('User Traffic (:count)', [
                 'count' => $table->getQuery()->count(),
             ]))))
             ->searchable()
@@ -139,8 +139,8 @@ class ViewUser extends ViewRecord implements HasTable
             ->headerActions([
                 Action::make('reset')
                     ->label(__('Reset position'))
-                    ->icon(fn(): BackedEnum => Heroicon::ArrowUturnLeft)
-                    ->url(fn(): string => $this->getUrl([
+                    ->icon(fn (): BackedEnum => Heroicon::ArrowUturnLeft)
+                    ->url(fn (): string => $this->getUrl([
                         'record' => $this->record,
                     ]))
                     ->visible(function () {
@@ -163,22 +163,22 @@ class ViewUser extends ViewRecord implements HasTable
                 Action::make('visit')
                     ->button()
                     ->hiddenLabel()
-                    ->color(fn(): string => 'primary')
-                    ->tooltip(fn(): string => __('Visit Path'))
-                    ->icon(fn(): BackedEnum => Heroicon::ArrowTopRightOnSquare)
-                    ->url(fn(UserTraffic $record): string => $record->getAttribute('full_url'), true),
+                    ->color(fn (): string => 'primary')
+                    ->tooltip(fn (): string => __('Visit Path'))
+                    ->icon(fn (): BackedEnum => Heroicon::ArrowTopRightOnSquare)
+                    ->url(fn (UserTraffic $record): string => $record->getAttribute('full_url'), true),
 
                 Action::make('view')
                     ->button()
                     ->hiddenLabel()
-                    ->color(fn(): string => 'gray')
-                    ->tooltip(fn(): string => __('View Traffic'))
-                    ->icon(fn(): BackedEnum => Heroicon::Eye)
+                    ->color(fn (): string => 'gray')
+                    ->tooltip(fn (): string => __('View Traffic'))
+                    ->icon(fn (): BackedEnum => Heroicon::Eye)
                     ->slideOver()
                     ->modal()
-                    ->modalIcon(fn(): BackedEnum => Heroicon::Eye)
-                    ->modalHeading(fn(): string => __('Traffic Details'))
-                    ->modalDescription(fn(UserTraffic $record): Htmlable => new HtmlString(__('Traffic details for :path', [
+                    ->modalIcon(fn (): BackedEnum => Heroicon::Eye)
+                    ->modalHeading(fn (): string => __('Traffic Details'))
+                    ->modalDescription(fn (UserTraffic $record): Htmlable => new HtmlString(__('Traffic details for :path', [
                         'path' => '<a href="' . e($record->getAttribute('full_url')) . '" target="_blank" class="text-primary-600 underline">' . e($record->getAttribute('path')) . '</a>',
                     ])))
                     ->schema([
@@ -191,7 +191,7 @@ class ViewUser extends ViewRecord implements HasTable
                                         TextEntry::make('method')
                                             ->label(__('Method'))
                                             ->badge()
-                                            ->color(fn(string $state): string => match ($state) {
+                                            ->color(fn (string $state): string => match ($state) {
                                                 'GET' => 'success',
                                                 'POST' => 'primary',
                                                 'PUT' => 'warning',
@@ -244,8 +244,8 @@ class ViewUser extends ViewRecord implements HasTable
 
                     ])
                     ->modalFooterActionsAlignment(Alignment::Center)
-                    ->modalSubmitAction(fn(Action $action) => $action->visible(false))
-                    ->modalCancelActionLabel(fn(): string => __('Close')),
+                    ->modalSubmitAction(fn (Action $action) => $action->visible(false))
+                    ->modalCancelActionLabel(fn (): string => __('Close')),
             ]);
     }
 }
