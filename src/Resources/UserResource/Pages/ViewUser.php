@@ -157,6 +157,16 @@ class ViewUser extends ViewRecord implements HasTable
 
                         return true;
                     }),
+
+                Action::make('clear_activity')
+                    ->label(__('Clear Activity'))
+                    ->icon(fn(): BackedEnum => Heroicon::Trash)
+                    ->action(function (Model $record): void {
+                        $record->traffic()->delete();
+                    })
+                    ->requiresConfirmation()
+                    ->modalDescription(__('This action will delete all traffic records for this user. This action cannot be undone.'))
+                    ->visible(fn(User $record): bool => $record->traffic()->exists() && $record->traffic()->whereNot('path', 'livewire/update')->exists()),
             ])
             ->recordAction('view')
             ->recordActions([
