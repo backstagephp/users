@@ -30,7 +30,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -105,7 +104,7 @@ class UserResource extends Resource
                     ->label(__('Avatar'))
                     ->circular()
                     ->alignCenter()
-                    ->getStateUsing(fn(User $record): ?string => Filament::getUserAvatarUrl($record)),
+                    ->getStateUsing(fn (User $record): ?string => Filament::getUserAvatarUrl($record)),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
@@ -141,7 +140,7 @@ class UserResource extends Resource
             ]),
 
             NavigationGroup::make(__('Relations'))
-                ->icon(fn(): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
+                ->icon(fn (): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
                 ->items([
                     ...$page->generateNavigationItems([
                         Pages\ManageRoles::class,

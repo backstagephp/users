@@ -38,7 +38,7 @@ class ManageRoles extends ManageRelatedRecords
     public function table(Table $table): Table
     {
         return $table
-            ->heading(fn(): Htmlable => new HtmlString(__('Roles of :name', ['name' => Blade::render('<x-filament::badge>' . $this->getRecordTitle() . '</x-filament::badge>')])))
+            ->heading(fn (): Htmlable => new HtmlString(__('Roles of :name', ['name' => Blade::render('<x-filament::badge>' . $this->getRecordTitle() . '</x-filament::badge>')])))
             ->headerActions([
                 AttachAction::make()
                     ->preloadRecordSelect()

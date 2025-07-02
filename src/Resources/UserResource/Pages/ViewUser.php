@@ -3,31 +3,30 @@
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
 use BackedEnum;
-use Filament\Actions;
-use Filament\Tables\Table;
-use Filament\Actions\Action;
-use Filament\Facades\Filament;
-use Illuminate\Support\HtmlString;
-use Filament\Support\Icons\Heroicon;
-use Filament\Schemas\Components\Grid;
-use Illuminate\Support\Facades\Blade;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Resources\Pages\ViewRecord;
-use Filament\Schemas\Components\Section;
-use Backstage\Filament\Users\Models\User;
-use Filament\Schemas\Components\Fieldset;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Htmlable;
-use Filament\Auth\Notifications\VerifyEmail;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Auth\Notifications\ResetPassword;
-use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Backstage\Laravel\Users\Eloquent\Models\UserTraffic;
-use Backstage\Filament\Users\Resources\UserResource\UserResource;
 use Backstage\Filament\Users\Actions\GenerateSignedRegistrationUri;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
+use Backstage\Laravel\Users\Eloquent\Models\UserTraffic;
+use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Auth\Notifications\ResetPassword;
+use Filament\Auth\Notifications\VerifyEmail;
+use Filament\Facades\Filament;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Pages\ViewRecord;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 
 class ViewUser extends ViewRecord implements HasTable
 {
@@ -48,13 +47,13 @@ class ViewUser extends ViewRecord implements HasTable
 
                     return redirect()->away($url);
                 })
-                ->visible(fn(User $record): bool => $record->userIsRegistered() === false)
+                ->visible(fn (User $record): bool => $record->userIsRegistered() === false)
                 ->requiresConfirmation()
                 ->modalDescription(__('This action will open the registration link for this user. By confirming, you will be redirected to the registration page and logged out of your current session.')),
 
             Actions\ActionGroup::make([
                 Actions\Action::make('send_verify_user_email')
-                    ->visible(fn(User $record): bool => $record->hasVerifiedEmail() === false)
+                    ->visible(fn (User $record): bool => $record->hasVerifiedEmail() === false)
                     ->label(__('Send Verification Email'))
                     ->action(function ($record) {
                         $notification = new VerifyEmail;
@@ -125,8 +124,8 @@ class ViewUser extends ViewRecord implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn(): Builder => $this->record->traffic()->whereNot('path', 'livewire/update')->orderByDesc('created_at')->getQuery())
-            ->heading(fn($table): Htmlable => new HtmlString(Blade::render('<filament::icon icon="heroicon-m-user"/>' . __('User Traffic (:count)', [
+            ->query(fn (): Builder => $this->record->traffic()->whereNot('path', 'livewire/update')->orderByDesc('created_at')->getQuery())
+            ->heading(fn ($table): Htmlable => new HtmlString(Blade::render('<filament::icon icon="heroicon-m-user"/>' . __('User Traffic (:count)', [
                 'count' => $table->getQuery()->count(),
             ]))))
             ->searchable()
@@ -138,8 +137,8 @@ class ViewUser extends ViewRecord implements HasTable
             ->headerActions([
                 Action::make('reset')
                     ->label(__('Reset position'))
-                    ->icon(fn(): BackedEnum => Heroicon::ArrowUturnLeft)
-                    ->url(fn(): string => $this->getUrl([
+                    ->icon(fn (): BackedEnum => Heroicon::ArrowUturnLeft)
+                    ->url(fn (): string => $this->getUrl([
                         'record' => $this->record,
                     ]))
                     ->visible(function () {
@@ -162,23 +161,23 @@ class ViewUser extends ViewRecord implements HasTable
                 Action::make('visit')
                     ->button()
                     ->hiddenLabel()
-                    ->color(fn(): string => 'primary')
-                    ->tooltip(fn(): string => __('Visit Path'))
-                    ->icon(fn(): BackedEnum => Heroicon::ArrowTopRightOnSquare)
-                    ->url(fn(UserTraffic $record): string => $record->getAttribute('full_url'), true),
+                    ->color(fn (): string => 'primary')
+                    ->tooltip(fn (): string => __('Visit Path'))
+                    ->icon(fn (): BackedEnum => Heroicon::ArrowTopRightOnSquare)
+                    ->url(fn (UserTraffic $record): string => $record->getAttribute('full_url'), true),
 
                 Action::make('view')
                     ->button()
                     ->hiddenLabel()
-                    ->color(fn(): string => 'gray')
-                    ->tooltip(fn(): string => __('View Traffic'))
-                    ->icon(fn(): BackedEnum => Heroicon::Eye)
+                    ->color(fn (): string => 'gray')
+                    ->tooltip(fn (): string => __('View Traffic'))
+                    ->icon(fn (): BackedEnum => Heroicon::Eye)
                     ->slideOver()
                     ->modal()
-                    ->modalIcon(fn(): BackedEnum => Heroicon::Eye)
-                    ->modalHeading(fn(): string => __('Traffic Details'))
-                    ->modalDescription(fn(UserTraffic $record): Htmlable => new HtmlString(__('Traffic details for :path', [
-                        'path' => '<a href="' . e($record->getAttribute('full_url')) . '" target="_blank" class="text-primary-600 underline">' . e($record->getAttribute('path')) . '</a>'
+                    ->modalIcon(fn (): BackedEnum => Heroicon::Eye)
+                    ->modalHeading(fn (): string => __('Traffic Details'))
+                    ->modalDescription(fn (UserTraffic $record): Htmlable => new HtmlString(__('Traffic details for :path', [
+                        'path' => '<a href="' . e($record->getAttribute('full_url')) . '" target="_blank" class="text-primary-600 underline">' . e($record->getAttribute('path')) . '</a>',
                     ])))
                     ->schema([
                         Section::make(__('Request Information'))
@@ -190,7 +189,7 @@ class ViewUser extends ViewRecord implements HasTable
                                         TextEntry::make('method')
                                             ->label(__('Method'))
                                             ->badge()
-                                            ->color(fn(string $state): string => match ($state) {
+                                            ->color(fn (string $state): string => match ($state) {
                                                 'GET' => 'success',
                                                 'POST' => 'primary',
                                                 'PUT' => 'warning',
@@ -205,7 +204,7 @@ class ViewUser extends ViewRecord implements HasTable
 
                                         TextEntry::make('user_agent')
                                             ->label(__('User Agent'))
-                                            ->copyable()
+                                            ->copyable(),
                                     ])
                                     ->columnSpanFull(),
 
@@ -217,9 +216,9 @@ class ViewUser extends ViewRecord implements HasTable
 
                                         TextEntry::make('referer')
                                             ->label(__('Source Referer'))
-                                            ->copyable()
+                                            ->copyable(),
                                     ])
-                                    ->columnSpanFull()
+                                    ->columnSpanFull(),
                             ])
                             ->columns(1),
 
@@ -237,7 +236,7 @@ class ViewUser extends ViewRecord implements HasTable
 
                                 KeyValueEntry::make('route_parameters')
                                     ->label(__('Route Parameters'))
-                                    ->columnSpanFull()
+                                    ->columnSpanFull(),
                             ])
                             ->columns(2),
 
