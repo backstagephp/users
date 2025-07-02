@@ -6,14 +6,12 @@ use Backstage\Filament\Users\Components\ToggleSubNavigationType;
 use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
 use Closure;
+use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
-use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
 use Livewire\Livewire;
-use Backstage\Filament\Users\Resources;
-use Filament\Actions\Action;
 
 class UsersPlugin implements Plugin
 {
@@ -70,9 +68,9 @@ class UsersPlugin implements Plugin
         $panel->userMenuItems([
             Action::make('api_tokens')
                 ->label(__('API Tokens'))
-                ->visible(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
                 ->icon('heroicon-o-document-text')
-                ->url(fn() => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
         ]);
     }
 

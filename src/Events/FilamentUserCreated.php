@@ -27,8 +27,6 @@ class FilamentUserCreated
 
     /**
      * Get the user instance.
-     *
-     * @return User
      */
     public function getUser(): User
     {

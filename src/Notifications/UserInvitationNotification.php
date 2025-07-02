@@ -2,14 +2,12 @@
 
 namespace Backstage\Filament\Users\Notifications;
 
-use Illuminate\Support\Uri;
-use Illuminate\Bus\Queueable;
-use Filament\Facades\Filament;
-use Illuminate\Notifications\Notification;
-use Backstage\Laravel\Users\Eloquent\Models\User;
-use Illuminate\Notifications\Messages\MailMessage;
-use Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
 use Backstage\Filament\Users\Actions\GenerateSignedRegistrationUri;
+use Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
+use Backstage\Laravel\Users\Eloquent\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class UserInvitationNotification extends Notification
 {
@@ -37,7 +35,7 @@ class UserInvitationNotification extends Notification
     {
         /**
          * Mask the $dedicatedPanel variable as string to get the route name for the RegisterFromInvitationPage.
-         * 
+         *
          * @var string $dedicatedPanel
          */
         $url = GenerateSignedRegistrationUri::run(user: $notifiable);

@@ -4,12 +4,17 @@ namespace Backstage\Filament\Users\Resources\UserResource\Schemas;
 
 use BackedEnum;
 use Backstage\Filament\Users\Models\User;
+use Filament\Facades\Filament;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 
 class UserInfolist
 {
@@ -21,42 +26,54 @@ class UserInfolist
                     ->schema([
                         Fieldset::make()
                             ->schema([
-                                Section::make(__('User Information'))
-                                    ->description(__('Basic information about the user.'))
-                                    ->icon('heroicon-o-user-circle')
+                                Section::make()
                                     ->schema([
+                                        ImageEntry::make('avatar')
+                                            ->imageWidth('5rem')
+                                            ->imageHeight('5rem')
+                                            ->alignCenter()
+                                            ->hiddenLabel()
+                                            ->tooltip(__('User Avatar'))
+                                            ->extraImgAttributes(function (User $record) {
+                                                $ringColor = $record->hasVerifiedEmail() ? 'ring-green-500' : 'ring-red-500';
+
+                                                return [
+                                                    'class' => implode(' ', [
+                                                        'ring ring-2',
+                                                        'rounded-full',
+                                                        $ringColor,
+                                                    ]),
+                                                ];
+                                            })
+                                            ->tooltip(fn (Model $record): ?string => $record->hasVerifiedEmail() ? __('User verfied!') : __('User unverified!'))
+                                            ->state(fn (Model $record): ?string => Filament::getUserAvatarUrl($record)),
+
                                         TextEntry::make('name')
-                                            ->label(__('Name'))
-                                            ->icon(fn(): BackedEnum => $schema->getLivewire()::getResource()::getActiveNavigationIcon(), true),
+                                            ->hiddenLabel()
+                                            ->alignCenter()
+                                            ->copyable()
+                                            ->iconColor('primary')
+                                            ->icon(fn (): BackedEnum => Heroicon::User)
+                                            ->tooltip(__('User Name')),
 
                                         TextEntry::make('email')
-                                            ->label(__('Email'))
-                                            ->icon(fn(): BackedEnum => Heroicon::Envelope, true),
+                                            ->hiddenLabel()
+                                            ->alignCenter()
+                                            ->copyable()
+                                            ->iconColor('primary')
+                                            ->icon(fn (): BackedEnum => Heroicon::Envelope)
+                                            ->tooltip(__('User Email')),
                                     ])
-                                    ->columns(2)
-                                    ->columnSpanFull(),
-                            ])
-                            ->columnSpan(6),
-
-                        Fieldset::make()
-                            ->visible(fn(User $record): bool => $record->hasVerifiedEmail())
-                            ->schema([
-                                Section::make(__('Email verification'))
-                                    ->description(__('Email verification is required for users.'))
-                                    ->icon('heroicon-o-envelope-open')
-                                    ->schema([
-                                        TextEntry::make('email_verified_at')
-                                            ->label(__('Email Verified At'))
-                                            ->sinceTooltip()
-                                            ->icon(fn(TextEntry $component): BackedEnum => $component->getDefaultState() === $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
-                                            ->iconColor(fn(TextEntry $component): string => $component->getDefaultState() === $component->getState() ? 'danger' : 'success')
-                                            ->default(__('Not Verified')),
-                                    ])
-                                    ->columns(1)
                                     ->columnSpanFull(),
                             ])
                             ->columnSpan(3),
 
+                        TextEntry::make('hi')
+                            ->columnSpan(6)
+                            ->hiddenLabel()
+                            ->state(function () {
+                                return new HtmlString(Blade::render('{{ $this->table }} '));
+                            }),
                     ])
                     ->columnSpanFull(),
             ]);

@@ -12,6 +12,8 @@ use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 
 class ManageRoles extends ManageRelatedRecords
 {
@@ -36,6 +38,7 @@ class ManageRoles extends ManageRelatedRecords
     public function table(Table $table): Table
     {
         return $table
+            ->heading(fn(): Htmlable => new HtmlString(__('Roles of :name', ['name' => Blade::render('<x-filament::badge>' . $this->getRecordTitle() . '</x-filament::badge>')])))
             ->headerActions([
                 AttachAction::make()
                     ->preloadRecordSelect()
@@ -44,7 +47,7 @@ class ManageRoles extends ManageRelatedRecords
 
                 CreateAction::make(),
             ])
-            ->pushActions([
+            ->pushRecordActions([
                 DetachAction::make(),
             ]);
     }

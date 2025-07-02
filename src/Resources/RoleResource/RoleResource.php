@@ -10,6 +10,7 @@ use Backstage\Filament\Users\Resources\RoleResource\Pages\ViewRole;
 use Backstage\Filament\Users\Resources\RoleResource\Schemas\RoleForm;
 use Backstage\Filament\Users\Resources\RoleResource\Schemas\RoleInfolist;
 use Backstage\Filament\Users\Resources\RoleResource\Tables\RolesTable;
+use Filament\Panel;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -22,6 +23,11 @@ class RoleResource extends Resource
     protected static ?string $model = Role::class;
 
     protected static ?int $navigationSort = 1;
+
+    public static function getSlug(?Panel $panel = null): string
+    {
+        return 'users-roles';
+    }
 
     public static function getNavigationGroup(): ?string
     {

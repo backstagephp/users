@@ -21,6 +21,7 @@ use Filament\Actions\ViewAction;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Panel;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -29,10 +30,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
     use HasSubNavigationPosition;
+
+    public static function getSlug(?Panel $panel = null): string
+    {
+        return 'users';
+    }
 
     public static function canAccess(): bool
     {
@@ -42,6 +49,11 @@ class UserResource extends Resource
     public static function getModel(): string
     {
         return \App\Models\User::class;
+    }
+
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return 'name';
     }
 
     public static function getNavigationGroup(): ?string
@@ -93,7 +105,7 @@ class UserResource extends Resource
                     ->label(__('Avatar'))
                     ->circular()
                     ->alignCenter()
-                    ->getStateUsing(fn (User $record): ?string => Filament::getUserAvatarUrl($record)),
+                    ->getStateUsing(fn(User $record): ?string => Filament::getUserAvatarUrl($record)),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
@@ -129,7 +141,7 @@ class UserResource extends Resource
             ]),
 
             NavigationGroup::make(__('Relations'))
-                ->icon(fn (): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
+                ->icon(fn(): ?BackedEnum => static::getSubNavigationPosition() === SubNavigationPosition::Top ? Heroicon::Link : null)
                 ->items([
                     ...$page->generateNavigationItems([
                         Pages\ManageRoles::class,

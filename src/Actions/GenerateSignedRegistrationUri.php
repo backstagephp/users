@@ -2,11 +2,11 @@
 
 namespace Backstage\Filament\Users\Actions;
 
-use Illuminate\Support\Uri;
+use Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Uri;
 use Lorisleiva\Actions\Concerns\AsAction;
-use Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
 
 class GenerateSignedRegistrationUri
 {

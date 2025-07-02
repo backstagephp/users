@@ -3,35 +3,30 @@
 namespace Backstage\Filament\Users\Pages;
 
 use BackedEnum;
-use Filament\Pages\Page;
-use Filament\Actions\Action;
-use Filament\Schemas\Schema;
-use Filament\Facades\Filament;
-use Filament\Pages\Auth\Register;
-use Filament\Support\Enums\Width;
-use Filament\Support\Colors\Color;
-use Illuminate\Support\HtmlString;
-use Filament\Auth\Events\Registered;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Facades\Hash;
-use Filament\Schemas\Components\Form;
-use Filament\Schemas\Components\Grid;
-use Filament\Support\Enums\Alignment;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Forms\Components\TextInput;
-use Filament\Pages\Concerns\HasMaxWidth;
 use Backstage\Filament\Users\Models\User;
-use Illuminate\Validation\Rules\Password;
-use Filament\Schemas\Components\Component;
-use Filament\Schemas\Contracts\HasSchemas;
-use Illuminate\Contracts\Support\Htmlable;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
-use Filament\Pages\Concerns\InteractsWithFormActions;
-use Filament\Pages\Concerns\CanUseDatabaseTransactions;
 use Backstage\Filament\Users\Pages\RegisterFromInvitationPage\RedirectUrlAfterRegistration;
+use Filament\Actions\Action;
+use Filament\Auth\Events\Registered;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\TextInput;
+use Filament\Pages\Auth\Register;
+use Filament\Pages\Concerns\CanUseDatabaseTransactions;
+use Filament\Pages\Concerns\InteractsWithFormActions;
+use Filament\Pages\Page;
 use Filament\Panel;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\HtmlString;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterFromInvitationPage extends Page implements HasSchemas
 {
@@ -98,12 +93,12 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         ];
     }
 
-    public function getMaxContentWidth(): Width|string|null
+    public function getMaxContentWidth(): Width | string | null
     {
         return Width::TwoExtraLarge;
     }
 
-    public static function getRouteMiddleware(Panel $panel): string|array
+    public static function getRouteMiddleware(Panel $panel): string | array
     {
         return ['signed'];
     }
@@ -131,8 +126,8 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         return TextInput::make('name')
             ->disabled()
             ->hintAction($this->getExplanationAction())
-            ->prefixIcon(fn(): BackedEnum => Heroicon::OutlinedUserCircle, fn(): bool => true)
-            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->prefixIcon(fn (): BackedEnum => Heroicon::OutlinedUserCircle, fn (): bool => true)
+            ->prefixIconColor(fn (): ?array => static::getDefaultPanelColor())
             ->label(__('filament-panels::auth/pages/register.form.name.label'));
     }
 
@@ -141,8 +136,8 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
         return TextInput::make('email')
             ->disabled()
             ->hintAction($this->getExplanationAction())
-            ->prefixIcon(fn(): BackedEnum => Heroicon::OutlinedEnvelope, fn(): bool => true)
-            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->prefixIcon(fn (): BackedEnum => Heroicon::OutlinedEnvelope, fn (): bool => true)
+            ->prefixIconColor(fn (): ?array => static::getDefaultPanelColor())
             ->label(__('filament-panels::auth/pages/register.form.email.label'));
     }
 
@@ -154,11 +149,11 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
             ->rule(Password::default())
-            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
             ->same('passwordConfirmation')
             ->live()
-            ->prefixIcon(fn(TextInput $component): BackedEnum => Heroicon::LockClosed, fn(): bool => true)
-            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->prefixIcon(fn (TextInput $component): BackedEnum => Heroicon::LockClosed, fn (): bool => true)
+            ->prefixIconColor(fn (): ?array => static::getDefaultPanelColor())
             ->validationAttribute(__('filament-panels::auth/pages/register.form.password.validation_attribute'));
     }
 
@@ -172,8 +167,8 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
             ->rule(Password::default())
             ->same('password')
             ->live()
-            ->prefixIcon(fn(TextInput $component): BackedEnum => Heroicon::LockClosed, fn(): bool => true)
-            ->prefixIconColor(fn(): ?array => static::getDefaultPanelColor())
+            ->prefixIcon(fn (TextInput $component): BackedEnum => Heroicon::LockClosed, fn (): bool => true)
+            ->prefixIconColor(fn (): ?array => static::getDefaultPanelColor())
             ->dehydrated(false);
     }
 
@@ -181,8 +176,8 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
     {
         return Action::make('hi')
             ->label(__('Register'))
-            ->color(fn(): ?array => static::getDefaultPanelColor())
-            ->action(fn() => $this->register());
+            ->color(fn (): ?array => static::getDefaultPanelColor())
+            ->action(fn () => $this->register());
     }
 
     protected static function getDefaultPanelColor(): array
@@ -265,15 +260,15 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
     {
         return Action::make('explanation')
             ->label(__('Explanation'))
-            ->icon(fn(): BackedEnum => Heroicon::OutlinedInformationCircle)
+            ->icon(fn (): BackedEnum => Heroicon::OutlinedInformationCircle)
             ->color('secondary')
             ->size('sm')
             ->modal()
-            ->modalWidth(fn(): Width => Width::TwoExtraLarge)
-            ->modalIcon(fn(): BackedEnum => Heroicon::InformationCircle)
+            ->modalWidth(fn (): Width => Width::TwoExtraLarge)
+            ->modalIcon(fn (): BackedEnum => Heroicon::InformationCircle)
             ->modalHeading(__('Explanation'))
-            ->modalDescription(fn(): ?Htmlable => new HtmlString(__('Information about the registration process.')))
-            ->modalContent(fn(): ?Htmlable => new HtmlString(__(
+            ->modalDescription(fn (): ?Htmlable => new HtmlString(__('Information about the registration process.')))
+            ->modalContent(fn (): ?Htmlable => new HtmlString(__(
                 'You are registering as :userName with the email :email. This is because you were invited to join our platform. Your account will be created with the following details: <br>' .
                     '<strong>Name:</strong> :userName <br>' .
                     '<strong>Email:</strong> :email <br><br>',
@@ -282,9 +277,9 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
                     'email' => $this->user->email,
                 ]
             )))
-            ->modalContentFooter(fn(): ?Htmlable => new HtmlString(__('This can later be changed in your profile settings.')))
+            ->modalContentFooter(fn (): ?Htmlable => new HtmlString(__('This can later be changed in your profile settings.')))
             ->modalFooterActionsAlignment(Alignment::Center)
-            ->modalCancelAction(fn(Action $action): Action => $action->label(__('Close')))
-            ->modalSubmitAction(fn(Action $action): Action => $action->hidden());
+            ->modalCancelAction(fn (Action $action): Action => $action->label(__('Close')))
+            ->modalSubmitAction(fn (Action $action): Action => $action->hidden());
     }
 }

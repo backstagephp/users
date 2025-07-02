@@ -2,9 +2,7 @@
 
 namespace Backstage\Filament\Users\Pages\RegisterFromInvitationPage;
 
-use Backstage\Filament\Users\Models\User;
 use Closure;
-use Filament\Support\Concerns\EvaluatesClosures;
 
 class RedirectUrlAfterRegistration
 {
@@ -24,7 +22,7 @@ class RedirectUrlAfterRegistration
         return null;
     }
 
-    protected static function evaluate(Closure $closure,  $user): ?string
+    protected static function evaluate(Closure $closure, $user): ?string
     {
         return app()->call($closure, [
             'user' => $user,
