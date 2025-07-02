@@ -129,7 +129,7 @@ class ViewUser extends ViewRecord implements HasTable
             ->heading(fn($table): Htmlable => new HtmlString(Blade::render('<filament::icon icon="heroicon-m-user"/>' . __('User Traffic (:count)', [
                 'count' => $table->getQuery()->count(),
             ]))))
-            ->searchable()
+            ->searchable($table->getQuery()->count() > 0)
             ->paginated([4])
             ->columns([
                 TextColumn::make('path')
