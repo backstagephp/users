@@ -245,6 +245,7 @@ class ViewUser extends ViewRecord implements HasTable
                     ])
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->modalSubmitAction(fn(Action $action) => $action->visible(false))
+                    ->modalCancelActionLabel(fn(): string => __('Close')),
             ]);
     }
 }
