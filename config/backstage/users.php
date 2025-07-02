@@ -11,17 +11,6 @@ return [
         'users' => UserResource::class,
     ],
 
-    'resource-pages' => [
-        'users' => [
-            'roles' => [
-                'route' => '/{record}/roles',
-                'routeName' => 'manage-roles',
-                'page' => ManageRoles::class,
-                'registerSubNavigation' => true,
-            ],
-        ],
-    ],
-
     'pages' => [
         'manage-api-tokens' => ManageApiTokens::class,
     ],
