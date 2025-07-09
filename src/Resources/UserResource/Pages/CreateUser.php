@@ -15,4 +15,9 @@ class CreateUser extends CreateRecord
     {
         Event::forget(UserCreated::class);
     }
+
+    protected function getCreatedNotificationTitle(): ?string
+    {
+        return __('User created successfully, the user will receive an email with their registeration details.');
+    }
 }
