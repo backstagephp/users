@@ -14,7 +14,6 @@ trait HasSubNavigationPosition
          */
         $user = Filament::auth()->user();
 
-        
         return $user->getSubNavigationPreference();
     }
 }

@@ -2,28 +2,20 @@
 
 namespace Backstage\Filament\Users;
 
-use Closure;
 use BackedEnum;
-use Filament\Panel;
-use Livewire\Livewire;
+use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Plugin\Actions\ToggleSubnavigationTypeAction;
+use Backstage\Filament\Users\Plugin\Actions\ToggleWidthAction;
+use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
+use Closure;
 use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
-use Filament\Actions\ActionGroup;
-use Filament\Support\Enums\Width;
-use Filament\View\PanelsRenderHook;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
-use Backstage\Filament\Users\Models\User;
-use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Livewire\Features\SupportRedirects\Redirector;
-use Backstage\Filament\Users\Plugin\Actions\ToggleWidthAction;
-use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
-use Backstage\Filament\Users\Components\ToggleSubNavigationType;
-use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
-use Backstage\Filament\Users\Plugin\Actions\ToggleSubnavigationTypeAction;
+use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 
 class UsersPlugin implements Plugin
 {
@@ -75,10 +67,10 @@ class UsersPlugin implements Plugin
 
         $panel->userMenuItems([
             Action::make('api_tokens')
-                ->label(fn(): string => __('API Tokens'))
-                ->visible(fn(): bool => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
-                ->icon(fn(): BackedEnum => Heroicon::OutlinedDocumentText)
-                ->url(fn(): string => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->label(fn (): string => __('API Tokens'))
+                ->visible(fn (): bool => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->icon(fn (): BackedEnum => Heroicon::OutlinedDocumentText)
+                ->url(fn (): string => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
 
             ToggleWidthAction::make(),
 

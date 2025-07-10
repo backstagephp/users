@@ -2,7 +2,6 @@
 
 namespace Backstage\Filament\Users\Concerns\Conditionals;
 
-use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Support\Enums\Width;
 
 trait HasWidthPreference

@@ -2,7 +2,6 @@
 
 namespace Backstage\Filament\Users;
 
-use Backstage\Filament\Users\Components\ToggleSubNavigationType;
 use Backstage\Filament\Users\Events\FilamentUserCreated;
 use Backstage\Filament\Users\Listeners\SendFilamentInvitationMail;
 use Backstage\Filament\Users\Models\User;
@@ -24,7 +23,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 use Livewire\Features\SupportTesting\Testable;
-use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
