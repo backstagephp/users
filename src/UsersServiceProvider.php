@@ -150,8 +150,6 @@ class UsersServiceProvider extends PackageServiceProvider
         // Testing
         Testable::mixin(new TestsUsers);
 
-        Livewire::component('backstage.users::toggle-sub-navigation-type', ToggleSubNavigationType::class);
-
         Event::listen(FilamentUserCreated::class, SendFilamentInvitationMail::class);
 
         FilamentView::registerRenderHook(PanelsRenderHook::HEAD_END, function (): Htmlable {

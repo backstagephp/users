@@ -3,20 +3,24 @@
 namespace Backstage\Filament\Users\Models;
 
 use Backstage\Filament\Users\Concerns\Conditionals\HasSubNavigationPreference;
+use Backstage\Filament\Users\Concerns\Conditionals\HasWidthPreference;
 use Backstage\Filament\Users\Events\FilamentUserCreated;
 use Backstage\Laravel\Users\Eloquent\Models\User as BaseUser;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Panel;
+use Filament\Support\Enums\Width;
 
 class User extends BaseUser implements FilamentUser
 {
     use HasSubNavigationPreference;
+    use HasWidthPreference;
 
-    protected function casts(): array
+    public function getCasts(): array
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+        return parent::getCasts() + [
+            'width_preference' => Width::class,
+            'sub_navigation_preference' => SubNavigationPosition::class,
         ];
     }
 

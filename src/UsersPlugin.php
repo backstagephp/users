@@ -2,16 +2,28 @@
 
 namespace Backstage\Filament\Users;
 
-use Backstage\Filament\Users\Components\ToggleSubNavigationType;
-use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
-use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
 use Closure;
+use BackedEnum;
+use Filament\Panel;
+use Livewire\Livewire;
 use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
-use Filament\Panel;
-use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\Facades\Filament;
+use Filament\Actions\ActionGroup;
+use Filament\Support\Enums\Width;
 use Filament\View\PanelsRenderHook;
-use Livewire\Livewire;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
+use Backstage\Filament\Users\Models\User;
+use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Support\Concerns\EvaluatesClosures;
+use Livewire\Features\SupportRedirects\Redirector;
+use Backstage\Filament\Users\Plugin\Actions\ToggleWidthAction;
+use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
+use Backstage\Filament\Users\Components\ToggleSubNavigationType;
+use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
+use Backstage\Filament\Users\Plugin\Actions\ToggleSubnavigationTypeAction;
 
 class UsersPlugin implements Plugin
 {
@@ -49,10 +61,6 @@ class UsersPlugin implements Plugin
             $middleware[] = DetectUserTraffic::class;
         }
 
-        if (config('backstage.users.record.can_toggle_sub_navigation', true)) {
-            $this->initSubNavigationToggle($panel);
-        }
-
         $panel->middleware($middleware);
 
         $panel->authGuard('web');
@@ -67,17 +75,34 @@ class UsersPlugin implements Plugin
 
         $panel->userMenuItems([
             Action::make('api_tokens')
-                ->label(__('API Tokens'))
-                ->visible(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
-                ->icon('heroicon-o-document-text')
-                ->url(fn () => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+                ->label(fn(): string => __('API Tokens'))
+                ->visible(fn(): bool => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::canAccess())
+                ->icon(fn(): BackedEnum => Heroicon::OutlinedDocumentText)
+                ->url(fn(): string => config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class)::getUrl()),
+
+            ToggleWidthAction::make(),
+
+            ToggleSubnavigationTypeAction::make(),
         ]);
+
+        Filament::serving(function () {
+            /**
+             * @var User $user
+             */
+            $user = Filament::auth()->user();
+
+            /**
+             * @var Width $widthPreference
+             */
+            $widthPreference = $user?->getWidthPreference() ?? Width::SevenExtraLarge;
+
+            tap(Filament::getCurrentPanel(), function (Panel $currentPanel) use ($widthPreference) {
+                $currentPanel->maxContentWidth($widthPreference);
+            });
+        });
     }
 
-    public function boot(Panel $panel): void
-    {
-        //
-    }
+    public function boot(Panel $panel): void {}
 
     public static function make(): static
     {
@@ -90,13 +115,6 @@ class UsersPlugin implements Plugin
         $plugin = filament(app(static::class)->getId());
 
         return $plugin;
-    }
-
-    protected function initSubNavigationToggle(Panel $panel)
-    {
-        $panel->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, function () {
-            return Livewire::mount(ToggleSubNavigationType::class, []);
-        });
     }
 
     public function canManageUsers(bool | Closure $condition = true): static
