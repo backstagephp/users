@@ -13,8 +13,6 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 
 class UserInfolist
 {
@@ -67,13 +65,6 @@ class UserInfolist
                                     ->columnSpanFull(),
                             ])
                             ->columnSpan(3),
-
-                        TextEntry::make('hi')
-                            ->columnSpan(6)
-                            ->hiddenLabel()
-                            ->state(function () {
-                                return new HtmlString(Blade::render('{{ $this->table }} '));
-                            }),
                     ])
                     ->columnSpanFull(),
             ]);

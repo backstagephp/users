@@ -47,7 +47,7 @@ class UserResource extends Resource
 
     public static function getModel(): string
     {
-        return \App\Models\User::class;
+        return config('auth.providers.users.model') ?? throw new \RuntimeException('No user model configured. Please set the "auth.providers.users.model" configuration value.');
     }
 
     public static function getRecordTitleAttribute(): ?string

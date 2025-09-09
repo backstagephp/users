@@ -7,7 +7,6 @@ use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Plugin\Actions\ToggleSubnavigationTypeAction;
 use Backstage\Filament\Users\Plugin\Actions\ToggleWidthAction;
-use Backstage\Laravel\Users\Http\Middleware\DetectUserTraffic;
 use Closure;
 use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
@@ -30,14 +29,12 @@ class UsersPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        if (config('backstage.users.resources.users') !== null) {
-            $panel->resources([
-                config('backstage.users.resources.users', Resources\UserResource\UserResource::class),
-                config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class),
-            ]);
-        }
-
-        $middleware = [];
+        // if (config('backstage.users.resources.users') !== null) {
+        $panel->resources([
+            config('backstage.users.resources.users', Resources\UserResource\UserResource::class),
+            config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class),
+        ]);
+        // }
 
         $panel->emailVerification();
 
@@ -47,11 +44,9 @@ class UsersPlugin implements Plugin
         $panel->emailVerificationPromptRouteSlug('prompt');
         $panel->emailVerificationRouteSlug('verify');
 
-        $middleware[] = RedirectUnverifiedUsers::class;
+        $middleware = [];
 
-        if (config('users.events.requests.web_traffic.enabled', true)) {
-            $middleware[] = DetectUserTraffic::class;
-        }
+        $middleware[] = RedirectUnverifiedUsers::class;
 
         $panel->middleware($middleware);
 
