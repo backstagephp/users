@@ -2,8 +2,6 @@
 
 namespace Backstage\Filament\Users;
 
-use Backstage\Filament\Users\Events\FilamentUserCreated;
-use Backstage\Filament\Users\Listeners\SendFilamentInvitationMail;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Pages\RegisterFromInvitationPage\RedirectUrlAfterRegistration;
 use Backstage\Filament\Users\Testing\TestsUsers;
@@ -19,7 +17,6 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 use Livewire\Features\SupportTesting\Testable;
