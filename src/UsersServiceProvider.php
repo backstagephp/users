@@ -148,8 +148,6 @@ class UsersServiceProvider extends PackageServiceProvider
         // Testing
         Testable::mixin(new TestsUsers);
 
-        Event::listen(FilamentUserCreated::class, SendFilamentInvitationMail::class);
-
         FilamentView::registerRenderHook(PanelsRenderHook::HEAD_END, function (): Htmlable {
             return new HtmlString('<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>');
         });
