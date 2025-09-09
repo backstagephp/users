@@ -58,7 +58,7 @@ class RegisterFromInvitationPage extends Page implements HasSchemas
     {
         $userId = decrypt($userId);
 
-        $this->user = app($this->getUserModel())::withoutGlobalScopes()->findOrFail($userId);
+        $this->user = $this->getUserModel()::withoutGlobalScopes()->findOrFail($userId);
 
         $this->checkUserVerification();
 
