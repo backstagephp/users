@@ -38,4 +38,3 @@ class User extends BaseUser implements FilamentUser
         });
     }
 }
-
