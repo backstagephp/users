@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "backstage/laravel-users": "self.version",
+        "backstage/laravel-users": "^0.2.2",
         "filament/filament": "^4.0",
         "spatie/laravel-package-tools": "^1.15.0",
         "lorisleiva/laravel-actions": ">=2.8",
