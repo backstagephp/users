@@ -25,7 +25,8 @@
         "backstage/laravel-users": "self.version",
         "filament/filament": "^4.0",
         "spatie/laravel-package-tools": "^1.15.0",
-        "lorisleiva/laravel-actions": ">=2.8"
+        "lorisleiva/laravel-actions": ">=2.8",
+        "stechstudio/filament-impersonate": "^4.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
