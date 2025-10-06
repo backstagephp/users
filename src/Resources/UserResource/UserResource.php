@@ -3,34 +3,34 @@
 namespace Backstage\Filament\Users\Resources\UserResource;
 
 use BackedEnum;
-use Filament\Panel;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Facades\Filament;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Resources\Resource;
-use Filament\Actions\ExportAction;
-use Filament\Actions\ImportAction;
-use Filament\Resources\Pages\Page;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Navigation\NavigationGroup;
-use Backstage\Filament\Users\Models\User;
-use Backstage\Filament\Users\UsersPlugin;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Htmlable;
-use Filament\Pages\Enums\SubNavigationPosition;
-use STS\FilamentImpersonate\Actions\Impersonate;
+use Backstage\Filament\Users\Concerns\Resources\HasSubNavigationPosition;
 use Backstage\Filament\Users\Exports\UserExporter;
 use Backstage\Filament\Users\Imports\UserImporter;
+use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Resources\UserResource\Schemas\UserForm;
+use Backstage\Filament\Users\Resources\UserResource\Schemas\UserInfolist;
+use Backstage\Filament\Users\UsersPlugin;
 use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
 use Backstage\Laravel\Users\Eloquent\Scopes\VerifiedUser;
-use Backstage\Filament\Users\Resources\UserResource\Schemas\UserForm;
-use Backstage\Filament\Users\Concerns\Resources\HasSubNavigationPosition;
-use Backstage\Filament\Users\Resources\UserResource\Schemas\UserInfolist;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\ImportAction;
+use Filament\Actions\ViewAction;
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
+use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Panel;
+use Filament\Resources\Pages\Page;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
+use STS\FilamentImpersonate\Actions\Impersonate;
 
 class UserResource extends Resource
 {
@@ -126,10 +126,10 @@ class UserResource extends Resource
                 EditAction::make(),
 
                 Impersonate::make()
-                ->label('')
-                ->color('gray')
-                ->tooltip(__('Impersonate'))
-                ->hiddenLabel(),
+                    ->label('')
+                    ->color('gray')
+                    ->tooltip(__('Impersonate'))
+                    ->hiddenLabel(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
