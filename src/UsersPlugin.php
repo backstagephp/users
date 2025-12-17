@@ -29,11 +29,12 @@ class UsersPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        if (config('backstage.users.resources.users') !== null) {
-            $panel->resources([
-                config('backstage.users.resources.users', Resources\UserResource\UserResource::class),
-                config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class),
-            ]);
+        if (config('backstage.users.resources') !== null && ! empty(config('backstage.users.resources'))) {
+            $users = config('backstage.users.resources.users', Resources\UserResource\UserResource::class);
+            $roles = config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class);
+
+            $resources = array_merge([$users, $roles, config('backstage.users.resources')]);
+            $panel->resources($resources);
         }
 
         $panel->emailVerification();
