@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Event;
 
 class CreateUser extends CreateRecord
 {
-    protected static string $resource = UserResource::class;
+    protected static function getResource(): string
+    {
+        return config('backstage.users.resources.users', UserResource::class);
+    }
 
     public function beforeCreate(): void
     {

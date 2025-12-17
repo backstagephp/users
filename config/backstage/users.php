@@ -6,9 +6,7 @@ use Backstage\Filament\Users\Pages\ManageApiTokens;
 use Backstage\Filament\Users\Resources\UserResource\UserResource;
 
 return [
-    'resources' => [
-        'users' => UserResource::class,
-    ],
+    'resources' => [],
 
     'pages' => [
         'manage-api-tokens' => ManageApiTokens::class,
