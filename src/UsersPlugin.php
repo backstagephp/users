@@ -33,7 +33,12 @@ class UsersPlugin implements Plugin
             $users = config('backstage.users.resources.users', Resources\UserResource\UserResource::class);
             $roles = config('backstage.users.resources.roles', Resources\RoleResource\RoleResource::class);
 
-            $resources = array_merge([$users, $roles, config('backstage.users.resources')]);
+            $configResources = array_values(array_diff_key(
+                config('backstage.users.resources'),
+                array_flip(['users', 'roles'])
+            ));
+
+            $resources = array_filter(array_merge([$users, $roles], $configResources));
             $panel->resources($resources);
         }
 
