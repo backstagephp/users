@@ -17,7 +17,7 @@ use Illuminate\Support\HtmlString;
 
 class ViewUser extends ViewRecord
 {
-    protected static function getResource(): string
+    public static function getResource(): string
     {
         return config('backstage.users.resources.users', UserResource::class);
     }
