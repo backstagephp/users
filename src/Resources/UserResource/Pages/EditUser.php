@@ -8,7 +8,7 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditUser extends EditRecord
 {
-    protected static function getResource(): string
+    public static function getResource(): string
     {
         return config('backstage.users.resources.users', UserResource::class);
     }
