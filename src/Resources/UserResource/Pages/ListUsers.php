@@ -10,7 +10,7 @@ use Filament\Support\Colors\Color;
 
 class ListUsers extends ListRecords
 {
-    protected static function getResource(): string
+    public static function getResource(): string
     {
         return config('backstage.users.resources.users', UserResource::class);
     }

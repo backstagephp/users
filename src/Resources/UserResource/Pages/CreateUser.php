@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Event;
 
 class CreateUser extends CreateRecord
 {
-    protected static function getResource(): string
+    public static function getResource(): string
     {
         return config('backstage.users.resources.users', UserResource::class);
     }
