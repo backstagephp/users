@@ -15,7 +15,7 @@ class EditRole extends EditRecord
     {
         return config('backstage.users.resources.roles', RoleResource::class);
     }
-
+    
     protected function getHeaderActions(): array
     {
         return [
