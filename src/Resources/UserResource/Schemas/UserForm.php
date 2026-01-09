@@ -38,7 +38,6 @@ class UserForm
                                             ->label(__('Email'))
                                             ->prefixIcon(fn (): BackedEnum => Heroicon::Envelope, true)
                                             ->email()
-                                            ->unique()
                                             ->required(),
 
                                         Select::make('roles')
