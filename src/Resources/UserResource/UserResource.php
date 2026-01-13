@@ -43,7 +43,7 @@ class UserResource extends Resource
 
     public static function canAccess(): bool
     {
-        return UsersPlugin::get()->canManageUsersCondition();
+        return parent::canAccess() &&UsersPlugin::get()->canManageUsersCondition();
     }
 
     public static function getModel(): string
@@ -58,7 +58,7 @@ class UserResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('User management');
+        return __('Manage');
     }
 
     public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
@@ -95,10 +95,12 @@ class UserResource extends Resource
             ->headerActions([
                 ImportAction::make('import')
                     ->importer(UserImporter::class)
-                    ->color('primary'),
+                    ->color('primary')
+                    ->visible(fn() => static::canCreate()),
 
                 ExportAction::make()
-                    ->exporter(UserExporter::class),
+                    ->exporter(UserExporter::class)
+                    ->visible(fn() => static::canCreate()),
             ])
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
@@ -129,6 +131,7 @@ class UserResource extends Resource
                     ->label('')
                     ->color('gray')
                     ->tooltip(__('Impersonate'))
+                    ->hidden(fn($record) => !static::canEdit($record))
                     ->hiddenLabel(),
             ])
             ->toolbarActions([
