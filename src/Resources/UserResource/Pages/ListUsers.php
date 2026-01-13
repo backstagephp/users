@@ -2,12 +2,11 @@
 
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
+use Backstage\Filament\Users\Resources\UserResource\UserResource;
+use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
 use Filament\Actions;
-use Filament\Support\Colors\Color;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
-use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
-use Backstage\Filament\Users\Resources\UserResource\UserResource;
 
 class ListUsers extends ListRecords
 {
