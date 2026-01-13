@@ -2,11 +2,9 @@
 
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
-use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Event;
-use Filament\Resources\Pages\CreateRecord;
-use Backstage\Laravel\Users\Events\Auth\UserCreated;
 use Backstage\Filament\Users\Resources\UserResource\UserResource;
+use Filament\Facades\Filament;
+use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
 {

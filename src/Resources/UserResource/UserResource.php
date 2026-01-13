@@ -43,7 +43,7 @@ class UserResource extends Resource
 
     public static function canAccess(): bool
     {
-        return parent::canAccess() &&UsersPlugin::get()->canManageUsersCondition();
+        return parent::canAccess() && UsersPlugin::get()->canManageUsersCondition();
     }
 
     public static function getModel(): string
@@ -96,11 +96,11 @@ class UserResource extends Resource
                 ImportAction::make('import')
                     ->importer(UserImporter::class)
                     ->color('primary')
-                    ->visible(fn() => static::canCreate()),
+                    ->visible(fn () => static::canCreate()),
 
                 ExportAction::make()
                     ->exporter(UserExporter::class)
-                    ->visible(fn() => static::canCreate()),
+                    ->visible(fn () => static::canCreate()),
             ])
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
@@ -131,7 +131,7 @@ class UserResource extends Resource
                     ->label('')
                     ->color('gray')
                     ->tooltip(__('Impersonate'))
-                    ->hidden(fn($record) => !static::canEdit($record))
+                    ->hidden(fn ($record) => ! static::canEdit($record))
                     ->hiddenLabel(),
             ])
             ->toolbarActions([
