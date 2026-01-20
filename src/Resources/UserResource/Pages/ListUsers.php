@@ -3,10 +3,10 @@
 namespace Backstage\Filament\Users\Resources\UserResource\Pages;
 
 use Backstage\Filament\Users\Resources\UserResource\UserResource;
-use Backstage\Filament\Users\Widgets\StatsOverviewWidget;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Support\Colors\Color;
 
 class ListUsers extends ListRecords
 {
@@ -25,7 +25,7 @@ class ListUsers extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            StatsOverviewWidget::class,
+            \Backstage\Filament\Users\Widgets\StatsOverviewWidget::class,
         ];
     }
 
@@ -33,10 +33,14 @@ class ListUsers extends ListRecords
     {
         return [
             'users' => Tab::make(__('Users'))
-                ->modifyQueryUsing(fn () => static::getResource()::getEloquentQuery()->verified()),
+                ->badge(static::getResource()::getEloquentQuery()->verified()->count())
+                ->badgeColor(Color::Green)
+                ->modifyQueryUsing(fn ($query) => $query->verified()),
 
             'pending' => Tab::make(__('Pending'))
-                ->modifyQueryUsing(fn () => static::getResource()::getEloquentQuery()->unverified()),
+                ->badge(static::getResource()::getEloquentQuery()->unverified()->count())
+                ->badgeColor(Color::Red)
+                ->modifyQueryUsing(fn ($query) => $query->unverified()),
         ];
     }
 }
