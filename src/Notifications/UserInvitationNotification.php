@@ -41,7 +41,7 @@ class UserInvitationNotification extends Notification
         $url = GenerateSignedRegistrationUri::run(user: $notifiable);
 
         return (new MailMessage)
-            ->subject(__('Welcome to Our Platform'))
+            ->subject(__('Welcome to :appName', ['appName' => config('app.name', 'Backstagephp')]))
             ->greeting(__('Hello :name!', ['name' => $notifiable->getAttribute('name')]))
             ->line(__('We are excited to have you on board.'))
             ->action(__('Register'), $url)

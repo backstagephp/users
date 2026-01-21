@@ -43,6 +43,7 @@ class ManageRoles extends ManageRelatedRecords
                 AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordTitleAttribute('name')
+                    ->hidden(fn () => ! static::getResource()::canEdit($this->getOwnerRecord()))
                     ->multiple(),
 
                 CreateAction::make(),
