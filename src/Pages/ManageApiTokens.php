@@ -3,6 +3,7 @@
 namespace Backstage\Filament\Users\Pages;
 
 use BackedEnum;
+use Backstage\Filament\Users\Models\User;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
@@ -87,7 +88,7 @@ class ManageApiTokens extends Page implements HasTable
         $state = $this->content->getState();
 
         /**
-         * @var \Backstage\Filament\Users\Models\User $user
+         * @var User $user
          */
         $user = Filament::auth()->user();
 
