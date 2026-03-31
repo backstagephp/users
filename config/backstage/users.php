@@ -17,8 +17,8 @@ return [
     ],
 
     'record' => [
-        'can_toggle_sub_navigation' => true,
-        'can_toggle_width' => true,
+        'can_toggle_sub_navigation' => false,
+        'can_toggle_width' => false,
         'manage-api-tokens' => false,
     ],
 ];

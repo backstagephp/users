@@ -31,7 +31,7 @@ class RoleResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('User management');
+        return __('Manage');
     }
 
     public static function getNavigationIcon(): string | BackedEnum | Htmlable | null

@@ -10,6 +10,8 @@ use Filament\Auth\Notifications\ResetPassword;
 use Filament\Auth\Notifications\VerifyEmail;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -53,13 +55,13 @@ class ViewUser extends ViewRecord
                     ->action(function (): void {
                         /**
                          * @var User $user
-                         * @var \Illuminate\Contracts\Auth\Authenticatable $user
+                         * @var Authenticatable $user
                          */
                         $user = $this->record;
                         /**
                          * Broker
                          *
-                         * @var \Illuminate\Contracts\Auth\PasswordBroker $broker
+                         * @var PasswordBroker $broker
                          */
                         $broker = app('auth.password.broker');
 

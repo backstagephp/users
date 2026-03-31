@@ -38,6 +38,7 @@ class UserForm
                                             ->label(__('Email'))
                                             ->prefixIcon(fn (): BackedEnum => Heroicon::Envelope, true)
                                             ->email()
+                                            ->unique()
                                             ->required(),
 
                                         Select::make('roles')
@@ -78,6 +79,9 @@ class UserForm
                                         DateTimePicker::make('email_verified_at')
                                             ->label(__('Email Verified'))
                                             ->live()
+                                            ->native(false)
+                                            ->seconds(false)
+                                            ->displayFormat('M j, Y - H:i')
                                             ->prefixIcon(fn (DateTimePicker $component): BackedEnum => ! $component->getState() ? Heroicon::XCircle : Heroicon::CheckCircle, true)
                                             ->prefixIconColor(fn (DateTimePicker $component): string => ! $component->getState() ? 'danger' : 'success'),
                                     ])
