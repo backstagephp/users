@@ -61,6 +61,21 @@ class UserResource extends Resource
         return __('Manage');
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('User');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Users');
+    }
+
     public static function getNavigationIcon(): string | BackedEnum | Htmlable | null
     {
         return Heroicon::OutlinedUsers;
