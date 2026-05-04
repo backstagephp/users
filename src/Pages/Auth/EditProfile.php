@@ -2,9 +2,14 @@
 
 namespace Backstage\Filament\Users\Pages\Auth;
 
+use Backstage\Laravel\Users\Domain\Email\Actions\InitiateEmailChange;
+use Backstage\Laravel\Users\Domain\Email\Exceptions\EmailChangeException;
 use Backstage\Laravel\Users\Enums\NotificationType;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification as FilamentNotification;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
+use Illuminate\Database\Eloquent\Model;
 
 class EditProfile extends BaseEditProfile
 {
@@ -80,5 +85,41 @@ class EditProfile extends BaseEditProfile
         }
 
         return $data;
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        if (! config('users.email_change.enabled', true)
+            || ! array_key_exists('email', $data)
+            || $data['email'] === $record->getAttribute('email')) {
+            return parent::handleRecordUpdate($record, $data);
+        }
+
+        $newEmail = $data['email'];
+        unset($data['email']);
+
+        $panelId = Filament::getCurrentPanel()?->getId();
+
+        $record->forceFill(['pending_email_panel' => $panelId]);
+
+        $record = parent::handleRecordUpdate($record, $data);
+
+        try {
+            InitiateEmailChange::run($record, $newEmail, $panelId);
+
+            FilamentNotification::make()
+                ->title(__('Confirmation email sent to :email', ['email' => $newEmail]))
+                ->body(__('Please follow the link in that message to complete the email change.'))
+                ->success()
+                ->send();
+        } catch (EmailChangeException $exception) {
+            FilamentNotification::make()
+                ->title(__('We could not start the email change.'))
+                ->body($exception->getMessage())
+                ->danger()
+                ->send();
+        }
+
+        return $record;
     }
 }

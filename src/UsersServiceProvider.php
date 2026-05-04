@@ -2,9 +2,14 @@
 
 namespace Backstage\Filament\Users;
 
+use Backstage\Filament\Users\Console\Commands\UpgradeCommand;
+use Backstage\Filament\Users\Listeners\Email\SendEmailChangedReceipt;
+use Backstage\Filament\Users\Listeners\Email\SendPanelAwareEmailChangeNotifications;
 use Backstage\Filament\Users\Models\User;
 use Backstage\Filament\Users\Pages\RegisterFromInvitationPage\RedirectUrlAfterRegistration;
 use Backstage\Filament\Users\Testing\TestsUsers;
+use Backstage\Laravel\Users\Events\Email\EmailChangeConfirmed;
+use Backstage\Laravel\Users\Events\Email\EmailChangeInitiated;
 use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Assets\Asset;
@@ -17,6 +22,7 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 use Livewire\Features\SupportTesting\Testable;
@@ -43,7 +49,7 @@ class UsersServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->setDescription('Install the User Management package')
-                    ->setName(static::$name . ':install')
+                    ->setName(static::$name.':install')
                     ->setDescription('Install the User Management package')
                     ->publishConfigFile()
                     ->publishMigrations()
@@ -135,7 +141,7 @@ class UsersServiceProvider extends PackageServiceProvider
 
         // Handle Stubs
         if (app()->runningInConsole()) {
-            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
+            foreach (app(Filesystem::class)->files(__DIR__.'/../stubs/') as $file) {
                 $this->publishes([
                     $file->getRealPath() => base_path("stubs/user-management/{$file->getFilename()}"),
                 ], 'user-management-stubs');
@@ -148,6 +154,9 @@ class UsersServiceProvider extends PackageServiceProvider
         FilamentView::registerRenderHook(PanelsRenderHook::HEAD_END, function (): Htmlable {
             return new HtmlString('<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>');
         });
+
+        Event::listen(EmailChangeInitiated::class, SendPanelAwareEmailChangeNotifications::class);
+        Event::listen(EmailChangeConfirmed::class, SendEmailChangedReceipt::class);
     }
 
     protected function getAssetPackageName(): ?string
@@ -172,7 +181,9 @@ class UsersServiceProvider extends PackageServiceProvider
      */
     protected function getCommands(): array
     {
-        return [];
+        return [
+            UpgradeCommand::class,
+        ];
     }
 
     /**
@@ -206,7 +217,7 @@ class UsersServiceProvider extends PackageServiceProvider
      */
     protected function getMigrations(): array
     {
-        $migrationPath = __DIR__ . '/../database/migrations/';
+        $migrationPath = __DIR__.'/../database/migrations/';
 
         $files = File::allFiles($migrationPath);
 

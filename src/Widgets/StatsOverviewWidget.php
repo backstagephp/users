@@ -18,12 +18,6 @@ class StatsOverviewWidget extends WidgetsStatsOverviewWidget
     {
         return [
             Stat::make(__('Total Users'), UserResource::getEloquentQuery()->count()),
-
-            Stat::make(__('Verified Users'), UserResource::getEloquentQuery()->where('email_verified_at', '!=', null)->count())
-                ->color(Color::Green)
-                ->icon('heroicon-o-check-circle'),
-
-            Stat::make(__('Pending Users'), UserResource::getEloquentQuery()->where('email_verified_at', null)->count()),
         ];
     }
 }

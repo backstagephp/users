@@ -5,6 +5,8 @@ namespace Backstage\Filament\Users;
 use BackedEnum;
 use Backstage\Filament\Users\Http\Middleware\RedirectUnverifiedUsers;
 use Backstage\Filament\Users\Models\User;
+use Backstage\Filament\Users\Pages\Email\CancelEmailChangePage;
+use Backstage\Filament\Users\Pages\Email\ConfirmEmailChangePage;
 use Backstage\Filament\Users\Plugin\Actions\ToggleSubnavigationTypeAction;
 use Backstage\Filament\Users\Plugin\Actions\ToggleWidthAction;
 use Closure;
@@ -64,6 +66,8 @@ class UsersPlugin implements Plugin
 
         $panel->pages([
             config('backstage.users.pages.manage-api-tokens', Pages\ManageApiTokens::class),
+            ConfirmEmailChangePage::class,
+            CancelEmailChangePage::class,
         ]);
 
         $panel->userMenuItems([
