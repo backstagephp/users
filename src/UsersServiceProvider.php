@@ -49,7 +49,7 @@ class UsersServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->setDescription('Install the User Management package')
-                    ->setName(static::$name.':install')
+                    ->setName(static::$name . ':install')
                     ->setDescription('Install the User Management package')
                     ->publishConfigFile()
                     ->publishMigrations()
@@ -141,7 +141,7 @@ class UsersServiceProvider extends PackageServiceProvider
 
         // Handle Stubs
         if (app()->runningInConsole()) {
-            foreach (app(Filesystem::class)->files(__DIR__.'/../stubs/') as $file) {
+            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
                     $file->getRealPath() => base_path("stubs/user-management/{$file->getFilename()}"),
                 ], 'user-management-stubs');
@@ -217,7 +217,7 @@ class UsersServiceProvider extends PackageServiceProvider
      */
     protected function getMigrations(): array
     {
-        $migrationPath = __DIR__.'/../database/migrations/';
+        $migrationPath = __DIR__ . '/../database/migrations/';
 
         $files = File::allFiles($migrationPath);
 

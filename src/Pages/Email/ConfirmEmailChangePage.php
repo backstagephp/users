@@ -21,12 +21,12 @@ class ConfirmEmailChangePage extends Page
         return false;
     }
 
-    public static function getRouteMiddleware(Panel $panel): string|array
+    public static function getRouteMiddleware(Panel $panel): string | array
     {
         return ['signed'];
     }
 
-    public function mount(int|string $user, string $token): mixed
+    public function mount(int | string $user, string $token): mixed
     {
         /** @var User|null $userModel */
         $userModel = config('auth.providers.users.model', User::class)::query()->find($user);

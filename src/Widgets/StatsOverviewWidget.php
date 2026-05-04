@@ -3,7 +3,6 @@
 namespace Backstage\Filament\Users\Widgets;
 
 use Backstage\Filament\Users\Resources\UserResource\UserResource;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as WidgetsStatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
