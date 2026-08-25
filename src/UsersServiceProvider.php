@@ -12,13 +12,9 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
-use Filament\Support\Facades\FilamentView;
-use Filament\View\PanelsRenderHook;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\HtmlString;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -144,10 +140,6 @@ class UsersServiceProvider extends PackageServiceProvider
 
         // Testing
         Testable::mixin(new TestsUsers);
-
-        FilamentView::registerRenderHook(PanelsRenderHook::HEAD_END, function (): Htmlable {
-            return new HtmlString('<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>');
-        });
     }
 
     protected function getAssetPackageName(): ?string
